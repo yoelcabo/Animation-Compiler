@@ -1,0 +1,15 @@
+def funcio1 (cercle1, x, y)
+    k = 1;
+    for i in [10] do
+        k = k + i;
+    endfor
+    cercle1.radi = k*x;
+    return cercle1;
+endfunc
+ 
+def main ()
+    cercle1 = Circle [centreX=2, centreY=2, color="verd", radi=5];
+    rotacio1 = Rotate [vel=3];
+    objEnMov = rotacio1->cercle1;
+    cercle2 = funcio1(cercle1, 3, 1);
+endfunc
