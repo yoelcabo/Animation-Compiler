@@ -59,7 +59,7 @@ expr_as   : expr_par (ASSOC^ (obj | obj_pack | ID))?;
 expr_par  : expr_seq (PAR^ expr_seq)*;
 expr_seq  : expr_num (SEQ^ expr_num)*;
 expr_num  : expr_mult ( (SUM^ | DIF^) expr_mult )*;
-expr_mult : expr_neg ( (PROD^ | DIV^) expr_neg )*;
+expr_mult : expr_neg ( (PROD^ | DIV^ | MOD^) expr_neg )*;
 expr_neg  : atom | NEG expr_neg;
 atom      : num | mov | ID | STRING | obj | obj_pack | '('! expr ')'!;
 
@@ -165,6 +165,7 @@ SUM       : '+';
 DIF       : '-';
 DIV       : '/';
 PROD      : '*';
+MOD       : '%';
 
 
 //Atributs dels objectes
