@@ -75,7 +75,7 @@ obj_pack   : '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 
 obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
 
-attr: '['! listAttr? ']'! -> ^(ATTR listAttr);
+attr: '[' listAttr? ']' -> ^(ATTR listAttr);
 
 listAttr: ID ASSIGN^ (ID | STRING | INT | FLOAT) (','! ID ASSIGN^ (ID | STRING | INT | FLOAT))* ;
 
