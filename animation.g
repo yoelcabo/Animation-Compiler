@@ -1,4 +1,4 @@
-grammar Animation;
+grammar animation;
 
 options {
     output = AST;
@@ -27,22 +27,25 @@ package parser;
 
 program: list_inst;
 
-list_inst^:     inst*;
+list_inst:     inst*;
 
 inst:  if_stmt
     |  for_stmt
     |  while_stmt
     |  assign
     |  funcall
+    |  return
     |  run
     // modificació d'atributs
     ;
 
 //Fer bé
-if_stmt: IF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainningIfStmt)
-remainingIfStmt: ELIF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainningIfStmt) | (ELSE! list_inst)? ENDIF!;
+if_stmt: IF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainingIfStmt);
+remainingIfStmt: ELIF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainingIfStmt) | (ELSE! list_inst)? ENDIF!;
 
 for_stmt: FOR^ for_exp DO! list_inst ENDFOR!;
+
+for_exp	:	ID IN^ '[' INT ('..'! INT ('..'! INT)?)? ']';  // for i in [3] -> i=0, i=1, i=2; for i in [10..14..2] -> i=10, i=12, i=14
 
 while_stmt: WHILE^ expr DO! list_inst ENDWHILE!;
 
@@ -90,11 +93,15 @@ paramlist: ID (','! ID)*;
 funcall :   ID '(' expr_list? ')' -> ^(FUNCALL ID ^(ARGLIST expr_list?));
 
 // A list of expressions separated by commas
-expr_list:  expr (','! expr)*
+expr_list:  expr (','! expr)*;
+
+return: RETURN^ expr;
 
 
 
 var: ID ('.'^ var)?;
+
+run	:	 RUN;
 
 
 ASSIGN    :  '=';
@@ -104,6 +111,7 @@ SEQ       :  '&';
 PAR       :  '|';
 
 FOR       :  'for';
+IN	:	'in';
 DO        :  'do';
 ENDFOR    :  'endfor';
 
@@ -117,6 +125,7 @@ ELIF      : 'elif';
 ENDIF     : 'endif';
 
 DEF       : 'def'; // notacio Python funcions
+ENDFUNC	:	'endfunc';
 RETURN    : 'return';
 
 RUN       :  'run';
