@@ -1,13 +1,33 @@
+grammar Animation;
+
+options {
+    output = AST;
+    ASTLabelType = AnimationTree;
+}
+
+// Tokens imaginaris
+
 tokens {
   ATTR; // llista d'atributs d'un objecte (p.e. centre i radi d'un cercle)
   PARAMS; // List of parameters in the declaration of a function
   FUNCALL; // Function call
   ARGLIST; // List of arguments passed in a function call
+  COND;       // Token per a condicionals (IF y ELIF)
 }
+
+@header {
+package parser;
+import interp.AnimationTree;
+}
+
+@lexer::header {
+package parser;
+}
+
 
 program: list_inst;
 
-list_inst^: 	inst*;
+list_inst^:     inst*;
 
 inst:  if_stmt
     |  for_stmt
@@ -19,30 +39,26 @@ inst:  if_stmt
     ;
 
 //Fer bé
-if_stmt: IF^ boolExp THEN! list_inst (ELIF^ boolExp THEN! list_inst)* (ELSE! list_inst)? ENDIF!;
+if_stmt: IF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainningIfStmt)
+remainingIfStmt: ELIF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainningIfStmt) | (ELSE! list_inst)? ENDIF!;
 
-for_stmt: FOR^ for_exp DO list_inst ENDFOR;
+for_stmt: FOR^ for_exp DO! list_inst ENDFOR!;
 
-while_stmt: WHILE^ boolExp DO list_inst ENDWHILE;
+while_stmt: WHILE^ expr DO! list_inst ENDWHILE!;
 
-assign: var ASSIGN^ expr;
+assign: var ASSIGN^ expr SEPARATOR;
 
-
-
-expr     : STRING | obj_pack | obj | expr_ac ;
-
-expr_ac    : expr_par (ASSOC^ (obj | obj_pack | ID))?;
+expr  : expr_and (OR^ expr_and )*;
+expr_and  : expr_not (AND^ expr_not )*;
+expr_not  : expr_comp | NOT^ expr_not;
+expr_comp : expr_as ((GT^ | LT^ | EQ^ | NE^ | GE^ | LE^) expr_as)?;
+expr_as   : expr_par (ASSOC^ (obj | obj_pack | ID))?;
 expr_par  : expr_seq (PAR^ expr_seq)*;
-expr_seq  : expr_simp (SEQ^ expr_simp)*;
-expr_simp :
-          | mov // mov i ID com a atom
-          | ID
-          | expr_num
-          ;
-expr_num   : expr_mult ( (SUM^ | DIF^) expr_mult )*;
-expr_mult   : num_atom ( (PROD^ | DIV^) num_atom )*;
-num_atom    : num | '('! expr_ac ')'!;
-
+expr_seq  : expr_num (SEQ^ expr_num)*;
+expr_num  : expr_mult ( (SUM^ | DIF^) expr_mult )*;
+expr_mult : expr_neg ( (PROD^ | DIV^) expr_neg )*;
+expr_neg  : atom | NEG expr_neg;
+atom      : num | mov | ID | STRING | obj | obj_pack | '('! expr ')'!;
 
 num : INT | FLOAT;
 
@@ -137,12 +153,22 @@ LE        : '<=';
 EQ        : '==';
 NE        : '!=';
 
+
+//Arithmetic
+NEG       : '-';
+
+SUM       : '+';
+DIF       : '-';
+DIV       : '/';
+PROD      : '*';
+
+
 //Atributs dels objectes
 
 
-INT     : '0'..'9'+;
 FLOAT   : '0'..'9'+ '.' '0'..'9'+;
-ID      :       ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
+INT     : '0'..'9'+;
+ID      :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 
 // Strings (in quotes) with escape sequences        
 STRING  :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
