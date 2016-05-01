@@ -13,6 +13,7 @@ tokens {
   FUNCALL; // Function call
   ARGLIST; // List of arguments passed in a function call
   COND;       // Token per a condicionals (IF y ELIF)
+  LISTFUNC; // llista de funcions del programa
 }
 
 @header {
@@ -24,8 +25,11 @@ import interp.AnimationTree;
 package parser;
 }
 
+// el primer que veu el programa son funcions i dins d'aquestes funcions hi ha les llistes d'instruccions
+start: funcions;
 
-program: list_inst;
+funcions	:	list_func+ -> ^(LISTFUNC list_func);
+list_func	:	func+;
 
 list_inst:     inst*;
 
@@ -36,6 +40,7 @@ inst:  if_stmt
     |  funcall
     |  return
     |  run
+    |  func // aixo permet definir funcions dins d'una funcio
     // modificació d'atributs
     ;
 
@@ -45,7 +50,7 @@ remainingIfStmt: ELIF expr THEN list_inst remainingIfStmt -> ^(COND expr list_in
 
 for_stmt: FOR^ for_exp DO! list_inst ENDFOR!;
 
-for_exp	:	ID IN^ '[' INT ('..'! INT ('..'! INT)?)? ']';  // for i in [3] -> i=0, i=1, i=2; for i in [10..14..2] -> i=10, i=12, i=14
+for_exp	:	ID IN^ '['! INT ('..'! INT ('..'! INT)?)? ']'!;  // for i in [3] -> i=0, i=1, i=2; for i in [10..14..2] -> i=10, i=12, i=14
 
 while_stmt: WHILE^ expr DO! list_inst ENDWHILE!;
 
@@ -61,7 +66,7 @@ expr_seq  : expr_num (SEQ^ expr_num)*;
 expr_num  : expr_mult ( (SUM^ | DIF^) expr_mult )*;
 expr_mult : expr_neg ( (PROD^ | DIV^ | MOD^) expr_neg )*;
 expr_neg  : atom | NEG expr_neg;
-atom      : num | mov | ID | STRING | obj | obj_pack | '('! expr ')'!;
+atom      : num | mov | ID | STRING | obj | obj_pack | funcall | '('! expr ')'!;
 
 num : INT | FLOAT;
 
@@ -70,9 +75,9 @@ obj_pack   : '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 
 obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
 
-attr: '['! listAttr ']'! -> ^(ATTR listAttr);
+attr: '['! listAttr? ']'! -> ^(ATTR listAttr);
 
-listAttr: (ID ASSIGN^ (ID | STRING | INT | FLOAT))*;
+listAttr: ID ASSIGN^ (ID | STRING | INT | FLOAT) (','! ID ASSIGN^ (ID | STRING | INT | FLOAT))* ;
 
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
@@ -81,7 +86,7 @@ mov: (TRANSLATE^ | ROTATE^ | SCALE^ | FOLLOWPATH^) attr;
 
 // FUNCTIONS (basicament, copy paste de ASL)
 // A function has a name, a list of parameters and a block of instructions  
-func  : DEF^ ID params list_inst ENDFUNC!;
+func  : DEF! ID params list_inst ENDFUNC!;
 
 // The list of parameters grouped in a subtree (it can be empty)
 params  : '(' paramlist? ')' -> ^(PARAMS paramlist?);
@@ -95,8 +100,7 @@ funcall :   ID '(' expr_list? ')' -> ^(FUNCALL ID ^(ARGLIST expr_list?));
 // A list of expressions separated by commas
 expr_list:  expr (','! expr)*;
 
-return: RETURN^ expr;
-
+return: RETURN^ expr SEPARATOR!;
 
 
 var: ID ('.'^ var)?;
@@ -130,9 +134,9 @@ RETURN    : 'return';
 
 RUN       :  'run';
 
-TRANSLATE : 'translate';
-SCALE     : 'scale';
-ROTATE    : 'rotate';
+TRANSLATE : 'Translate';
+SCALE     : 'Scale';
+ROTATE    : 'Rotate';
 
 //Objects
 CIRCLE    : 'Circle';
@@ -175,8 +179,11 @@ FLOAT   : '0'..'9'+ '.' '0'..'9'+;
 INT     : '0'..'9'+;
 ID      :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 
-// Strings (in quotes) with escape sequences        
-STRING  :  '"' ( ESC_SEQ | ~('\\'|'"') )* '"'
+// Strings (in quotes) with escape sequences
+// He hagut de posar les cometes amb la barra (\) al davant perque si no em donava
+// error l'interpret de l'antlrWorks. Tambe he canviat l'expressio d'abans perque impedia
+// que es construis be l'arbre de sintaxi
+STRING  :  '\"' ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* '\"'
         ;
 
 fragment
