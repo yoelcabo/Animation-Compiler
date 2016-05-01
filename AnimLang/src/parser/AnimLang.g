@@ -1,8 +1,8 @@
-grammar animation;
+grammar AnimLang;
 
 options {
     output = AST;
-    ASTLabelType = AnimationTree;
+    ASTLabelType = AnimLangTree;
 }
 
 // Tokens imaginaris
@@ -18,7 +18,7 @@ tokens {
 
 @header {
 package parser;
-import interp.AnimationTree;
+import interp.AnimLangTree;
 }
 
 @lexer::header {
