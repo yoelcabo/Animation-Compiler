@@ -63,9 +63,9 @@ expr_comp : expr_as ((GT^ | LT^ | EQ^ | NE^ | GE^ | LE^) expr_as)?;
 expr_as   : expr_par (ASSOC^ (obj | obj_pack | ID))?;
 expr_par  : expr_seq (PAR^ expr_seq)*;
 expr_seq  : expr_num (SEQ^ expr_num)*;
-expr_num  : expr_mult ( (SUM^ | DIF^) expr_mult )*;
+expr_num  : expr_mult ( (PLUS^ | MINUS^) expr_mult )*;
 expr_mult : expr_neg ( (PROD^ | DIV^ | MOD^) expr_neg )*;
-expr_neg  : atom | NEG expr_neg;
+expr_neg  : atom | MINUS expr_neg;
 atom      : num | mov | ID | STRING | obj | obj_pack | funcall | '('! expr ')'!;
 
 num : INT | FLOAT;
@@ -163,10 +163,9 @@ NE        : '!=';
 
 
 //Arithmetic
-NEG       : '-';
 
-SUM       : '+';
-DIF       : '-';
+PLUS      : '+';
+MINUS     : '-';
 DIV       : '/';
 PROD      : '*';
 MOD       : '%';
