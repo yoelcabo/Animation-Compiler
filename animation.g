@@ -1,4 +1,9 @@
-
+tokens {
+  ATTR; // llista d'atributs d'un objecte (p.e. centre i radi d'un cercle)
+  PARAMS; // List of parameters in the declaration of a function
+  FUNCALL; // Function call
+  ARGLIST; // List of arguments passed in a function call
+}
 
 program: list_inst;
 
@@ -30,7 +35,7 @@ expr_ac    : expr_par (ASSOC^ (obj | obj_pack | ID))?;
 expr_par  : expr_seq (PAR^ expr_seq)*;
 expr_seq  : expr_simp (SEQ^ expr_simp)*;
 expr_simp :
-          | mov
+          | mov // mov i ID com a atom
           | ID
           | expr_num
           ;
@@ -44,11 +49,36 @@ num : INT | FLOAT;
 obj_pack   : '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 
 
-obj: (CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH) attr
+obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
 
-attr: ID ASSIGN^ (ID | STRING 
+attr: '['! listAttr ']'! -> ^(ATTR listAttr);
 
-mov:
+listAttr: (ID ASSIGN^ (ID | STRING | INT | FLOAT))*;
+
+// per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
+// coordenades de l'objecte al qual se li aplica
+movEncadenat: mov ((PAR^ | SEQ^) mov)*;
+// obj -> path; attr -> velocitat, durada...; 
+// (INT | FLOAT) -> interval d'espera entre dos moviments consecutius
+// mov pot ser un moviment pur o un moviment associat a un objecte
+mov: INT | FLOAT | (obj attr) | ID | ('('! movEncadenat ')'!);
+
+
+// FUNCTIONS (basicament, copy paste de ASL)
+// A function has a name, a list of parameters and a block of instructions  
+func  : DEF^ ID params list_inst ENDFUNC!;
+
+// The list of parameters grouped in a subtree (it can be empty)
+params  : '(' paramlist? ')' -> ^(PARAMS paramlist?);
+
+// Parameters are separated by commas
+paramlist: ID (','! ID)*;
+
+// A function call has a lits of arguments in parenthesis (possibly empty)
+funcall :   ID '(' expr_list? ')' -> ^(FUNCALL ID ^(ARGLIST expr_list?));
+
+// A list of expressions separated by commas
+expr_list:  expr (','! expr)*
 
 
 
@@ -74,6 +104,9 @@ THEN      : 'then';
 ELSE      : 'else';
 ELIF      : 'elif';
 ENDIF     : 'endif';
+
+DEF       : 'def'; // notacio Python funcions
+RETURN    : 'return';
 
 RUN       :  'run';
 
