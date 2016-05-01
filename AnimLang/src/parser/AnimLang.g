@@ -38,7 +38,7 @@ inst:  if_stmt
     |  while_stmt
     |  assign
     |  funcall
-    |  return
+    |  ret
     |  run
     |  func // aixo permet definir funcions dins d'una funcio
     // modificació d'atributs
@@ -100,7 +100,7 @@ funcall :   ID '(' expr_list? ')' -> ^(FUNCALL ID ^(ARGLIST expr_list?));
 // A list of expressions separated by commas
 expr_list:  expr (','! expr)*;
 
-return: RETURN^ expr SEPARATOR!;
+ret: RETURN^ expr SEPARATOR!;
 
 
 var: ID ('.'^ var)?;
