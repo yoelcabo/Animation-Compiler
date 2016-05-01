@@ -73,11 +73,7 @@ listAttr: (ID ASSIGN^ (ID | STRING | INT | FLOAT))*;
 
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
-movEncadenat: mov ((PAR^ | SEQ^) mov)*;
-// obj -> path; attr -> velocitat, durada...; 
-// (INT | FLOAT) -> interval d'espera entre dos moviments consecutius
-// mov pot ser un moviment pur o un moviment associat a un objecte
-mov: INT | FLOAT | (obj attr) | ID | ('('! movEncadenat ')'!);
+mov: (TRANSLATE^ | ROTATE^ | SCALE^ | FOLLOWPATH^) attr;
 
 
 // FUNCTIONS (basicament, copy paste de ASL)
@@ -100,7 +96,6 @@ expr_list:  expr (','! expr)*
 
 var: ID ('.'^ var)?;
 
-art: //llista de paraules clau
 
 ASSIGN    :  '=';
 ASSOC     :  '->';
