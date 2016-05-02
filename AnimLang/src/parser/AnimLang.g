@@ -14,6 +14,7 @@ tokens {
   ARGLIST; // List of arguments passed in a function call
   COND;       // Token per a condicionals (IF y ELIF)
   LISTFUNC; // llista de funcions del programa
+  LISTINST; // llista de instruccions de la funcio
   PVALUE;     // Parameter by value in the list of parameters
   PREF;       // Parameter by reference in the list of parameters
 }
@@ -33,7 +34,7 @@ prog: funcions;
 funcions	:	list_func+ -> ^(LISTFUNC list_func);
 list_func	:	func+;
 
-list_inst:     inst*;
+list_inst:     inst* -> ^(LISTINST inst);
 
 inst:  if_stmt
     |  for_stmt
