@@ -31,10 +31,10 @@ package parser;
 // el primer que veu el programa son funcions i dins d'aquestes funcions hi ha les llistes d'instruccions
 prog: funcions;
 
-funcions	:	list_func+ -> ^(LISTFUNC list_func);
+funcions	:	list_func+ -> ^(LISTFUNC list_func+);
 list_func	:	func+;
 
-list_inst:     inst* -> ^(LISTINST inst);
+list_inst:     inst* -> ^(LISTINST inst*);
 
 inst:  if_stmt
     |  for_stmt
