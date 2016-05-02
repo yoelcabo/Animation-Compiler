@@ -14,6 +14,8 @@ tokens {
   ARGLIST; // List of arguments passed in a function call
   COND;       // Token per a condicionals (IF y ELIF)
   LISTFUNC; // llista de funcions del programa
+  PVALUE;     // Parameter by value in the list of parameters
+  PREF;       // Parameter by reference in the list of parameters
 }
 
 @header {
@@ -86,13 +88,20 @@ mov: (TRANSLATE^ | ROTATE^ | SCALE^ | FOLLOWPATH^) attr;
 
 // FUNCTIONS (basicament, copy paste de ASL)
 // A function has a name, a list of parameters and a block of instructions  
-func  : DEF! ID params list_inst ENDFUNC!;
+func  : DEF^ ID params list_inst ENDFUNC!;
 
 // The list of parameters grouped in a subtree (it can be empty)
 params  : '(' paramlist? ')' -> ^(PARAMS paramlist?);
 
 // Parameters are separated by commas
-paramlist: ID (','! ID)*;
+paramlist: param (','! param)*
+        ;
+
+// Parameters with & as prefix are passed by reference
+// Only one node with the name of the parameter is created
+param   :   '&' id=ID -> ^(PREF[$id,$id.text])
+        |   id=ID -> ^(PVALUE[$id,$id.text])
+        ;
 
 // A function call has a lits of arguments in parenthesis (possibly empty)
 funcall :   ID '(' expr_list? ')' -> ^(FUNCALL ID ^(ARGLIST expr_list?));
@@ -176,6 +185,7 @@ MOD       : '%';
 
 FLOAT   : '0'..'9'+ '.' '0'..'9'+;
 INT     : '0'..'9'+;
+BOOLEAN : 'True' | 'False';
 ID      :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 
 // Strings (in quotes) with escape sequences

@@ -105,12 +105,12 @@ public class Interp {
      * function names to the corresponding AST nodes.
      */
     private void MapFunctions(AnimLangTree T) {
-        assert T != null && T.getType() == AnimLangLexer.LIST_FUNCTIONS;
+        assert T != null && T.getType() == AnimLangLexer.LISTFUNC;
         FuncName2Tree = new HashMap<String,AnimLangTree> ();
         int n = T.getChildCount();
         for (int i = 0; i < n; ++i) {
             AnimLangTree f = T.getChild(i);
-            assert f.getType() == AnimLangLexer.FUNC;
+            assert f.getType() == AnimLangLexer.DEF;
             String fname = f.getChild(0).getText();
             if (FuncName2Tree.containsKey(fname)) {
                 throw new RuntimeException("Multiple definitions of function " + fname);
@@ -267,33 +267,6 @@ public class Interp {
                 }
                 return new Data(); // No expression: returns void data
 
-            // Read statement: reads a variable and raises an exception
-            // in case of a format error.
-            case AnimLangLexer.READ:
-                String token = null;
-                Data val = new Data(0);;
-                try {
-                    token = stdin.next();
-                    val.setValue(Integer.parseInt(token)); 
-                } catch (NumberFormatException ex) {
-                    throw new RuntimeException ("Format error when reading a number: " + token);
-                }
-                Stack.defineVariable (t.getChild(0).getText(), val);
-                return null;
-
-            // Write statement: it can write an expression or a string.
-            case AnimLangLexer.WRITE:
-                AnimLangTree v = t.getChild(0);
-                // Special case for strings
-                if (v.getType() == AnimLangLexer.STRING) {
-                    System.out.format(v.getStringValue());
-                    return null;
-                }
-
-                // Write an expression
-                System.out.print(evaluateExpression(v).toString());
-                return null;
-
             // Function call
             case AnimLangLexer.FUNCALL:
                 executeFunction(t.getChild(0).getText(), t.getChild(1));
@@ -377,8 +350,8 @@ public class Interp {
         Data value2;
         switch (type) {
             // Relational operators
-            case AnimLangLexer.EQUAL:
-            case AnimLangLexer.NOT_EQUAL:
+            case AnimLangLexer.EQ:
+            case AnimLangLexer.NE:
             case AnimLangLexer.LT:
             case AnimLangLexer.LE:
             case AnimLangLexer.GT:
@@ -393,7 +366,7 @@ public class Interp {
             // Arithmetic operators
             case AnimLangLexer.PLUS:
             case AnimLangLexer.MINUS:
-            case AnimLangLexer.MUL:
+            case AnimLangLexer.PROD:
             case AnimLangLexer.DIV:
             case AnimLangLexer.MOD:
                 value2 = evaluateExpression(t.getChild(1));

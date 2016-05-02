@@ -126,7 +126,7 @@ public class Data {
         switch (op) {
             case AnimLangLexer.PLUS: value += d.value; break;
             case AnimLangLexer.MINUS: value -= d.value; break;
-            case AnimLangLexer.MUL: value *= d.value; break;
+            case AnimLangLexer.PROD: value *= d.value; break;
             case AnimLangLexer.DIV: checkDivZero(d); value /= d.value; break;
             case AnimLangLexer.MOD: checkDivZero(d); value %= d.value; break;
             default: assert false;
@@ -142,8 +142,8 @@ public class Data {
     public Data evaluateRelational (int op, Data d) {
         assert type != Type.VOID && type == d.type;
         switch (op) {
-            case AnimLangLexer.EQUAL: return new Data(value == d.value);
-            case AnimLangLexer.NOT_EQUAL: return new Data(value != d.value);
+            case AnimLangLexer.EQ: return new Data(value == d.value);
+            case AnimLangLexer.NE: return new Data(value != d.value);
             case AnimLangLexer.LT: return new Data(value < d.value);
             case AnimLangLexer.LE: return new Data(value <= d.value);
             case AnimLangLexer.GT: return new Data(value > d.value);
