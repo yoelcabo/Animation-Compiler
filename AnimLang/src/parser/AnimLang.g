@@ -79,7 +79,9 @@ obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
 
 attr: '[' listAttr? ']' -> ^(ATTR listAttr);
 
-listAttr: ID ASSIGN^ (ID | STRING | INT | FLOAT) (','! ID ASSIGN^ (ID | STRING | INT | FLOAT))* ;
+listAttr: one_attr  (','! one_attr)* ;
+
+one_attr: ID ASSIGN^ (ID | STRING | INT | FLOAT);
 
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
