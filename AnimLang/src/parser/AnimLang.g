@@ -56,7 +56,7 @@ for_exp	:	ID IN^ '['! INT ('..'! INT ('..'! INT)?)? ']'!;  // for i in [3] -> i=
 
 while_stmt: WHILE^ expr DO! list_inst ENDWHILE!;
 
-assign: var ASSIGN^ expr SEPARATOR;
+assign: var ASSIGN^ expr SEPARATOR!;
 
 expr  : expr_and (OR^ expr_and )*;
 expr_and  : expr_not (AND^ expr_not )*;
