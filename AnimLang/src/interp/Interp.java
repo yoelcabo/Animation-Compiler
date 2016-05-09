@@ -248,6 +248,7 @@ public class Interp {
             // Assignment
             case AnimLangLexer.ASSIGN:
                 value = evaluateExpression(t.getChild(1));
+                // La variable no sempre s'ha de definir. De vegades pot ser la modificacio d'un camp
                 Stack.defineVariable (t.getChild(0).getText(), value);
                 return null;
 
@@ -270,6 +271,19 @@ public class Interp {
                     if (r != null) return r;
                 }
 
+            // For
+            case AnimLangLexer.FOR:
+                // forExpr[0] -> iniValue; forExpr[1] -> endValue; forExpr[2] -> increment; 
+                int[] forExpr = evaluateForExpr(t.getChild(0));
+                // agafa la variable que itera el for
+                Data itVar = Stack.getVariable(t.getChild(0).getChild(0).getText());
+                while (itVar.getIntegerValue() < forExpr[1]) {
+                    Data r = executeListInstructions(t.getChild(1));
+                    if (r != null) return r;
+                    itVar.setValue(itVar.getIntegerValue() + forExpr[2]);
+                }
+                return null;
+
             // Return
             case AnimLangLexer.RETURN:
                 if (t.getChildCount() != 0) {
@@ -280,6 +294,10 @@ public class Interp {
             // Function call
             case AnimLangLexer.FUNCALL:
                 executeFunction(t.getChild(0).getText(), t.getChild(1));
+                return null;
+
+            // Run animation
+            case AnimLangLexer.RUN:
                 return null;
 
             default: assert false; // Should never happen
@@ -493,6 +511,28 @@ public class Interp {
             }
         }
         return Params;
+    }
+
+    private int[] evaluateForExpr (AnimLangTree t) {
+        int[] valRet = new int[3];
+        // evalua en rang d'iteracio del for
+        switch (t.getChild(1).getChildCount()) {
+            case 1:
+                valRet[0] = 0; valRet[1] = t.getChild(1).getChild(0).getIntValue(); valRet[2] = 1;
+                break;
+            case 2:
+                valRet[0] = t.getChild(1).getChild(0).getIntValue(); 
+                valRet[1] = t.getChild(1).getChild(1).getIntValue(); 
+                valRet[2] = 1;
+                break;
+            case 3:
+                valRet[0] = t.getChild(1).getChild(0).getIntValue(); 
+                valRet[1] = t.getChild(1).getChild(1).getIntValue();
+                valRet[2] = t.getChild(1).getChild(2).getIntValue();
+                break;
+        }
+        Stack.defineVariable (t.getChild(0).getText(), new Data(valRet[1]));
+        return valRet;
     }
 
     /**

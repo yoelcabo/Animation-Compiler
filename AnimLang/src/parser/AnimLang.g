@@ -29,12 +29,9 @@ package parser;
 }
 
 // el primer que veu el programa son funcions i dins d'aquestes funcions hi ha les llistes d'instruccions
-prog: funcions;
+prog: func+ EOF-> ^(LISTFUNC func+);
 
-	funcions	:	list_func EOF-> ^(LISTFUNC list_func);
-	list_func	:	func+;
-
-	list_inst:     inst* -> ^(LISTINST inst*);
+list_inst:     inst* -> ^(LISTINST inst*);
 
 inst:  if_stmt
     |  for_stmt
@@ -43,7 +40,6 @@ inst:  if_stmt
     |  funcall
     |  ret
     |  run
-    |  func // aixo permet definir funcions dins d'una funcio
     // modificació d'atributs
     ;
 
