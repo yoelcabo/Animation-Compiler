@@ -332,6 +332,10 @@ public class Interp {
             case AnimLangLexer.INT:
                 value = new Data(t.getIntValue());
                 break;
+            // A float literal
+            case AnimLangLexer.FLOAT:
+                value = new Data(t.getFloatValue()); // crear el getFloatValue()
+                break;
             // A Boolean literal
             case AnimLangLexer.BOOLEAN:
                 value = new Data(t.getBooleanValue());
@@ -343,6 +347,21 @@ public class Interp {
                 if (value.isVoid()) {
                     throw new RuntimeException ("function expected to return a value");
                 }
+                break;
+            case AnimLangLexer.STRING:
+                value = new Data(t.getStringValue()); // mirar si s'ha de retocar algun metode
+                break;
+            // atoms especials del nostre llenguatge
+            case AnimLangLexer.OBJ:
+                comprovaAttr();
+                value = new Data();
+                break;
+            case AnimLangLexer.MOV:
+                comprovaAttr();
+                value = new Data();
+                break;
+            case AnimLangLexer.OBJ_PACK:
+                value = new Data();
                 break;
             default: break;
         }
@@ -409,6 +428,15 @@ public class Interp {
                 // is deferred (lazy, short-circuit evaluation).
                 checkBoolean(value);
                 value = evaluateBoolean(type, value, t.getChild(1));
+                break;
+
+            // Operadors propis
+            case AnimLangLexer.PAR:
+            case AnimLangLexer.SEQ:
+            case AnimLangLexer.ASSOC:
+                value2 = evaluateExpression(t.getChild(1));
+                // comprova tipus dels dos operants
+                value = value.evaluateOrchestration(type, value2);
                 break;
 
             default: assert false; // Should never happen

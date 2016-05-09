@@ -69,9 +69,10 @@ atom      : num | mov | ID | STRING | BOOLEAN | obj | obj_pack | funcall | '('! 
 
 num : INT | FLOAT;
 
+// crear token OBJ_PACK, que sera l'arrel, i afegir-li la llista d'objectes, com a fills, que formen el pack
 obj_pack   : '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 
-
+// tambe afegir OBJ com a token arrel
 obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
 
 attr: '[' listAttr? ']' -> ^(ATTR listAttr);
@@ -82,6 +83,7 @@ one_attr: ID ASSIGN^ (ID | STRING | INT | FLOAT);
 
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
+// tambe afegir MOV com a token arrel
 mov: (TRANSLATE^ | ROTATE^ | SCALE^ | FOLLOWPATH^) attr;
 
 
