@@ -53,6 +53,8 @@ public class AnimLang{
     private static String infile = null;
     /** Name of the file representing the AST. */
     private static String astfile = null;
+    /** Name of the file representing the Output. */
+    private static String svgfile = "a.out.svg";
     /** Flag indicating that the AST must be written in dot format. */
     private static boolean dotformat = false;
     /** Name of the file storing the trace of the program. */
@@ -113,13 +115,13 @@ public class AnimLang{
             output.close();
         }
 
-        // Start interpretation (only if execution required)
+        // Start compilation (only if execution required)
         if (execute) {
             // Creates and prepares the interpreter
             Interp I = null;
             int linenumber = -1;
             try {
-                I = new Interp(t, tracefile); // prepares the interpreter
+                I = new Interp(t, tracefile, svgfile); // prepares the interpreter
                 I.Run();                  // Executes the code
             } catch (RuntimeException e) {
                 if (I != null) linenumber = I.lineNumber();
@@ -146,6 +148,11 @@ public class AnimLang{
 
     private static boolean readOptions(String[] args) {
         // Define the options
+        Option outOption = OptionBuilder
+                        .withArgName ("file")
+                        .hasArg()
+                        .withDescription ("compile the program to a given SVG file")
+                        .create ("o");
         Option help = new Option("help", "print this message");
         Option noexec = new Option("noexec", "do not execute the program");
         Option dot = new Option("dot", "dump the AST in dot format");
@@ -166,6 +173,7 @@ public class AnimLang{
         options.addOption(ast);
         options.addOption(trace);
         options.addOption(noexec);
+        options.addOption(outOption);
         CommandLineParser clp = new GnuParser();
         CommandLine line = null;
 
@@ -189,6 +197,9 @@ public class AnimLang{
             formatter.printHelp (cmdline, options);
             return false;
         }
+        
+        // Option -o
+        if (line.hasOption ("o")) svgfile = line.getOptionValue("o");
         
         // Option -dot
         if (line.hasOption ("dot")) dotformat = true;

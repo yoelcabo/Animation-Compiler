@@ -59,6 +59,9 @@ public class Interp {
 
     /** File to write the trace of function calls. */
     private PrintWriter trace = null;
+    
+    /** File to write the SVG file. */
+    private PrintWriter svg = null;
 
     /** Nested levels of function calls. */
     private int function_nesting = -1;
@@ -67,7 +70,7 @@ public class Interp {
      * Constructor of the interpreter. It prepares the main
      * data structures for the execution of the main program.
      */
-    public Interp(AnimLangTree T, String tracefile) {
+    public Interp(AnimLangTree T, String tracefile, String outputFile) {
         assert T != null;
         MapFunctions(T);  // Creates the table to map function names into AST nodes
         PreProcessAST(T); // Some internal pre-processing ot the AST
@@ -82,6 +85,13 @@ public class Interp {
                 System.exit(1);
             }
         }
+        try {
+            svg = new PrintWriter(new FileWriter(outputFile));
+        } catch (IOException e) {
+             System.err.println(e);
+             System.exit(1);
+        }
+
         function_nesting = -1;
     }
 
