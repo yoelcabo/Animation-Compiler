@@ -41,13 +41,20 @@ import parser.*;
 
 public class Data {
     /** Types of data */
-    public enum Type {VOID, BOOLEAN, INTEGER;}
+    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, MOVE, MOVINGOBJECT;}
 
     /** Type of data*/
     private Type type;
 
-    /** Value of the data */
+    /** Value of the data when it is boolean or integer*/
     private int value; 
+    
+    /** Value of the data when it is float*/
+    private float fvalue; 
+    
+    /** Value of the data when it is a string*/
+    private String strvalue; 
+  
 
     /** Constructor for integers */
     Data(int v) { type = Type.INTEGER; value = v; }
@@ -70,8 +77,23 @@ public class Data {
     /** Indicates whether the data is integer */
     public boolean isInteger() { return type == Type.INTEGER; }
 
+    /** Indicates whether the data is integer */
+    public boolean isString() { return type == Type.STRING; }
+
+    /** Indicates whether the data is integer */
+    public boolean isFloat() { return type == Type.FLOAT; }
+
     /** Indicates whether the data is void */
     public boolean isVoid() { return type == Type.VOID; }
+
+    /** Indicates whether the data is integer */
+    public boolean isObject() { return type == Type.OBJECT; }
+
+    /** Indicates whether the data is integer */
+    public boolean isMove() { return type == Type.MOVE; }
+
+    /** Indicates whether the data is integer */
+    public boolean isMovingObject() { return type == Type.MOVINGOBJECT; }
 
     /**
      * Gets the value of an integer data. The method asserts that
