@@ -31,10 +31,10 @@ package parser;
 // el primer que veu el programa son funcions i dins d'aquestes funcions hi ha les llistes d'instruccions
 prog: funcions;
 
-funcions	:	list_func+ -> ^(LISTFUNC list_func+);
-list_func	:	func+;
+	funcions	:	list_func-> ^(LISTFUNC list_func);
+	list_func	:	func+;
 
-list_inst:     inst* -> ^(LISTINST inst*);
+	list_inst:     inst* -> ^(LISTINST inst*);
 
 inst:  if_stmt
     |  for_stmt
@@ -69,7 +69,7 @@ expr_seq  : expr_num (SEQ^ expr_num)*;
 expr_num  : expr_mult ( (PLUS^ | MINUS^) expr_mult )*;
 expr_mult : expr_neg ( (PROD^ | DIV^ | MOD^) expr_neg )*;
 expr_neg  : atom | MINUS expr_neg;
-atom      : num | mov | ID | STRING | obj | obj_pack | funcall | '('! expr ')'!;
+atom      : num | mov | ID | STRING | BOOLEAN | obj | obj_pack | funcall | '('! expr ')'!;
 
 num : INT | FLOAT;
 
@@ -127,7 +127,7 @@ SEQ       :  '&';
 PAR       :  '|';
 
 FOR       :  'for';
-IN	:	'in';
+IN	  :  'in';
 DO        :  'do';
 ENDFOR    :  'endfor';
 
@@ -141,7 +141,7 @@ ELIF      : 'elif';
 ENDIF     : 'endif';
 
 DEF       : 'def'; // notacio Python funcions
-ENDFUNC	:	'endfunc';
+ENDFUNC	  :'endfunc';
 RETURN    : 'return';
 
 RUN       :  'run';
