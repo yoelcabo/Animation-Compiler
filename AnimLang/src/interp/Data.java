@@ -62,6 +62,12 @@ public class Data {
     /** Constructor for Booleans */
     Data(boolean b) { type = Type.BOOLEAN; value = b ? 1 : 0; }
 
+    /** Constructor for Floats */
+    Data(float v) { type = Type.FLOAT; fvalue = v; }
+
+    /** Constructor for Strings */
+    Data(String s) { type = Type.STRING; strvalue = s; }
+
     /** Constructor for void data */
     Data() {type = Type.VOID; }
 
@@ -105,6 +111,15 @@ public class Data {
     }
 
     /**
+     * Gets the value of an float data. The method asserts that
+     * the data is a float.
+     */
+    public float getFloatValue() {
+        assert type == Type.FLOAT;
+        return fvalue;
+    }
+
+    /**
      * Gets the value of a Boolean data. The method asserts that
      * the data is a Boolean.
      */
@@ -113,11 +128,26 @@ public class Data {
         return value == 1;
     }
 
+    /**
+     * Gets the value of a String data. The method asserts that
+     * the data is a Boolean.
+     */
+    public String getStringValue() {
+        assert type == Type.STRING;
+        return strvalue;
+    }
+
     /** Defines a Boolean value for the data */
     public void setValue(boolean b) { type = Type.BOOLEAN; value = b ? 1 : 0; }
 
     /** Defines an integer value for the data */
     public void setValue(int v) { type = Type.INTEGER; value = v; }
+
+    /** Defines a float value for the data */
+    public void setValue(float v) { type = Type.FLOAT; fvalue = v; }
+    
+    /** Defines a String value for the data */
+    public void setValue(String v) { type = Type.STRING; strvalue = v; }
 
     /** Copies the value from another data */
     public void setData(Data d) { type = d.type; value = d.value; }
@@ -125,7 +155,9 @@ public class Data {
     /** Returns a string representing the data in textual form. */
     public String toString() {
         if (type == Type.BOOLEAN) return value == 1 ? "true" : "false";
-        return Integer.toString(value);
+        if (type == Type.INTEGER) return Integer.toString(value);
+        if (type == Type.FLOAT)   return Float.toString(fvalue);
+        return strvalue;
     }
     
     /**
@@ -133,7 +165,7 @@ public class Data {
      * the value is zero.
      */
     private void checkDivZero(Data d) {
-        if (d.value == 0) throw new RuntimeException ("Division by zero");
+        if (d.type == Type.INTEGER && d.value == 0 || d.type == Type.FLOAT && d.fvalue == 0) throw new RuntimeException ("Division by zero");
     }
 
     /**
@@ -144,15 +176,47 @@ public class Data {
      */
      
     public void evaluateArithmetic (int op, Data d) {
-        assert type == Type.INTEGER && d.type == Type.INTEGER;
-        switch (op) {
-            case AnimLangLexer.PLUS: value += d.value; break;
-            case AnimLangLexer.MINUS: value -= d.value; break;
-            case AnimLangLexer.PROD: value *= d.value; break;
-            case AnimLangLexer.DIV: checkDivZero(d); value /= d.value; break;
-            case AnimLangLexer.MOD: checkDivZero(d); value %= d.value; break;
-            default: assert false;
+        if (type == Type.INTEGER && d.type == Type.INTEGER) {
+            switch (op) {
+                case AnimLangLexer.PLUS: value += d.value; break;
+                case AnimLangLexer.MINUS: value -= d.value; break;
+                case AnimLangLexer.PROD: value *= d.value; break;
+                case AnimLangLexer.DIV: checkDivZero(d); value /= d.value; break;
+                case AnimLangLexer.MOD: checkDivZero(d); value %= d.value; break;
+                default: assert false;
+            }
         }
+        else if (type == Type.FLOAT && d.type == Type.FLOAT) {
+            switch (op) {
+                case AnimLangLexer.PLUS: fvalue += d.fvalue; break;
+                case AnimLangLexer.MINUS: fvalue -= d.fvalue; break;
+                case AnimLangLexer.PROD: fvalue *= d.fvalue; break;
+                case AnimLangLexer.DIV: checkDivZero(d); fvalue /= d.fvalue; break;
+                case AnimLangLexer.MOD: checkDivZero(d); fvalue %= d.fvalue; break;
+                default: assert false;
+            }
+        }
+        else if (type == Type.FLOAT && d.type == Type.INTEGER) {
+            switch (op) {
+                case AnimLangLexer.PLUS: fvalue += d.value; break;
+                case AnimLangLexer.MINUS: fvalue -= d.value; break;
+                case AnimLangLexer.PROD: fvalue *= d.value; break;
+                case AnimLangLexer.DIV: checkDivZero(d); fvalue /= d.value; break;
+                case AnimLangLexer.MOD: checkDivZero(d); fvalue %= d.value; break;
+                default: assert false;
+            }
+        }
+        else if (type == Type.INTEGER && d.type == Type.FLOAT) {
+            switch (op) {
+                case AnimLangLexer.PLUS: fvalue = value + d.fvalue; break;
+                case AnimLangLexer.MINUS: fvalue = value - d.fvalue; break;
+                case AnimLangLexer.PROD: fvalue = value * d.fvalue; break;
+                case AnimLangLexer.DIV: checkDivZero(d); fvalue = value / d.fvalue; break;
+                case AnimLangLexer.MOD: checkDivZero(d); fvalue = value % d.fvalue; break;
+                default: assert false;
+            }
+        }
+        else assert false;
     }
 
     /**
@@ -163,15 +227,40 @@ public class Data {
      */
     public Data evaluateRelational (int op, Data d) {
         assert type != Type.VOID && type == d.type;
-        switch (op) {
-            case AnimLangLexer.EQ: return new Data(value == d.value);
-            case AnimLangLexer.NE: return new Data(value != d.value);
-            case AnimLangLexer.LT: return new Data(value < d.value);
-            case AnimLangLexer.LE: return new Data(value <= d.value);
-            case AnimLangLexer.GT: return new Data(value > d.value);
-            case AnimLangLexer.GE: return new Data(value >= d.value);
-            default: assert false; 
+        if (type == Type.INTEGER) {
+            switch (op) {
+                case AnimLangLexer.EQ: return new Data(value == d.value);
+                case AnimLangLexer.NE: return new Data(value != d.value);
+                case AnimLangLexer.LT: return new Data(value < d.value);
+                case AnimLangLexer.LE: return new Data(value <= d.value);
+                case AnimLangLexer.GT: return new Data(value > d.value);
+                case AnimLangLexer.GE: return new Data(value >= d.value);
+                default: assert false; 
+            }
         }
+        else if (type == Type.FLOAT) {
+            switch (op) {
+                case AnimLangLexer.EQ: return new Data(fvalue == d.fvalue);
+                case AnimLangLexer.NE: return new Data(fvalue != d.fvalue);
+                case AnimLangLexer.LT: return new Data(fvalue < d.fvalue);
+                case AnimLangLexer.LE: return new Data(fvalue <= d.fvalue);
+                case AnimLangLexer.GT: return new Data(fvalue > d.fvalue);
+                case AnimLangLexer.GE: return new Data(fvalue >= d.fvalue);
+                default: assert false; 
+            }
+        }
+        else if (type == Type.STRING) {
+            switch (op) {
+                case AnimLangLexer.EQ: return new Data(strvalue.compareTo(d.strvalue) == 0);
+                case AnimLangLexer.NE: return new Data(strvalue.compareTo(d.strvalue) != 0);
+                case AnimLangLexer.LT: return new Data(strvalue.compareTo(d.strvalue) < 0);
+                case AnimLangLexer.LE: return new Data(strvalue.compareTo(d.strvalue) <= 0);
+                case AnimLangLexer.GT: return new Data(strvalue.compareTo(d.strvalue) > 0);
+                case AnimLangLexer.GE: return new Data(strvalue.compareTo(d.strvalue) >= 0);
+                default: assert false; 
+            }
+        }
+        else assert false;
         return null;
     }
 }
