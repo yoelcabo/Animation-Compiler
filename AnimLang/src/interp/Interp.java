@@ -353,15 +353,13 @@ public class Interp {
                 break;
             // atoms especials del nostre llenguatge
             case AnimLangLexer.OBJ:
-                comprovaAttr();
-                value = new Data();
+                value = comprovaAttr(t.getChild(0));
                 break;
             case AnimLangLexer.MOV:
-                comprovaAttr();
-                value = new Data();
+                value = comprovaAttr(t.getChild(0));
                 break;
             case AnimLangLexer.OBJ_PACK:
-                value = new Data();
+                value = construeixPack(t);
                 break;
             default: break;
         }
@@ -477,6 +475,33 @@ public class Interp {
         v = evaluateExpression(t);
         checkBoolean(v);
         return v;
+    }
+
+    // Comprova que els atributs de la definicio d'un objecte o moviment son correctes
+    private Data comprovaAttr (AnimLangTree t) {
+        // Els atributs poden representar-se en una classe
+        // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
+        // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOv, OBJ o a tots dos
+        // A mesura que es van comprovant els atributs, tambe es va construint l'OBJ o MOv en si
+    }
+
+    private Data construeixPack (AnimLangTree t) {
+        for (int i = 0; i < t.getChildCount(); ++i) {
+            switch (t.getType()) {
+                case AnimLangLexer.ID:
+                    // comprova que l'ID es refereix a un element de tipus obj o obj_pack
+                    break;
+                case AnimLangLexer.OBJ:
+                    // executa les instruccions per generar l'objecte
+                    break;
+                case AnimLangLexer.OBJ_PACK:
+                    // executa les instruccions per generar l'obj_pack
+                    break;
+                case default:
+                    // excepcio de tipus
+                    break;
+            }
+        }
     }
 
     /** Checks that the data is Boolean and raises an exception if it is not. */
