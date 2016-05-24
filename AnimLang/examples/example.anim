@@ -1,0 +1,13 @@
+def main() 
+for i in [20] do
+  if 1 then
+    circle = Circle [ cx=3 ];
+  elif 1 then
+    circle = Circle [ cx=3 ];
+  elif 1 then
+    circle = Circle [ cx=3 ];
+  else
+    circle = Circle [ cx=3 ];
+  endif
+endfor
+endfunc
