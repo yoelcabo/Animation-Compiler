@@ -17,6 +17,9 @@ tokens {
   LISTINST; // llista de instruccions de la funcio
   PVALUE;     // Parameter by value in the list of parameters
   PREF;       // Parameter by reference in the list of parameters
+  MOV;    // moviment pur
+  OBJ;    // objecte pur
+  OBJ_PACK; // pack d'objectes
 }
 
 @header {
@@ -70,10 +73,14 @@ atom      : num | mov | ID | STRING | BOOLEAN | obj | obj_pack | funcall | '('! 
 num : INT | FLOAT;
 
 // crear token OBJ_PACK, que sera l'arrel, i afegir-li la llista d'objectes, com a fills, que formen el pack
-obj_pack   : '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
+obj_pack   : list_obj_pack -> ^(OBJ_PACK list_obj_pack);
+
+list_obj_pack: '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 
 // tambe afegir OBJ com a token arrel
-obj: (CIRCLE^ | POLYGON^ | POLYLINE^ | TRIANGLE^ | PATH^) attr;
+obj: typeObj attr -> ^(OBJ typeObj attr);
+
+typeObj: (CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH);
 
 attr: '[' listAttr? ']' -> ^(ATTR listAttr);
 
@@ -84,7 +91,9 @@ one_attr: ID ASSIGN^ (ID | STRING | INT | FLOAT);
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
 // tambe afegir MOV com a token arrel
-mov: (TRANSLATE^ | ROTATE^ | SCALE^ | FOLLOWPATH^) attr;
+mov: typeMov attr -> ^(MOV typeMov attr);
+
+typeMov: (TRANSLATE | ROTATE | SCALE | FOLLOWPATH);
 
 
 // FUNCTIONS (basicament, copy paste de ASL)

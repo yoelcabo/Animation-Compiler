@@ -140,6 +140,7 @@ public class Interp {
             case AnimLangLexer.INT: T.setIntValue(); break;
             case AnimLangLexer.STRING: T.setStringValue(); break;
             case AnimLangLexer.BOOLEAN: T.setBooleanValue(); break;
+            case AnimLangLexer.FLOAT: T.setFloatValue(); break;
             default: break;
         }
         int n = T.getChildCount();
@@ -483,6 +484,7 @@ public class Interp {
         // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
         // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOv, OBJ o a tots dos
         // A mesura que es van comprovant els atributs, tambe es va construint l'OBJ o MOv en si
+        return null; // per poder compilar (provisional)
     }
 
     private Data construeixPack (AnimLangTree t) {
@@ -497,11 +499,12 @@ public class Interp {
                 case AnimLangLexer.OBJ_PACK:
                     // executa les instruccions per generar l'obj_pack
                     break;
-                case default:
+                default:
                     // excepcio de tipus
                     break;
             }
         }
+        return null; // per poder compilar (provisional)
     }
 
     /** Checks that the data is Boolean and raises an exception if it is not. */
@@ -514,6 +517,13 @@ public class Interp {
     /** Checks that the data is integer and raises an exception if it is not. */
     private void checkInteger (Data b) {
         if (!b.isInteger()) {
+            throw new RuntimeException ("Expecting numerical expression");
+        }
+    }
+
+    // Comprova si la dada es un valor numeric (int o float)
+    private void checkNumerical (Data b) {
+        if (!b.isInteger() && !b.isFloat()) {
             throw new RuntimeException ("Expecting numerical expression");
         }
     }
