@@ -39,11 +39,9 @@ import org.antlr.runtime.Token;
  */
  
 public class AnimLangTree extends CommonTree {
-    /** Field to store integer literals */
     private int intValue;
-
-    /** Field to store string literals (without the enclosing quotes) */
     private String strValue;
+    private float floatValue;
 
     /** Constructor of the class */
     public AnimLangTree(Token t) {
@@ -60,6 +58,10 @@ public class AnimLangTree extends CommonTree {
 
     /** Define the integer value of the node. */
     public void setIntValue() { intValue = Integer.parseInt(getText()); }
+
+    public float getFloatValue () { return floatValue; }
+
+    public void setFloatValue () { floatValue = Float.parseFloat(getText()); }
 
     /** Get the Boolean value of the node. */
     public boolean getBooleanValue() { return intValue != 0; }

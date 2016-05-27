@@ -263,4 +263,9 @@ public class Data {
         else assert false;
         return null;
     }
+
+    // Simplement es per poder compilar el programa
+    public Data evaluateOrchestration (int op, Data d) {
+        return null;
+    }
 }
