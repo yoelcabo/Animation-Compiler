@@ -79,4 +79,16 @@ public class SVGMovingCollection<E extends SVGSerializableParallelizable> {
                 ", end=" + end +
                 '}';
     }
+
+    public static SVGMovingCollection serial(SVGMovingCollection mvs1, SVGMovingCollection mvs2) {
+        SVGMovingCollection ret = mvs1.copy();
+        ret.serialize(mvs2);
+        return ret;
+    }
+
+    public static SVGMovingCollection parallel(SVGMovingCollection mvs1, SVGMovingCollection mvs2) {
+        SVGMovingCollection ret = mvs1.copy();
+        ret.parallelize(mvs2);
+        return ret;
+    }
 }

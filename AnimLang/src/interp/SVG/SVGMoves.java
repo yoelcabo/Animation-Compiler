@@ -11,7 +11,4 @@ public class SVGMoves extends SVGMovingCollection<SVGMove>{
         super(moves);
     }
 
-    public SVGMoves(SVGMove move) {
-        super(move);
-    }
 }

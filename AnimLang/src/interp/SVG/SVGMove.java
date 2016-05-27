@@ -12,6 +12,7 @@ public class SVGMove extends SVGSerializableParallelizable {
     public SVGMove(float dur) {
         super(dur);
         this.type = Type.WAIT;
+        attr = new HashMap<>();
     }
 
     @Override
@@ -63,6 +64,8 @@ public class SVGMove extends SVGSerializableParallelizable {
         return "SVGMove{" +
                 "type=" + type +
                 ", attr=" + attr +
+                ", init=" + init +
+                ", end=" + end +
                 '}';
     }
 }
