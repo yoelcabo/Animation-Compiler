@@ -36,5 +36,7 @@ public abstract class SVGSerializableParallelizable {
 
 
     public abstract SVGSerializableParallelizable copy();
+
+
 }
 

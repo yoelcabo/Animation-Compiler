@@ -5,6 +5,8 @@ import interp.Data;
 import java.util.HashMap;
 
 public class SVGMove extends SVGSerializableParallelizable {
+
+
     public enum Type {WAIT}; //etc
     public Type type;
     HashMap<String,Data> attr;
@@ -67,5 +69,10 @@ public class SVGMove extends SVGSerializableParallelizable {
                 ", init=" + init +
                 ", end=" + end +
                 '}';
+    }
+
+    // TODO
+    public String getSVGCode(float wait) {
+        return null;
     }
 }

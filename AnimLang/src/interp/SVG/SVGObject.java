@@ -68,4 +68,9 @@ public class SVGObject {
     public void setContent(ArrayList<SVGObject> content) {
         this.content = content;
     }
+
+    public String getSVGHeader() {
+        return null;
+    }
+
 }
