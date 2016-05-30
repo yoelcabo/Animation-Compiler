@@ -28,6 +28,7 @@
 package interp;
 
 import parser.*;
+import interp.SVG.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -354,10 +355,10 @@ public class Interp {
                 break;
             // atoms especials del nostre llenguatge
             case AnimLangLexer.OBJ:
-                value = comprovaAttr(t.getChild(0), t.getChild(1));
+                value = generateObject(t.getChild(0), t.getChild(1));
                 break;
             case AnimLangLexer.MOV:
-                value = comprovaAttr(t.getChild(0), t.getChild(1));
+                value = generateMov(t.getChild(0), t.getChild(1));
                 break;
             case AnimLangLexer.OBJ_PACK:
                 value = construeixPack(t);
@@ -479,7 +480,7 @@ public class Interp {
     }
 
     // Comprova que els atributs de la definicio d'un objecte o moviment son correctes
-    private Data comprovaAttr (AnimLangTree objMov, AnimLangTree attr) {
+    private Data comprovaAndGetAttr (AnimLangTree attr) {
         // Els atributs poden representar-se en una classe
         // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
         // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOV, OBJ o a tots dos
@@ -487,24 +488,67 @@ public class Interp {
         return null; // per poder compilar (provisional)
     }
 
+    private Data generateObject (AnimLangTree typeObj, AnimLangTree attr) {
+        SVGObject newObject = null;
+        //(CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH)
+        switch (typeObj.getType()) {
+            case AnimLangLexer.CIRCLE:
+                newObject = new SVGObject(SVGObject.Type.CIRCLE);
+                break;
+            case AnimLangLexer.POLYGON:
+                newObject = new SVGObject(SVGObject.Type.POLYGON);
+                break;
+            case AnimLangLexer.POLYLINE:
+                newObject = new SVGObject(SVGObject.Type.POLYLINE);
+                break;
+            case AnimLangLexer.TRIANGLE:
+                newObject = new SVGObject(SVGObject.Type.TRIANGLE);
+                break;
+            case AnimLangLexer.PATH:
+                newObject = new SVGObject(SVGObject.Type.PATH);
+                break;
+            default:
+                break;
+        }
+        // afegir els atributs
+        return new Data(newObject);
+    }
+
+    private Data generateMov (AnimLangTree typeMov, AnimLangTree attr) {
+        return null; // provisional, perque compili
+    }
+
     private Data construeixPack (AnimLangTree t) {
+        SVGObject newPack = new SVGObject(new ArrayList<SVGObject>());
         for (int i = 0; i < t.getChildCount(); ++i) {
-            switch (t.getType()) {
+            switch (t.getChild(i).getType()) {
                 case AnimLangLexer.ID:
                     // comprova que l'ID es refereix a un element de tipus obj o obj_pack
+                    Data valueID = new Data(Stack.getVariable(t.getChild(i).getText()));
+                    if (valueID.isObject()) {
+                        newPack.getContent().add(valueID.getObjectValue());
+                    } else if (valueID.isObjectPack()) {
+                        newPack.getContent().add(valueID.getObjectPackValue());
+                    } else {
+                        throw new RuntimeException("Required Object or ObjectPack, found " + valueID.getType());
+                    }
                     break;
                 case AnimLangLexer.OBJ:
                     // executa les instruccions per generar l'objecte
+                    Data auxObj = generateObject(t.getChild(i).getChild(0), t.getChild(i).getChild(1));
+                    newPack.getContent().add(auxObj.getObjectValue());
                     break;
                 case AnimLangLexer.OBJ_PACK:
                     // executa les instruccions per generar l'obj_pack
+                    Data auxObjPack = construeixPack(t.getChild(i));
+                    newPack.getContent().add(auxObjPack.getObjectPackValue());
                     break;
                 default:
                     // excepcio de tipus
-                    break;
+                    throw new RuntimeException("Required Object or ObjectPack, found " + t.getChild(i).getType());
             }
         }
-        return null; // per poder compilar (provisional)
+        return new Data(newPack); 
     }
 
     /** Checks that the data is Boolean and raises an exception if it is not. */

@@ -42,7 +42,7 @@ import interp.SVG.*;
 
 public class Data {
     /** Types of data */
-    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, OBJECTPACK, MOVE, MOVINGOBJECT};
+    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, OBJ_PACK, MOVE, MOVINGOBJECT};
 
     /** Type of data*/
     private Type type;
@@ -79,17 +79,40 @@ public class Data {
     Data() {type = Type.VOID; }
 
     /** Copy constructor */
-    // Implementar be aquest constructor per copia (la part de value)
-    Data(Data d) { type = d.type; value = d.value; }
+    Data (Data d) { 
+        type = d.type; 
+        switch (type) {
+            case BOOLEAN:
+            case INTEGER:
+                value = d.value;
+                break;
+            case FLOAT:
+                fvalue = d.fvalue;
+                break;
+            case STRING:
+                strvalue = d.strvalue;
+                break;
+            case OBJECT:
+            case OBJ_PACK:
+                objValue = d.objValue;
+                break;
+            case MOVE:
+                moveValue = d.moveValue;
+                break;
+            case MOVINGOBJECT:
+                objMoveValue = d.objMoveValue;
+                break;
+        }
+    }
 
     // Our constructors //
 
-    // OBJECT or OBJECTPACK
+    // OBJECT or OBJ_PACK
     Data(SVGObject objValue) {
-        if (objValue.getContent() == null || objValue.getContent().size() == 0) {
-            this.type = Type.OBJECT;
+        if (objValue.getType() == SVGObject.Type.OBJ_PACK) {
+            this.type = Type.OBJ_PACK;
         } else {
-            this.type = Type.OBJECTPACK;
+            this.type = Type.OBJECT;
         }
         this.objValue = objValue;
     }
@@ -123,7 +146,7 @@ public class Data {
 
     public boolean isObject() { return type == Type.OBJECT; }
 
-    public boolean isObjectPack() { return type == Type.OBJECTPACK; }
+    public boolean isObjectPack() { return type == Type.OBJ_PACK; }
 
     public boolean isMove() { return type == Type.MOVE; }
 
@@ -174,7 +197,7 @@ public class Data {
     }
 
     public SVGObject getObjectPackValue() {
-        assert type == Type.OBJECTPACK;
+        assert type == Type.OBJ_PACK;
         return objValue;
     }
 
@@ -203,12 +226,12 @@ public class Data {
     /** Defines a String value for the data */
     public void setValue(String v) { type = Type.STRING; strvalue = v; }
 
-    // Object or ObjPack
+    // Object or OBJ_PACK
     public void setValue(SVGObject v)  {
         if (v.getContent() == null || v.getContent().size() == 0) {
             this.type = Type.OBJECT;
         } else {
-            this.type = Type.OBJECTPACK;
+            this.type = Type.OBJ_PACK;
         }
         this.objValue = v;
     }

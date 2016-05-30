@@ -7,10 +7,10 @@ import java.util.HashMap;
 
 public class SVGObject {
 
-    public enum Type {CIRCLE,PATH,OBJPACK}; //etc
+    public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK}; //etc
     private Type type;
     HashMap<String, Data> attr;
-    ArrayList<SVGObject> content; //Només per objpack
+    ArrayList<SVGObject> content; //Només per OBJ_PACK
 
     // CONSTRUCTORS // 
 
@@ -30,13 +30,13 @@ public class SVGObject {
     }
 
     public SVGObject(ArrayList<SVGObject> content) {
-        this.type = Type.OBJPACK;
+        this.type = Type.OBJ_PACK;
         this.attr = new HashMap<>();
         this.content = content;
     }
 
     public SVGObject(HashMap<String, Data> attr, ArrayList<SVGObject> content) {
-        this.type = Type.OBJPACK;
+        this.type = Type.OBJ_PACK;
         this.attr = attr;
         this.content = content;
     }
