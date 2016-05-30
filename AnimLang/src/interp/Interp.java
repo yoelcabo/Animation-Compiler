@@ -350,14 +350,14 @@ public class Interp {
                 }
                 break;
             case AnimLangLexer.STRING:
-                value = new Data(t.getStringValue()); // mirar si s'ha de retocar algun metode
+                value = new Data(t.getStringValue());
                 break;
             // atoms especials del nostre llenguatge
             case AnimLangLexer.OBJ:
-                value = comprovaAttr(t.getChild(0));
+                value = comprovaAttr(t.getChild(0), t.getChild(1));
                 break;
             case AnimLangLexer.MOV:
-                value = comprovaAttr(t.getChild(0));
+                value = comprovaAttr(t.getChild(0), t.getChild(1));
                 break;
             case AnimLangLexer.OBJ_PACK:
                 value = construeixPack(t);
@@ -376,10 +376,10 @@ public class Interp {
         if (t.getChildCount() == 1) {
             switch (type) {
                 case AnimLangLexer.PLUS:
-                    checkInteger(value);
+                    checkInteger(value); // potser hauria de ser checkNumerical
                     break;
                 case AnimLangLexer.MINUS:
-                    checkInteger(value);
+                    checkInteger(value); // potser hauria de ser checkNumerical
                     value.setValue(-value.getIntegerValue());
                     break;
                 case AnimLangLexer.NOT:
@@ -416,8 +416,8 @@ public class Interp {
             case AnimLangLexer.DIV:
             case AnimLangLexer.MOD:
                 value2 = evaluateExpression(t.getChild(1));
-                checkInteger(value); checkInteger(value2);
-                value.evaluateArithmetic(type, value2);
+                checkInteger(value); checkInteger(value2); // mirar si es float tambe
+                value.evaluateArithmetic(type, value2); // fer cast implicit si hi ha int i float
                 break;
 
             // Boolean operators
@@ -479,10 +479,10 @@ public class Interp {
     }
 
     // Comprova que els atributs de la definicio d'un objecte o moviment son correctes
-    private Data comprovaAttr (AnimLangTree t) {
+    private Data comprovaAttr (AnimLangTree objMov, AnimLangTree attr) {
         // Els atributs poden representar-se en una classe
         // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
-        // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOv, OBJ o a tots dos
+        // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a Mov, OBJ o a tots dos
         // A mesura que es van comprovant els atributs, tambe es va construint l'OBJ o MOv en si
         return null; // per poder compilar (provisional)
     }
