@@ -482,7 +482,7 @@ public class Interp {
     private Data comprovaAttr (AnimLangTree objMov, AnimLangTree attr) {
         // Els atributs poden representar-se en una classe
         // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
-        // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a Mov, OBJ o a tots dos
+        // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOV, OBJ o a tots dos
         // A mesura que es van comprovant els atributs, tambe es va construint l'OBJ o MOv en si
         return null; // per poder compilar (provisional)
     }

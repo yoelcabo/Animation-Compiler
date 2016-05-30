@@ -38,10 +38,11 @@ package interp;
  */
 
 import parser.*;
+import interp.SVG.*;
 
 public class Data {
     /** Types of data */
-    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, MOVE, MOVINGOBJECT;}
+    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, OBJECTPACK, MOVE, MOVINGOBJECT};
 
     /** Type of data*/
     private Type type;
@@ -54,7 +55,13 @@ public class Data {
     
     /** Value of the data when it is a string*/
     private String strvalue; 
+
+    private SVGObject objValue;
+    private SVGMove moveValue;
+    private SVGMovingObject objMoveValue;
+    // falta movingCollection
   
+    // CONSTRUCTORS //
 
     /** Constructor for integers */
     Data(int v) { type = Type.INTEGER; value = v; }
@@ -72,7 +79,29 @@ public class Data {
     Data() {type = Type.VOID; }
 
     /** Copy constructor */
+    // Implementar be aquest constructor per copia (la part de value)
     Data(Data d) { type = d.type; value = d.value; }
+
+    // Our constructors //
+
+    // OBJECT or OBJECTPACK
+    Data(SVGObject objValue) {
+        if (objValue.getContent() == null || objValue.getContent().size() == 0) {
+            this.type = Type.OBJECT;
+        } else {
+            this.type = Type.OBJECTPACK;
+        }
+        this.objValue = objValue;
+    }
+
+    // MOVE
+    Data(SVGMove moveValue) { this.type = Type.MOVE; this.moveValue = moveValue; }
+
+    // MOVINGOBJECT
+    Data(SVGMovingObject objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
+
+
+    // CONSULTORES //
 
     /** Returns the type of data */
     public Type getType() { return type; }
@@ -92,14 +121,16 @@ public class Data {
     /** Indicates whether the data is void */
     public boolean isVoid() { return type == Type.VOID; }
 
-    /** Indicates whether the data is integer */
     public boolean isObject() { return type == Type.OBJECT; }
 
-    /** Indicates whether the data is integer */
+    public boolean isObjectPack() { return type == Type.OBJECTPACK; }
+
     public boolean isMove() { return type == Type.MOVE; }
 
-    /** Indicates whether the data is integer */
     public boolean isMovingObject() { return type == Type.MOVINGOBJECT; }
+
+
+    // GETTERS // 
 
     /**
      * Gets the value of an integer data. The method asserts that
@@ -137,6 +168,29 @@ public class Data {
         return strvalue;
     }
 
+    public SVGObject getObjectValue() {
+        assert type == Type.OBJECT;
+        return objValue;
+    }
+
+    public SVGObject getObjectPackValue() {
+        assert type == Type.OBJECTPACK;
+        return objValue;
+    }
+
+    public SVGMove getMoveValue() {
+        assert type == Type.MOVE;
+        return moveValue;
+    }
+
+    public SVGMovingObject getMovingObjectValue() {
+        assert type == Type.MOVINGOBJECT;
+        return objMoveValue;
+    }
+
+
+    // SETTERS //
+
     /** Defines a Boolean value for the data */
     public void setValue(boolean b) { type = Type.BOOLEAN; value = b ? 1 : 0; }
 
@@ -149,10 +203,31 @@ public class Data {
     /** Defines a String value for the data */
     public void setValue(String v) { type = Type.STRING; strvalue = v; }
 
+    // Object or ObjPack
+    public void setValue(SVGObject v)  {
+        if (v.getContent() == null || v.getContent().size() == 0) {
+            this.type = Type.OBJECT;
+        } else {
+            this.type = Type.OBJECTPACK;
+        }
+        this.objValue = v;
+    }
+
+    // Move
+    public void setValue(SVGMove v) { this.type = Type.MOVE; this.moveValue = v; }
+
+    // Moving object
+    public void setValue(SVGMovingObject v) { this.type = Type.MOVINGOBJECT; this.objMoveValue = v; }
+
+
     /** Copies the value from another data */
     public void setData(Data d) { type = d.type; value = d.value; }
+
+
+    // TOSTRING // 
     
     /** Returns a string representing the data in textual form. */
+    // S'ha d'afegir, si fa falta, els metodes per fet toString de Move, Obj, etc.
     public String toString() {
         if (type == Type.BOOLEAN) return value == 1 ? "true" : "false";
         if (type == Type.INTEGER) return Integer.toString(value);
@@ -160,6 +235,9 @@ public class Data {
         return strvalue;
     }
     
+
+    // OPERACIONS // 
+
     /**
      * Checks for zero (for division). It raises an exception in case
      * the value is zero.

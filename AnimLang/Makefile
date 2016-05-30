@@ -8,6 +8,7 @@ CLASSDIR = 	$(ROOT)/classes
 MAIN =		$(SRCDIR)/$(TARGET)
 PARSER =	$(SRCDIR)/parser
 INTERP =	$(SRCDIR)/interp
+SVG = 		$(INTERP)/SVG
 JAVADOC =	$(ROOT)/javadoc
 BIN =		$(ROOT)/bin
 
@@ -48,7 +49,15 @@ INTERP_SRC =	$(INTERP)/Interp.java \
 				$(INTERP)/$(TARGET)Tree.java \
 				$(INTERP)/AnimLangTreeAdaptor.java
 
-ALL_SRC =		$(MAIN_SRC) $(PARSER_SRC) $(INTERP_SRC)
+SVG_SRC = 		$(SVG)/SVGMove.java \
+				$(SVG)/SVGMoves.java \
+				$(SVG)/SVGMovingCollection.java \
+				$(SVG)/SVGMovingObject.java \
+				$(SVG)/SVGObject.java \
+				$(SVG)/SVGScene.java \
+				$(SVG)/SVGSerializableParallelizable.java
+
+ALL_SRC =		$(MAIN_SRC) $(PARSER_SRC) $(INTERP_SRC) $(SVG_SRC)
 
 all: compile exec docs
 

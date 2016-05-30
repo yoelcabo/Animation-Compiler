@@ -3,42 +3,44 @@ package interp.SVG;
 import java.util.ArrayList;
 
 
-public class SVGMovingCollection<E extends SVGSerializableParallelizable> {
-    ArrayList<E> moves;
-    float init;
-    float end;
+public class SVGMovingCollection extends SVGSerializableParallelizable {
+    // abans estava ArrayList<E> moves, pero en principi E sempre sera una subclasse de SVGSerializableParallelizable
+    ArrayList<SVGSerializableParallelizable> moves;
+    // no s'han de declarar aqui perque ja s'hereden de la classe pare
+    //float init;
+    //float end;
 
-    public SVGMovingCollection(ArrayList<E> moves) {
+    // CONSTRUCTORES //
+
+    public SVGMovingCollection(ArrayList<SVGSerializableParallelizable> moves) {
+        super(0, 0);
         this.moves = moves;
-        init = 0;
-        end = 0;
-        for (E move : moves) {
+        for (SVGSerializableParallelizable move : moves) {
+            // s'ha de fer el cast per poder utilitzar el metode getEnd()
             if (move.getEnd() > end) end = move.getEnd();
         }
     }
-    public SVGMovingCollection(E move) {
+    public SVGMovingCollection(SVGSerializableParallelizable move) {
+        super(move.getInit(), move.getEnd());
         this.moves = new ArrayList<>();
         moves.add(move);
-        init = move.getInit();
-        end = move.getEnd();
     }
 
-    public SVGMovingCollection(SVGMovingCollection<E> orig) {
-        this.moves = new ArrayList<>(orig.moves);
-        this.init = orig.init;
-        this.end = orig.end;
+    public SVGMovingCollection (SVGMovingCollection movColl) {
+        super(movColl);
+        this.moves = new ArrayList<SVGSerializableParallelizable>(movColl.moves);
     }
 
-    public void serialize(SVGMovingCollection<E> mc) {
-      for (E move : mc.getMoves()) {
-          E newMove = (E) move.copy();
-          newMove.inc(end);
-         moves.add(newMove);
+    public void serialize(SVGMovingCollection mc) {
+      for (SVGSerializableParallelizable move : mc.getMoves()) {
+            SVGSerializableParallelizable newMove = move.copy();
+            newMove.inc(end);
+            moves.add(newMove);
       }
       end += mc.end;
     }
 
-    public void parallelize(SVGMovingCollection<E> mc) {
+    public void parallelize(SVGMovingCollection mc) {
       moves.addAll(mc.getMoves());
       init = Math.min(init,mc.init);
       end = Math.max(end,mc.end);
@@ -60,15 +62,12 @@ public class SVGMovingCollection<E extends SVGSerializableParallelizable> {
         this.end = end;
     }
 
-    public ArrayList<E> getMoves() {
+    public ArrayList<SVGSerializableParallelizable> getMoves() {
         return moves;
     }
 
-    public void setMoves(ArrayList<E> moves) {
+    public void setMoves(ArrayList<SVGSerializableParallelizable> moves) {
         this.moves = moves;
-    }
-    public SVGMovingCollection<E> copy() {
-        return new SVGMovingCollection<E>(this);
     }
 
     @Override
@@ -90,5 +89,10 @@ public class SVGMovingCollection<E extends SVGSerializableParallelizable> {
         SVGMovingCollection ret = mvs1.copy();
         ret.parallelize(mvs2);
         return ret;
+    }
+
+    @Override
+    public SVGMovingCollection copy() {
+        return new SVGMovingCollection(this);
     }
 }

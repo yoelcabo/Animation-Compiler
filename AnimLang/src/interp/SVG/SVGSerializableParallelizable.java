@@ -13,6 +13,11 @@ public abstract class SVGSerializableParallelizable {
         this.end = dur;
     }
 
+    public SVGSerializableParallelizable(SVGSerializableParallelizable serialPar) {
+        this.init = serialPar.init;
+        this.end = serialPar.end;
+    }
+
     void inc(float offset) {
         init += offset;
         end += offset;
@@ -34,9 +39,5 @@ public abstract class SVGSerializableParallelizable {
         this.end = end;
     }
 
-
     public abstract SVGSerializableParallelizable copy();
-
-
 }
-

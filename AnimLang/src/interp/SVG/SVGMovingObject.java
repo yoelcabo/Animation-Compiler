@@ -13,10 +13,10 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
         this.moves = moves;
     }
 
-    @Override
-    public SVGSerializableParallelizable copy() {
-
-        return new SVGMovingObject(object.copy(),(SVGMoves) moves.copy());
+    public SVGMovingObject(SVGMovingObject movObj) {
+        super(movObj);
+        this.object = new SVGObject(movObj.object);
+        this.moves = new SVGMoves(movObj.moves);
     }
 
 
@@ -26,5 +26,10 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
         svgcode += moves.getSVGCode(init);
         svgcode += object.getSVGEnd() + "\n";
         return svgcode;
+    }
+
+    @Override
+    public SVGMovingObject copy () {
+        return new SVGMovingObject(this);
     }
 }

@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public class SVGObject {
 
-
-
     public enum Type {CIRCLE,PATH,OBJPACK}; //etc
     private Type type;
     HashMap<String, Data> attr;
     ArrayList<SVGObject> content; //Només per objpack
+
+    // CONSTRUCTORS // 
 
     public SVGObject(SVGObject svgObject) {
         type = svgObject.type;
@@ -41,9 +41,8 @@ public class SVGObject {
         this.content = content;
     }
 
-    public SVGObject copy() {
-        return new SVGObject(this);
-    }
+
+    // GETTERS I SETTERS //
 
     public Type getType() {
         return type;
@@ -71,6 +70,12 @@ public class SVGObject {
 
     public String getSVGHeader() {
         return null;
+    }
+
+    // L'he afegit perque si no SVGMovingObject.getSVGCode() peta
+    // El codi d'aquesta funcio s'ha d'implementar correctament
+    public String getSVGEnd() {
+        return "";
     }
 
 }

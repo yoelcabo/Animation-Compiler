@@ -5,11 +5,12 @@ import java.util.ArrayList;
 /**
  * Created by yoel on 5/27/16.
  */
-public class SVGScene extends SVGMovingCollection<SVGMovingObject> {
-    private static final String CABECERA = ;
-    private static final String FINAL = ;
+public class SVGScene extends SVGMovingCollection {
+    private static final String CABECERA = "";
+    private static final String FINAL = "";
 
-    public SVGScene(ArrayList<SVGMovingObject> moves) {
+    // Abans era SVGMovingObject, pero perque compili d'una vegada ho he canviat a SVGSerializa...
+    public SVGScene(ArrayList<SVGSerializableParallelizable> moves) {
         super(moves);
     }
 
@@ -20,8 +21,8 @@ public class SVGScene extends SVGMovingCollection<SVGMovingObject> {
     public String getSVGCode() {
         String svg = "";
         svg += CABECERA + "\n";
-        for (SVGMovingObject move : moves) {
-            svg += move.getSVGCode() + "\n";           
+        for (SVGSerializableParallelizable move : moves) {
+            svg += ((SVGMovingObject) move).getSVGCode() + "\n";           
         }
         svg += FINAL + "\n";
         return svg;
