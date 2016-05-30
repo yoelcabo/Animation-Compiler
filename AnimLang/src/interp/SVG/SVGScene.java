@@ -10,9 +10,9 @@ public class SVGScene extends SVGMovingCollection {
     private String width;
     private String height;
 
-    // Abans era SVGMovingObject, pero perque compili d'una vegada ho he canviat a SVGSerializa...
-    public SVGScene(ArrayList<SVGSerializableParallelizable> moves) {
-        super(moves);
+    public SVGScene(ArrayList<SVGMovingObject> movingObjects) {
+        super(new ArrayList<SVGSerializableParallelizable>(movingObjects));
+        //super(movingObjects);
     }
 
     public SVGScene(SVGMovingObject move) {

@@ -8,14 +8,15 @@ import java.util.stream.Stream;
  */
 public class SVGMoves extends SVGMovingCollection {
 
-    // Guarrada de constructor
     public SVGMoves(ArrayList<SVGMove> moves) {
+        super(new ArrayList<SVGSerializableParallelizable>(moves));
+        /*
         super(new ArrayList<>());
         ArrayList<SVGSerializableParallelizable> auxMoves = new ArrayList<>();
         for (SVGMove m : moves) {
             auxMoves.add(m);
         }
-        setMoves(auxMoves);
+        setMoves(auxMoves);*/
     }
 
     public SVGMoves(SVGMoves svgMoves) {
