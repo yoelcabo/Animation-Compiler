@@ -22,6 +22,10 @@ public class SVGMoves extends SVGMovingCollection {
         super(svgMoves);
     }
 
+    public SVGMoves(SVGMove svgMove) {
+        super(svgMove);
+    }
+
     public String getSVGCode(float wait) {
         String svgcode = "";
         for (SVGSerializableParallelizable move : moves) {
