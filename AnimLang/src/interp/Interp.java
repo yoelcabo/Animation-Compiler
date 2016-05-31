@@ -545,7 +545,7 @@ public class Interp {
                 break;
         }
         newMove.comprovacioAtributs(); // throws exception if wrong attribute
-        return null; // provisional, perque compili
+        return new Data(new SVGMoves(newMove)); // provisional, perque compili
     }
 
     private Data construeixPack (AnimLangTree t) {

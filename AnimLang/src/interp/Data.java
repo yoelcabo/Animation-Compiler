@@ -57,8 +57,8 @@ public class Data {
     private String strvalue; 
 
     private SVGObject objValue;
-    private SVGMove moveValue;
-    private SVGMovingObject objMoveValue;
+    private SVGMoves movesValue;
+    private SVGScene objMoveValue;
     // falta movingCollection
   
     // CONSTRUCTORS //
@@ -97,7 +97,7 @@ public class Data {
                 objValue = d.objValue;
                 break;
             case MOVES:
-                moveValue = d.moveValue;
+                movesValue = d.movesValue;
                 break;
             case MOVINGOBJECT:
                 objMoveValue = d.objMoveValue;
@@ -118,10 +118,10 @@ public class Data {
     }
 
     // MOVES
-    Data(SVGMove moveValue) { this.type = Type.MOVES; this.moveValue = moveValue; }
+    Data(SVGMoves movesValue) { this.type = Type.MOVES; this.movesValue = movesValue; }
 
     // MOVINGOBJECT
-    Data(SVGMovingObject objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
+    Data(SVGScene objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
 
 
     // CONSULTORES //
@@ -201,12 +201,12 @@ public class Data {
         return objValue;
     }
 
-    public SVGMove getMoveValue() {
+    public SVGMoves getMoveValue() {
         assert type == Type.MOVES;
-        return moveValue;
+        return movesValue;
     }
 
-    public SVGMovingObject getMovingObjectValue() {
+    public SVGScene getMovingObjectValue() {
         assert type == Type.MOVINGOBJECT;
         return objMoveValue;
     }
@@ -237,10 +237,10 @@ public class Data {
     }
 
     // MOVES
-    public void setValue(SVGMove v) { this.type = Type.MOVES; this.moveValue = v; }
+    public void setValue(SVGMoves v) { this.type = Type.MOVES; this.movesValue = v; }
 
     // Moving object
-    public void setValue(SVGMovingObject v) { this.type = Type.MOVINGOBJECT; this.objMoveValue = v; }
+    public void setValue(SVGScene v) { this.type = Type.MOVINGOBJECT; this.objMoveValue = v; }
 
 
     /** Copies the value from another data */
@@ -372,16 +372,42 @@ public class Data {
             switch (op) {
                 case AnimLangLexer.ASSOC:
                     if (d.type == Type.OBJECT) {
-                        
+                        return new Data(new SVGScene(d.objValue, movesValue));
                     } else assert false;
                     break;
                 case AnimLangLexer.PAR:
+                    if (d.type == Type.MOVES) {
+                        Data movPar = new Data(this);
+                        movPar.movesValue.parallelize(d.movesValue);
+                        return movPar;
+                    } else assert false;
                     break;
                 case AnimLangLexer.SEQ:
+                    if (d.type == Type.MOVES) {
+                        Data movSeq = new Data(this);
+                        movSeq.movesValue.serialize(d.movesValue);
+                        return movSeq;
+                    } else assert false;
                     break;
             }
 
         } else if (type == Type.MOVINGOBJECT) {
+            switch (op) {
+                case AnimLangLexer.PAR:
+                    if (d.type == Type.MOVINGOBJECT) {
+                        Data collPar = new Data(this);
+                        collPar.objMoveValue.parallelize(d.objMoveValue);
+                        return collPar;
+                    } else assert false;
+                    break;
+                case AnimLangLexer.SEQ:
+                    if (d.type == Type.MOVINGOBJECT) {
+                        Data collSeq = new Data(this);
+                        collSeq.objMoveValue.serialize(d.objMoveValue);
+                        return collSeq;
+                    } else assert false;
+                    break;
+            }
 
         } else assert false;
         
