@@ -124,7 +124,7 @@ ret: RETURN^ expr SEPARATOR!;
 
 var: ID ('.'^ var)?;
 
-run	:	 RUN;
+run	:	 RUN expr expr expr;
 
 
 ASSIGN    :  '=';
