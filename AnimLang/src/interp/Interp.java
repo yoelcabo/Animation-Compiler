@@ -229,6 +229,12 @@ public class Interp {
         }
         return null;
     }
+
+    private void printTrace() {
+        System.out.println("Line: " + linenumber);
+        System.out.println("Instr: " + t.getText());
+        System.out.println("");
+    }
     
     /**
      * Executes an instruction. 
@@ -242,6 +248,7 @@ public class Interp {
         assert t != null;
         
         setLineNumber(t);
+        printTrace();
         Data value; // The returned value
 
         // A big switch for all type of instructions
