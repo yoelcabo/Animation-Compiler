@@ -372,7 +372,7 @@ public class Data {
             switch (op) {
                 case AnimLangLexer.ASSOC:
                     if (d.type == Type.OBJECT) {
-                        return new Data(new SVGScene(d.objValue, movesValue));
+                        return new Data(new SVGScene(new SVGMovingObject(d.objValue, movesValue)));
                     } else assert false;
                     break;
                 case AnimLangLexer.PAR:
