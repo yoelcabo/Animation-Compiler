@@ -9,7 +9,9 @@ import java.util.StringJoiner;
 
 public class SVGObject {
 
-    public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK}; //etc
+
+
+    public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     private Type type;
     HashMap<String, Data> attr;
     ArrayList<SVGObject> content; //Només per OBJ_PACK
@@ -79,9 +81,18 @@ public class SVGObject {
         return header;
     }
 
+    public String getSubObjects() {
+        String svgcode = "";
+        for (SVGObject subobject:content) {
+            svgcode += subobject.getSVGHeader();
+            svgcode += subobject.getSVGEnd()  + "\n";
+        }
+        return svgcode;
+    }
+
     //TODO
     private String getObjDescriptor() {
-        return "";
+        return "todo";
     }
 
     //TODO

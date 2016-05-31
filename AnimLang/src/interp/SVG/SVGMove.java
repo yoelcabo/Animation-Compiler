@@ -3,8 +3,11 @@ package interp.SVG;
 import interp.Data;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class SVGMove extends SVGSerializableParallelizable {
+
+
 
 
     public enum Type {WAIT, TRANSLATE, ROTATE, SCALE, FOLLOWPATH}; //etc
@@ -76,9 +79,20 @@ public class SVGMove extends SVGSerializableParallelizable {
                 '}';
     }
 
-    // TODO
     public String getSVGCode(float wait) {
-        return null;
+        String svgcode = "<"+getObjDescriptor();
+        for (Map.Entry<String,Data> attribute : attr.entrySet()) {
+            svgcode += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
+        }
+        svgcode += " begin=\""+ (getInit() + wait)+ "\"";
+        svgcode += " dur=\""+ getDur() + "\"";
+        svgcode += " />";
+        return svgcode;
+    }
+
+
+    private String getObjDescriptor() {
+        return "movetodo";
     }
 
     @Override

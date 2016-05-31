@@ -40,4 +40,9 @@ public abstract class SVGSerializableParallelizable {
     }
 
     public abstract SVGSerializableParallelizable copy();
+
+    public float getDur() {
+        return end -init;
+    }
+
 }
