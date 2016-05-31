@@ -6,13 +6,12 @@ import java.util.ArrayList;
  * Created by yoel on 5/27/16.
  */
 public class SVGScene extends SVGMovingCollection {
-    private static final String FINAL = "";
+    private static final String FINAL = "</svg>";
     private String width;
     private String height;
 
     public SVGScene(ArrayList<SVGMovingObject> movingObjects) {
         super(new ArrayList<SVGSerializableParallelizable>(movingObjects));
-        //super(movingObjects);
     }
 
     public SVGScene(SVGMovingObject move) {
@@ -23,8 +22,8 @@ public class SVGScene extends SVGMovingCollection {
         String svg = "";
         svg += getCabecera() + "\n";
         for (SVGSerializableParallelizable mv : moves) {
-            SVGMove move = (SVGMove) mv;
-            svg += move.getSVGCode(init) + "\n";
+            SVGMovingObject move = (SVGMovingObject) mv;
+            svg += move.getSVGCode() + "\n";
         }
         svg += FINAL + "\n";
         return svg;

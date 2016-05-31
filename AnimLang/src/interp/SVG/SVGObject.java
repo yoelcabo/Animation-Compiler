@@ -4,6 +4,8 @@ import interp.Data;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.StringJoiner;
 
 public class SVGObject {
 
@@ -69,13 +71,26 @@ public class SVGObject {
     }
 
     public String getSVGHeader() {
-        return null;
+        String header = "<"+getObjDescriptor();
+        for (Map.Entry<String,Data> attribute : attr.entrySet()) {
+            header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
+        }
+        header += ">";
+        return header;
     }
 
-    // L'he afegit perque si no SVGMovingObject.getSVGCode() peta
-    // El codi d'aquesta funcio s'ha d'implementar correctament
-    public String getSVGEnd() {
+    //TODO
+    private String getObjDescriptor() {
         return "";
+    }
+
+    //TODO
+    public boolean comprovacioAtributs() throws RuntimeException {
+       return  false;
+    }
+
+    public String getSVGEnd() {
+        return "</"+getObjDescriptor()+">";
     }
 
 }
