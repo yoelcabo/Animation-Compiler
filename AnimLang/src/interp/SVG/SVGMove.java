@@ -33,6 +33,14 @@ public class SVGMove extends SVGSerializableParallelizable {
         this.type = type;
     }
 
+    //TODO
+    public SVGMove(Type type, HashMap<String, Data> attr) {
+        super(20); //TODO
+        this.type = type;
+        this.attr = attr;
+
+    }
+
     public SVGMove(Type type, HashMap<String, Data> attr, float dur) {
         super(dur);
         this.type = type;
