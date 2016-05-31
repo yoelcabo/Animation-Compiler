@@ -230,7 +230,7 @@ public class Interp {
         return null;
     }
 
-    private void printTrace() {
+    private void printTrace(AnimLangTree t) {
         System.out.println("Line: " + linenumber);
         System.out.println("Instr: " + t.getText());
         System.out.println("");
@@ -248,7 +248,7 @@ public class Interp {
         assert t != null;
         
         setLineNumber(t);
-        printTrace();
+        printTrace(t);
         Data value; // The returned value
 
         // A big switch for all type of instructions
@@ -286,6 +286,7 @@ public class Interp {
                 int[] forExpr = evaluateForExpr(t.getChild(0));
                 // agafa la variable que itera el for
                 Data itVar = Stack.getVariable(t.getChild(0).getChild(0).getText());
+                int i = 0;
                 while (itVar.getIntegerValue() < forExpr[1]) {
                     Data r = executeListInstructions(t.getChild(1));
                     if (r != null) return r;
