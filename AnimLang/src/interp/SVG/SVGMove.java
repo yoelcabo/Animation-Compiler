@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class SVGMove extends SVGSerializableParallelizable {
 
 
-    public enum Type {WAIT}; //etc
+    public enum Type {WAIT, TRANSLATE, ROTATE, SCALE, FOLLOWPATH}; //etc
     public Type type;
     HashMap<String,Data> attr;
 
