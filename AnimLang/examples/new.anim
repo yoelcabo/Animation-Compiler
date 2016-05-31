@@ -1,28 +1,7 @@
-def main() 
-for i in [20] do
-  if 1 then
-    circle = Circle [ cx=3 ];
-  elif 1 then
-    circle = Circle [ cx=3 ];
-  elif 1 then
-    circle = Circle [ cx=3 ];
-  else
-    circle = Circle [ cx=3 ];
-  endif
-endfor
-endfunc
-def funcio1 (cercle1, x, y)
-    k = 1;
-    for i in [10] do
-        k = k + i;
-    endfor
-    cercle1.radi = k*x;
-    return cercle1;
-endfunc
  
 def main ()
-    cercle1 = Circle [centreX=2, centreY=2, color="verd", radi=5];
+    cercle1 = Circle [centerX=2, centerY=2, colorFill="0:255:0", colorLine ="0:0:255", radius=50];
     rotacio1 = Rotate [vel=3];
     objEnMov = rotacio1->cercle1;
-    cercle2 = funcio1(cercle1, 3, 1);
+    run 200,200,objEnMov;
 endfunc

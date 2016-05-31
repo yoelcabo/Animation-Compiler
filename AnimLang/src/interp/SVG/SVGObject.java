@@ -15,11 +15,11 @@ public class SVGObject {
     protected Type type;
     protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
         put("colorLine", new Data("0:0:0"));
-        put("colorFilled", new Data("256:0:0"));
+        put("colorFill", new Data("256:0:0"));
         put("lineWidth", new Data(5));
         put("opacity", new Data(1.0f));
-        put("xPos", new Data(0));
-        put("yPos", new Data(0));
+        //put("xPos", new Data(0));
+        //put("yPos", new Data(0));
     }};
     private ArrayList<SVGObject> content; //Només per OBJ_PACK
 
@@ -96,8 +96,12 @@ public class SVGObject {
 
 
     public void changeAttribute (String nomAttr, Data newAttribute) {
-        if (!attr.containsKey(nomAttr)) throw new RuntimeException(nomAttr+" is not a valid attribute for "+type+".");
-        if (attr.get(nomAttr).getType() != newAttribute.getType()) throw new RuntimeException("Wrong type for "+type+"."+nomAttr+"."); //TODO Podria haver casts implícits
+        if (!attr.containsKey(nomAttr)) {
+            throw new RuntimeException(nomAttr+" is not a valid attribute for "+type);
+        }
+        if (attr.get(nomAttr).getType() != newAttribute.getType()) {
+            throw new RuntimeException("Wrong type for "+type+"."+nomAttr+": expected "+attr.get(nomAttr).getType()+" but got "+newAttribute.getType()); //TODO Podria haver casts implícits
+        }
         attr.put(nomAttr,newAttribute);
     }
 
@@ -110,12 +114,39 @@ public class SVGObject {
     //TODO traducciones a SVG real
     public String getSVGHeader() {
         String header = "<"+getObjDescriptor();
-        for (Map.Entry<String,Data> attribute : attr.entrySet()) {
+        for (Map.Entry<String,String> attribute : getSVGAttributes().entrySet()) {
             header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
         }
         header += ">";
         return header;
     }
+
+    protected HashMap<String,String> getSVGAttributes() {
+        HashMap<String,String> map = new HashMap<>();
+        map.put("stroke",attrToSVGColor("colorLine"));
+        map.put("fill",attrToSVGColor("colorFill"));
+        map.put("stroke-width",""+attr.get("lineWidth"));
+        map.put("opacity",""+attr.get("opacity"));
+        return map;
+    }
+
+    protected String attrToSVGColor(String attribute) {
+        String[] st = attr.get(attribute).getStringValue().split(":");
+        if (st.length != 3) throw new RuntimeException("Wrong number of parameters for RGB color.");
+        int r,g,b;
+        try {
+            r = Integer.parseInt(st[0]);
+            g = Integer.parseInt(st[1]);
+            b = Integer.parseInt(st[2]);
+        }
+        catch (Exception e) {
+            throw new RuntimeException("Color parametres must be integers between 0 and 256.");
+        }
+
+
+        return "rgb("+r+","+g+","+b+")";
+    }
+
 
     public String getSubObjects() {
         String svgcode = "";
@@ -132,4 +163,7 @@ public class SVGObject {
         return "</"+getObjDescriptor()+">";
     }
 
+    public String toString() {
+        return type + ": " + attr;
+    }
 }

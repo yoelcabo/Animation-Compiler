@@ -538,7 +538,9 @@ public class Interp {
         sc.getMovingObjectValue().setWidth(x.getIntegerValue());
         sc.getMovingObjectValue().setHeight(y.getIntegerValue());
         String svgCode = sc.getMovingObjectValue().getSVGCode();
-        System.out.print(svgCode);
+        print(svgCode);
+        svg.print(svgCode);
+        svg.close();
         System.exit(0);
     }
 
@@ -549,7 +551,7 @@ public class Interp {
         //(CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH)
         switch (typeObj.getType()) {
             case AnimLangLexer.CIRCLE:
-                newObject = new SVGObject(SVGObject.Type.CIRCLE, llAttr);
+                newObject = new SVGCircle(llAttr);
                 break;
             case AnimLangLexer.POLYGON:
                 newObject = new SVGObject(SVGObject.Type.POLYGON, llAttr);
@@ -566,7 +568,6 @@ public class Interp {
             default:
                 break;
         }
-        newObject.comprovacioAtributs(); // throws exception if wrong attribute
         return new Data(newObject);
     }
 
