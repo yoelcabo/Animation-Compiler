@@ -12,18 +12,32 @@ public class SVGObject {
 
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
-    private Type type;
-    private HashMap<String, Data> attr = new HashMap<String, Data>(){{
+    protected Type type;
+    protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
         put("colorLine", new Data("0:0:0"));
         put("colorFilled", new Data("256:0:0"));
         put("lineWidth", new Data(5));
-        put("opacity", new Data(1.0));
+        put("opacity", new Data(1.0f));
         put("xPos", new Data(0));
         put("yPos", new Data(0));
     }};
     private ArrayList<SVGObject> content; //Només per OBJ_PACK
 
-    // CONSTRUCTORS // 
+    // CONSTRUCTORS //
+
+    public SVGObject() {
+        content = new ArrayList<>();
+    }
+
+    public SVGObject(HashMap<String, Data> attr) {
+        changeAllAttributes(attr);
+    }
+
+    protected void changeAllAttributes(HashMap<String, Data> attr) {
+        for (Map.Entry<String,Data> at : attr.entrySet()) {
+            changeAttribute(at.getKey(),at.getValue());
+        }
+    }
 
     public SVGObject(SVGObject svgObject) {
         type = svgObject.type;
@@ -31,26 +45,24 @@ public class SVGObject {
         content = new ArrayList<>(content);
     }
     public SVGObject(interp.SVG.SVGObject.Type type, HashMap<String, Data> attr) {
+        this(attr);
         this.type = type;
-        this.attr = attr;
         content = new ArrayList<>();
     }
 
     public SVGObject(interp.SVG.SVGObject.Type type) {
         this.type = type;
-        this.attr = new HashMap<>();
         content = new ArrayList<>();
     }
 
     public SVGObject(ArrayList<SVGObject> content) {
         this.type = Type.OBJ_PACK;
-        this.attr = new HashMap<>();
         this.content = content;
     }
 
     public SVGObject(HashMap<String, Data> attr, ArrayList<SVGObject> content) {
+        this(attr);
         this.type = Type.OBJ_PACK;
-        this.attr = attr;
         this.content = content;
     }
 
@@ -81,6 +93,21 @@ public class SVGObject {
         this.content = content;
     }
 
+
+
+    public void changeAttribute (String nomAttr, Data newAttribute) {
+        if (!attr.containsKey(nomAttr)) throw new RuntimeException(nomAttr+" is not a valid attribute for "+type+".");
+        if (attr.get(nomAttr).getType() != newAttribute.getType()) throw new RuntimeException("Wrong type for "+type+"."+nomAttr+"."); //TODO Podria haver casts implícits
+        attr.put(nomAttr,newAttribute);
+    }
+
+    //Mètode ganxo
+    public String getObjDescriptor() {
+        return "default";
+    }
+
+
+    //TODO traducciones a SVG real
     public String getSVGHeader() {
         String header = "<"+getObjDescriptor();
         for (Map.Entry<String,Data> attribute : attr.entrySet()) {
@@ -92,26 +119,13 @@ public class SVGObject {
 
     public String getSubObjects() {
         String svgcode = "";
-        for (SVGObject subobject:content) {
-            svgcode += subobject.getSVGHeader();
-            svgcode += subobject.getSVGEnd()  + "\n";
+        if (type == Type.OBJ_PACK) {
+            for (SVGObject subobject : content) {
+                svgcode += subobject.getSVGHeader();
+                svgcode += subobject.getSVGEnd() + "\n";
+            }
         }
         return svgcode;
-    }
-
-    // TODO
-    public void changeAttribute (String nomAttr, Data attr) {
-
-    }
-
-    //TODO
-    private String getObjDescriptor() {
-        return "todo";
-    }
-
-    //TODO
-    public boolean comprovacioAtributs() throws RuntimeException {
-       return  false;
     }
 
     public String getSVGEnd() {
