@@ -381,6 +381,7 @@ public class Data {
                         movPar.movesValue.parallelize(d.movesValue);
                         return movPar;
                     } else assert false;
+                    // cast implicit de int a moviment
                     break;
                 case AnimLangLexer.SEQ:
                     if (d.type == Type.MOVES) {
@@ -388,6 +389,7 @@ public class Data {
                         movSeq.movesValue.serialize(d.movesValue);
                         return movSeq;
                     } else assert false;
+                    // cast implicit de int a moviment
                     break;
             }
 

@@ -262,7 +262,16 @@ public class Interp {
             case AnimLangLexer.ASSIGN:
                 value = evaluateExpression(t.getChild(1));
                 // La variable no sempre s'ha de definir. De vegades pot ser la modificacio d'un camp
-                Stack.defineVariable (t.getChild(0).getText(), value);
+                if (t.getChild(0).getText().equals(".")) {
+                    AnimLangTree tAux = t.getChild(0);
+                    Data dataAux = Stack.getVariable(tAux.getChild(0).getText());
+                    if (! dataAux.isObject()) {
+                        throw new RuntimeException ("Required object, found " + dataAux.getType());
+                    }
+                    dataAux.getObjectValue().changeAttribute(tAux.getChild(1).getText(), value);
+                } else {
+                    Stack.defineVariable(t.getChild(0).getText(), value);
+                }
                 return null;
 
             // If-then-else

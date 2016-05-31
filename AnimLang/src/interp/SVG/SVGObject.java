@@ -13,8 +13,8 @@ public class SVGObject {
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     private Type type;
-    HashMap<String, Data> attr;
-    ArrayList<SVGObject> content; //Només per OBJ_PACK
+    private HashMap<String, Data> attr;
+    private ArrayList<SVGObject> content; //Només per OBJ_PACK
 
     // CONSTRUCTORS // 
 
@@ -90,6 +90,10 @@ public class SVGObject {
             svgcode += subobject.getSVGEnd()  + "\n";
         }
         return svgcode;
+    }
+
+    public void changeAttribute (String nomAttr, Data attr) {
+        
     }
 
     //TODO
