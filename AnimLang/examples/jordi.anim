@@ -12,5 +12,5 @@ def main ()
     rotacio1 = Rotate [vel=3];
     objEnMov = rotacio1->cercle1;
     cercle2 = funcio1(cercle1, 3, 1);
-    run objEnMov, 200, 200
+    run 200, 200, objEnMov;
 endfunc

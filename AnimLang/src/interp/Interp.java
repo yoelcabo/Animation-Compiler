@@ -235,6 +235,10 @@ public class Interp {
         System.out.println("Instr: " + t.getText());
         System.out.println("");
     }
+
+    private void print(String s) {
+        System.out.println(s);
+    }
     
     /**
      * Executes an instruction. 
@@ -283,10 +287,11 @@ public class Interp {
             // For
             case AnimLangLexer.FOR:
                 // forExpr[0] -> iniValue; forExpr[1] -> endValue; forExpr[2] -> increment; 
-                int[] forExpr = evaluateForExpr(t.getChild(0));
+                int[] forExpr = evaluateForExpr(t.getChild(0));  // [x,y,y]
                 // agafa la variable que itera el for
                 Data itVar = Stack.getVariable(t.getChild(0).getChild(0).getText());
                 int i = 0;
+                print("init -> " + itVar.getIntegerValue() + "; end -> " + forExpr[1]);
                 while (itVar.getIntegerValue() < forExpr[1]) {
                     Data r = executeListInstructions(t.getChild(1));
                     if (r != null) return r;
@@ -308,7 +313,8 @@ public class Interp {
 
             // Run animation
             case AnimLangLexer.RUN:
-                return null;
+                evaluateRun(t.getChild(0), t.getChild(1), t.getChild(2));
+                break;
 
             default: assert false; // Should never happen
         }
@@ -371,9 +377,7 @@ public class Interp {
             case AnimLangLexer.OBJ_PACK:
                 value = construeixPack(t);
                 break;
-            case AnimLangLexer.RUN:
-                evaluateRun(t.getChild(0), t.getChild(1), t.getChild(2));
-                break;
+
             default: break;
         }
 
@@ -523,7 +527,7 @@ public class Interp {
             throw new RuntimeException ("Need moving object, found " + sc.getType());
         }
         sc.getMovingObjectValue().setWidth(x.getIntegerValue());
-        sc.getMovingObjectValue().setWidth(y.getIntegerValue());
+        sc.getMovingObjectValue().setHeight(y.getIntegerValue());
         String svgCode = sc.getMovingObjectValue().getSVGCode();
         System.out.print(svgCode);
         System.exit(0);
@@ -684,22 +688,22 @@ public class Interp {
     private int[] evaluateForExpr (AnimLangTree t) {
         int[] valRet = new int[3];
         // evalua en rang d'iteracio del for
-        switch (t.getChild(1).getChildCount()) {
+        switch (t.getChildCount() - 1) {
             case 1:
-                valRet[0] = 0; valRet[1] = t.getChild(1).getChild(0).getIntValue(); valRet[2] = 1;
+                valRet[0] = 0; valRet[1] = t.getChild(1).getIntValue(); valRet[2] = 1;
                 break;
             case 2:
-                valRet[0] = t.getChild(1).getChild(0).getIntValue(); 
-                valRet[1] = t.getChild(1).getChild(1).getIntValue(); 
+                valRet[0] = t.getChild(1).getIntValue(); 
+                valRet[1] = t.getChild(2).getIntValue(); 
                 valRet[2] = 1;
                 break;
             case 3:
-                valRet[0] = t.getChild(1).getChild(0).getIntValue(); 
-                valRet[1] = t.getChild(1).getChild(1).getIntValue();
-                valRet[2] = t.getChild(1).getChild(2).getIntValue();
+                valRet[0] = t.getChild(1).getIntValue(); 
+                valRet[1] = t.getChild(2).getIntValue();
+                valRet[2] = t.getChild(3).getIntValue();
                 break;
         }
-        Stack.defineVariable (t.getChild(0).getText(), new Data(valRet[1]));
+        Stack.defineVariable (t.getChild(0).getText(), new Data(valRet[0]));
         return valRet;
     }
 
