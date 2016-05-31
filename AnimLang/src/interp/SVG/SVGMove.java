@@ -103,6 +103,12 @@ public class SVGMove extends SVGSerializableParallelizable {
         return "movetodo";
     }
 
+
+    //TODO
+    public boolean comprovacioAtributs() throws RuntimeException {
+        return  false;
+    }
+
     @Override
     public SVGMove copy() {
         return new SVGMove(this);
