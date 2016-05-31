@@ -367,6 +367,22 @@ public class Data {
 
     // Simplement es per poder compilar el programa
     public Data evaluateOrchestration (int op, Data d) {
+        assert type != Type.VOID; // && type == d.type; (es poden fer operacions entre mov i obj)
+        if (type == Type.MOVE) {
+            case AnimLangLexer.ASSOC:
+                if (d.type == Type.OBJECT) {
+                    
+                } else assert false;
+                break;
+            case AnimLangLexer.PAR:
+                break;
+            case AnimLangLexer.SEQ:
+                break;
+
+        } else if (type == Type.MOVINGOBJECT) {
+
+        } else assert false;
+        
         return null;
     }
 }

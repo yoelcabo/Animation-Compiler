@@ -480,26 +480,27 @@ public class Interp {
     }
 
     // Comprova que els atributs de la definicio d'un objecte o moviment son correctes
-    private Data comprovaAndGetAttr (AnimLangTree attr) {
+    private HashMap<String, Data> getAttr (AnimLangTree attr) {
         // Els atributs poden representar-se en una classe
         // Aquesta classe tindria un HashMap amb els noms dels atributs com a clau i un array de longitud 2 com a valor
         // Aquest array contindria el tipus que ha de tenir aquell atribut concret i si pertany a MOV, OBJ o a tots dos
         // A mesura que es van comprovant els atributs, tambe es va construint l'OBJ o MOv en si
-        return null; // per poder compilar (provisional)
-    }
-
-    private Data generateObject (AnimLangTree typeObj, AnimLangTree attr) {
-        // afegir els atributs
         HashMap<String, Data> llAttr = new HashMap<>();
         for (int i = 0; i < attr.getChildCount(); ++i) {
             String key = attr.getChild(i).getChild(0).getText(); // clau
             Data value = evaluateExpression(attr.getChild(i).getChild(1)); // valor
-            if (llAttr.hasKey(key)) {
+            if (llAttr.containsKey(key)) {
                 throw new RuntimeException ("Duplicated key in attribute definition");
             } else {
                 llAttr.put(key, value);
             }
         }
+        return llAttr;
+    }
+
+    private Data generateObject (AnimLangTree typeObj, AnimLangTree attr) {
+        // afegir els atributs
+        HashMap<String, Data> llAttr = getAttr(attr);
         SVGObject newObject = null;
         //(CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH)
         switch (typeObj.getType()) {
@@ -526,6 +527,24 @@ public class Interp {
     }
 
     private Data generateMov (AnimLangTree typeMov, AnimLangTree attr) {
+        HashMap<String, Data> llAttr = getAttr(attr);
+        SVGMove newMove = null;
+        // (TRANSLATE | ROTATE | SCALE | FOLLOWPATH)
+        switch (typeMov.getType()) {
+            case AnimLangLexer.TRANSLATE:
+                newMove = new SVGMove(SVGMove.Type.TRANSLATE, llAttr);
+                break;
+            case AnimLangLexer.ROTATE:
+                newMove = new SVGMove(SVGMove.Type.ROTATE, llAttr);
+                break;
+            case AnimLangLexer.SCALE:
+                newMove = new SVGMove(SVGMove.Type.SCALE, llAttr);
+                break;
+            case AnimLangLexer.FOLLOWPATH:
+                newMove = new SVGMove(SVGMove.Type.FOLLOWPATH, llAttr);
+                break;
+        }
+        newMove.comprovacioAtributs(); // throws exception if wrong attribute
         return null; // provisional, perque compili
     }
 
