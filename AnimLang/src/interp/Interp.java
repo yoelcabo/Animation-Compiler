@@ -589,7 +589,7 @@ public class Interp {
                 newMove = new SVGMove(SVGMove.Type.FOLLOWPATH, llAttr);
                 break;
         }
-        newMove.comprovacioAtributs(); // throws exception if wrong attribute
+        // newMove.comprovacioAtributs(); // throws exception if wrong attribute
         return new Data(new SVGMoves(newMove)); // provisional, perque compili
     }
 
