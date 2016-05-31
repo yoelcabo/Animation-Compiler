@@ -12,6 +12,7 @@ public class SVGObject {
 
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
+    public static HashMap<String, Data> defaultCommonAttr;
     private Type type;
     private HashMap<String, Data> attr;
     private ArrayList<SVGObject> content; //Només per OBJ_PACK
@@ -93,7 +94,7 @@ public class SVGObject {
     }
 
     public void changeAttribute (String nomAttr, Data attr) {
-        
+
     }
 
     //TODO

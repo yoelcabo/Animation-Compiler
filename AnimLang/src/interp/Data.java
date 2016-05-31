@@ -64,22 +64,22 @@ public class Data {
     // CONSTRUCTORS //
 
     /** Constructor for integers */
-    Data(int v) { type = Type.INTEGER; value = v; }
+    public Data(int v) { type = Type.INTEGER; value = v; }
 
     /** Constructor for Booleans */
-    Data(boolean b) { type = Type.BOOLEAN; value = b ? 1 : 0; }
+    public Data(boolean b) { type = Type.BOOLEAN; value = b ? 1 : 0; }
 
     /** Constructor for Floats */
-    Data(float v) { type = Type.FLOAT; fvalue = v; }
+    public Data(float v) { type = Type.FLOAT; fvalue = v; }
 
     /** Constructor for Strings */
-    Data(String s) { type = Type.STRING; strvalue = s; }
+    public Data(String s) { type = Type.STRING; strvalue = s; }
 
     /** Constructor for void data */
-    Data() {type = Type.VOID; }
+    public Data() {type = Type.VOID; }
 
     /** Copy constructor */
-    Data (Data d) { 
+    public Data (Data d) { 
         type = d.type; 
         switch (type) {
             case BOOLEAN:
@@ -108,7 +108,7 @@ public class Data {
     // Our constructors //
 
     // OBJECT or OBJ_PACK
-    Data(SVGObject objValue) {
+    public Data(SVGObject objValue) {
         if (objValue.getType() == SVGObject.Type.OBJ_PACK) {
             this.type = Type.OBJ_PACK;
         } else {
@@ -118,10 +118,10 @@ public class Data {
     }
 
     // MOVES
-    Data(SVGMoves movesValue) { this.type = Type.MOVES; this.movesValue = movesValue; }
+    public Data(SVGMoves movesValue) { this.type = Type.MOVES; this.movesValue = movesValue; }
 
     // MOVINGOBJECT
-    Data(SVGScene objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
+    public Data(SVGScene objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
 
 
     // CONSULTORES //
