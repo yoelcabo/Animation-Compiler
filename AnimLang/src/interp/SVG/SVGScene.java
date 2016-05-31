@@ -7,8 +7,8 @@ import java.util.ArrayList;
  */
 public class SVGScene extends SVGMovingCollection {
     private static final String FINAL = "</svg>";
-    private String width;
-    private String height;
+    private int width;
+    private int height;
 
     public SVGScene(ArrayList<SVGMovingObject> movingObjects) {
         super(new ArrayList<SVGSerializableParallelizable>(movingObjects));
@@ -37,19 +37,19 @@ public class SVGScene extends SVGMovingCollection {
                 "  xmlns:xlink=\"http://www.w3.org/1999/xlink\" >";
     }
 
-    public String getWidth() {
+    public int getWidth() {
         return width;
     }
 
-    public void setWidth(String width) {
+    public void setWidth(int width) {
         this.width = width;
     }
 
-    public String getHeight() {
+    public int getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(int height) {
         this.height = height;
     }
 }

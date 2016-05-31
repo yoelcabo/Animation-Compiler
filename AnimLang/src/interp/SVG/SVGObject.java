@@ -26,11 +26,13 @@ public class SVGObject {
     public SVGObject(interp.SVG.SVGObject.Type type, HashMap<String, Data> attr) {
         this.type = type;
         this.attr = attr;
+        content = new ArrayList<>();
     }
 
     public SVGObject(interp.SVG.SVGObject.Type type) {
         this.type = type;
         this.attr = new HashMap<>();
+        content = new ArrayList<>();
     }
 
     public SVGObject(ArrayList<SVGObject> content) {
