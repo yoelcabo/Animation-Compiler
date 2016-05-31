@@ -12,9 +12,15 @@ public class SVGObject {
 
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
-    public static HashMap<String, Data> defaultCommonAttr;
     private Type type;
-    private HashMap<String, Data> attr;
+    private HashMap<String, Data> attr = new HashMap<String, Data>(){{
+        put("colorLine", new Data("0:0:0"));
+        put("colorFilled", new Data("256:0:0"));
+        put("lineWidth", new Data(5));
+        put("opacity", new Data(1.0));
+        put("xPos", new Data(0));
+        put("yPos", new Data(0));
+    }};
     private ArrayList<SVGObject> content; //Només per OBJ_PACK
 
     // CONSTRUCTORS // 
@@ -93,6 +99,7 @@ public class SVGObject {
         return svgcode;
     }
 
+    // TODO
     public void changeAttribute (String nomAttr, Data attr) {
 
     }
