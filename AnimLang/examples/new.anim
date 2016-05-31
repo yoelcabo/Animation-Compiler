@@ -1,3 +1,16 @@
+def main() 
+for i in [20] do
+  if 1 then
+    circle = Circle [ cx=3 ];
+  elif 1 then
+    circle = Circle [ cx=3 ];
+  elif 1 then
+    circle = Circle [ cx=3 ];
+  else
+    circle = Circle [ cx=3 ];
+  endif
+endfor
+endfunc
 def funcio1 (cercle1, x, y)
     k = 1;
     for i in [10] do
@@ -12,5 +25,4 @@ def main ()
     rotacio1 = Rotate [vel=3];
     objEnMov = rotacio1->cercle1;
     cercle2 = funcio1(cercle1, 3, 1);
-    run objEnMov, 200, 200
 endfunc
