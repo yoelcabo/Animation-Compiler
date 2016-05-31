@@ -363,6 +363,9 @@ public class Interp {
             case AnimLangLexer.OBJ_PACK:
                 value = construeixPack(t);
                 break;
+            case AnimLangLexer.RUN:
+                evaluateRun(t.getChild(0), t.getChild(1), t.getChild(2));
+                break;
             default: break;
         }
 
@@ -496,6 +499,26 @@ public class Interp {
             }
         }
         return llAttr;
+    }
+
+    private void evaluateRun (AnimLangTree coordX, AnimLangTree coordY, AnimLangTree scene) {
+        Data x = evaluateExpression(coordX);
+        if (! x.isInteger()) {
+            throw new RuntimeException ("Need integer, found " + x.getType());
+        }
+        Data y = evaluateExpression(coordY);
+        if (! y.isInteger()) {
+            throw new RuntimeException ("Need integer, found " + y.getType());
+        }
+        Data sc = evaluateExpression(scene);
+        if (! sc.isMovingObject()) {
+            throw new RuntimeException ("Need moving object, found " + sc.getType());
+        }
+        sc.getMovingObjectValue().setWidth(x.getIntegerValue());
+        sc.getMovingObjectValue().setWidth(y.getIntegerValue());
+        String svgCode = sc.getMovingObjectValue().getSVGCode();
+        System.out.print(svgCode);
+        System.exit(0);
     }
 
     private Data generateObject (AnimLangTree typeObj, AnimLangTree attr) {
