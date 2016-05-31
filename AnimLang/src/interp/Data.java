@@ -42,7 +42,7 @@ import interp.SVG.*;
 
 public class Data {
     /** Types of data */
-    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, OBJ_PACK, MOVE, MOVINGOBJECT};
+    public enum Type {VOID, BOOLEAN, INTEGER, FLOAT, STRING, OBJECT, OBJ_PACK, MOVES, MOVINGOBJECT};
 
     /** Type of data*/
     private Type type;
@@ -96,7 +96,7 @@ public class Data {
             case OBJ_PACK:
                 objValue = d.objValue;
                 break;
-            case MOVE:
+            case MOVES:
                 moveValue = d.moveValue;
                 break;
             case MOVINGOBJECT:
@@ -117,8 +117,8 @@ public class Data {
         this.objValue = objValue;
     }
 
-    // MOVE
-    Data(SVGMove moveValue) { this.type = Type.MOVE; this.moveValue = moveValue; }
+    // MOVES
+    Data(SVGMove moveValue) { this.type = Type.MOVES; this.moveValue = moveValue; }
 
     // MOVINGOBJECT
     Data(SVGMovingObject objMoveValue) { this.type = Type.MOVINGOBJECT; this.objMoveValue = objMoveValue; }
@@ -148,7 +148,7 @@ public class Data {
 
     public boolean isObjectPack() { return type == Type.OBJ_PACK; }
 
-    public boolean isMove() { return type == Type.MOVE; }
+    public boolean isMove() { return type == Type.MOVES; }
 
     public boolean isMovingObject() { return type == Type.MOVINGOBJECT; }
 
@@ -202,7 +202,7 @@ public class Data {
     }
 
     public SVGMove getMoveValue() {
-        assert type == Type.MOVE;
+        assert type == Type.MOVES;
         return moveValue;
     }
 
@@ -236,8 +236,8 @@ public class Data {
         this.objValue = v;
     }
 
-    // Move
-    public void setValue(SVGMove v) { this.type = Type.MOVE; this.moveValue = v; }
+    // MOVES
+    public void setValue(SVGMove v) { this.type = Type.MOVES; this.moveValue = v; }
 
     // Moving object
     public void setValue(SVGMovingObject v) { this.type = Type.MOVINGOBJECT; this.objMoveValue = v; }
@@ -250,7 +250,7 @@ public class Data {
     // TOSTRING // 
     
     /** Returns a string representing the data in textual form. */
-    // S'ha d'afegir, si fa falta, els metodes per fet toString de Move, Obj, etc.
+    // S'ha d'afegir, si fa falta, els metodes per fet toString de MOVES, Obj, etc.
     public String toString() {
         if (type == Type.BOOLEAN) return value == 1 ? "true" : "false";
         if (type == Type.INTEGER) return Integer.toString(value);
@@ -368,16 +368,18 @@ public class Data {
     // Simplement es per poder compilar el programa
     public Data evaluateOrchestration (int op, Data d) {
         assert type != Type.VOID; // && type == d.type; (es poden fer operacions entre mov i obj)
-        if (type == Type.MOVE) {
-            case AnimLangLexer.ASSOC:
-                if (d.type == Type.OBJECT) {
-                    
-                } else assert false;
-                break;
-            case AnimLangLexer.PAR:
-                break;
-            case AnimLangLexer.SEQ:
-                break;
+        if (type == Type.MOVES) {
+            switch (op) {
+                case AnimLangLexer.ASSOC:
+                    if (d.type == Type.OBJECT) {
+                        
+                    } else assert false;
+                    break;
+                case AnimLangLexer.PAR:
+                    break;
+                case AnimLangLexer.SEQ:
+                    break;
+            }
 
         } else if (type == Type.MOVINGOBJECT) {
 
