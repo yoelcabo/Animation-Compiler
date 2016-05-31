@@ -489,28 +489,39 @@ public class Interp {
     }
 
     private Data generateObject (AnimLangTree typeObj, AnimLangTree attr) {
+        // afegir els atributs
+        HashMap<String, Data> llAttr = new HashMap<>();
+        for (int i = 0; i < attr.getChildCount(); ++i) {
+            String key = attr.getChild(i).getChild(0).getText(); // clau
+            Data value = evaluateExpression(attr.getChild(i).getChild(1)); // valor
+            if (llAttr.hasKey(key)) {
+                throw new RuntimeException ("Duplicated key in attribute definition");
+            } else {
+                llAttr.put(key, value);
+            }
+        }
         SVGObject newObject = null;
         //(CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH)
         switch (typeObj.getType()) {
             case AnimLangLexer.CIRCLE:
-                newObject = new SVGObject(SVGObject.Type.CIRCLE);
+                newObject = new SVGObject(SVGObject.Type.CIRCLE, llAttr);
                 break;
             case AnimLangLexer.POLYGON:
-                newObject = new SVGObject(SVGObject.Type.POLYGON);
+                newObject = new SVGObject(SVGObject.Type.POLYGON, llAttr);
                 break;
             case AnimLangLexer.POLYLINE:
-                newObject = new SVGObject(SVGObject.Type.POLYLINE);
+                newObject = new SVGObject(SVGObject.Type.POLYLINE, llAttr);
                 break;
             case AnimLangLexer.TRIANGLE:
-                newObject = new SVGObject(SVGObject.Type.TRIANGLE);
+                newObject = new SVGObject(SVGObject.Type.TRIANGLE, llAttr);
                 break;
             case AnimLangLexer.PATH:
-                newObject = new SVGObject(SVGObject.Type.PATH);
+                newObject = new SVGObject(SVGObject.Type.PATH, llAttr);
                 break;
             default:
                 break;
         }
-        // afegir els atributs
+        newObject.comprovacioAtributs(); // throws exception if wrong attribute
         return new Data(newObject);
     }
 
