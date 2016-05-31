@@ -17,7 +17,7 @@ public class SVGObject {
         put("colorLine", new Data("0:0:0"));
         put("colorFilled", new Data("256:0:0"));
         put("lineWidth", new Data(5));
-        put("opacity", new Data(1.0));
+        put("opacity", new Data(1.0f));
         put("xPos", new Data(0));
         put("yPos", new Data(0));
     }};

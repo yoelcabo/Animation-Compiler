@@ -380,16 +380,28 @@ public class Data {
                         Data movPar = new Data(this);
                         movPar.movesValue.parallelize(d.movesValue);
                         return movPar;
+                    } else if (d.type == Type.INTEGER) {
+                        Data movPar = new Data(this);
+                        movPar.movesValue.parallelize(new SVGMoves(new SVGMove(Float.valueOf(d.getIntegerValue()))));
+                    } else if (d.type == Type.FLOAT) {
+                        Data movPar = new Data(this);
+                        movPar.movesValue.parallelize(new SVGMoves(new SVGMove(d.getFloatValue())));
                     } else assert false;
-                    // cast implicit de int a moviment
+                    // cast implicit de int o float a moviment
                     break;
                 case AnimLangLexer.SEQ:
                     if (d.type == Type.MOVES) {
                         Data movSeq = new Data(this);
                         movSeq.movesValue.serialize(d.movesValue);
                         return movSeq;
+                    } else if (d.type == Type.INTEGER) {
+                        Data movSeq = new Data(this);
+                        movSeq.movesValue.serialize(new SVGMoves(new SVGMove(Float.valueOf(d.getIntegerValue()))));
+                    } else if (d.type == Type.FLOAT) {
+                        Data movSeq = new Data(this);
+                        movSeq.movesValue.serialize(new SVGMoves(new SVGMove(d.getFloatValue())));
                     } else assert false;
-                    // cast implicit de int a moviment
+                    // cast implicit de int o float a moviment
                     break;
             }
 
