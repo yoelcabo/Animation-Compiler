@@ -8,16 +8,6 @@ import java.util.stream.Stream;
  */
 public class SVGMoves extends SVGMovingCollection {
 
-    public SVGMoves(ArrayList<SVGMove> moves) {
-        super(new ArrayList<SVGSerializableParallelizable>(moves));
-        /*
-        super(new ArrayList<>());
-        ArrayList<SVGSerializableParallelizable> auxMoves = new ArrayList<>();
-        for (SVGMove m : moves) {
-            auxMoves.add(m);
-        }
-        setMoves(auxMoves);*/
-    }
 
     public SVGMoves(SVGMoves svgMoves) {
         super(svgMoves);
@@ -25,6 +15,15 @@ public class SVGMoves extends SVGMovingCollection {
 
     public SVGMoves(SVGMove svgMove) {
         super(svgMove);
+    }
+
+    public SVGMoves(ArrayList<SVGSerializableParallelizable> moves) {
+        super(new ArrayList<>());
+        ArrayList<SVGSerializableParallelizable> auxMoves = new ArrayList<>();
+        for (SVGSerializableParallelizable m : moves) {
+            auxMoves.add(m.copy());
+        }
+        setMoves(auxMoves);
     }
 
     public String getSVGCode(float wait) {
@@ -54,4 +53,11 @@ public class SVGMoves extends SVGMovingCollection {
         svgCode += "\n";
         return svgCode;
     }
+
+    @Override
+    public SVGMoves copy() {
+        SVGMoves ret = new SVGMoves(moves);
+        return ret;
+    }
+
 }

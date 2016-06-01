@@ -39,4 +39,6 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
     public SVGMovingObject copy () {
         return new SVGMovingObject(this);
     }
+
+
 }

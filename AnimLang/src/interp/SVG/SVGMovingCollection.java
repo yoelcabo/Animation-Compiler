@@ -14,7 +14,7 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
 
     public SVGMovingCollection(ArrayList<SVGSerializableParallelizable> moves) {
         super(0, 0);
-        this.moves = moves;
+        this.moves = new ArrayList<>(moves);
         for (SVGSerializableParallelizable move : moves) {
             // s'ha de fer el cast per poder utilitzar el metode getEnd()
             if (move.getEnd() > end) end = move.getEnd();
@@ -95,6 +95,6 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
 
     @Override
     public SVGMovingCollection copy() {
-        return new SVGMovingCollection(this);
+        return new SVGMovingCollection(new ArrayList<>(moves));
     }
 }

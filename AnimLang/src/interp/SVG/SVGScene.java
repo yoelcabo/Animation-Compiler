@@ -28,6 +28,15 @@ public class SVGScene extends SVGMovingCollection {
         height = newScene.height;
     }
 
+    public SVGScene(int width, int height, ArrayList<SVGSerializableParallelizable> svgSerializableParallelizables) {
+        super(new ArrayList<>());
+        for (SVGSerializableParallelizable ssp : svgSerializableParallelizables) {
+            moves.add(ssp.copy());
+        }
+        this.width = width;
+        this.height = height;
+    }
+
     public String getSVGCode() {
         String svg = "";
         svg += getCabecera() + "\n";
@@ -61,5 +70,10 @@ public class SVGScene extends SVGMovingCollection {
 
     public void setHeight(int height) {
         this.height = height;
+    }
+
+    public SVGScene copy() {
+        SVGScene ret = new SVGScene(width,height,moves);
+        return ret;
     }
 }
