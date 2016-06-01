@@ -237,7 +237,7 @@ public class Interp {
     }
 
     private void print(String s) {
-        System.out.println(s);
+        System.err.println(s);
     }
     
     /**
@@ -565,7 +565,7 @@ public class Interp {
                 newObject = new SVGObject(SVGObject.Type.POLYLINE, llAttr);
                 break;
             case AnimLangLexer.TRIANGLE:
-                newObject = new SVGObject(SVGObject.Type.TRIANGLE, llAttr);
+                newObject = new SVGTriangle(llAttr);
                 break;
             case AnimLangLexer.PATH:
                 newObject = new SVGObject(SVGObject.Type.PATH, llAttr);
@@ -585,10 +585,10 @@ public class Interp {
                 newMove = new SVGMove(SVGMove.Type.TRANSLATE, llAttr);
                 break;
             case AnimLangLexer.ROTATE:
-                newMove = new SVGMove(SVGMove.Type.ROTATE, llAttr);
+                newMove = new SVGRotate(llAttr);
                 break;
             case AnimLangLexer.SCALE:
-                newMove = new SVGMove(SVGMove.Type.SCALE, llAttr);
+                newMove = new SVGScale(llAttr);
                 break;
             case AnimLangLexer.FOLLOWPATH:
                 newMove = new SVGMove(SVGMove.Type.FOLLOWPATH, llAttr);

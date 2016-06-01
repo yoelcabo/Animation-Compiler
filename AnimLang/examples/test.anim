@@ -1,7 +1,4 @@
  
 def main ()
     cercle1 = Circle [centerX=50, centerY=50, colorFill="0:255:0", colorLine ="0:0:255", radius=50.0];
-    rotacio1 = 67;
-    objEnMov = rotacio1->cercle1;
-    run 200,200,objEnMov;
 endfunc

@@ -10,14 +10,12 @@ import java.util.HashMap;
 public class SVGRotate extends SVGMove {
     private static final String ANGULARVELOCITY = "w";
 
+
     public SVGRotate(HashMap<String, Data> attributes) {
         super();
         type = Type.ROTATE;
-        attr.put("centerX",new Data((0)));
-        attr.put("centerY",new Data((0)));
-        System.out.println(attr);
-
-        changeAllAttributes(attributes);
+        attr.put(ANGULARVELOCITY, new Data(1f));
+        super.changeAllAttributes(attributes);
     }
 
     @Override
@@ -26,23 +24,24 @@ public class SVGRotate extends SVGMove {
     }
 
     @Override
-    public HashMap<String,String> getSVGAttributes() {
-        HashMap<String,String> map = super.getSVGAttributes();
-        map.put("r",""+attr.get("radius").getFloatValue());
-        map.put("cx",""+attr.get("centerX").getIntegerValue());
-        map.put("cy",""+attr.get("centerY").getIntegerValue());
+    public HashMap<String,String> getSVGAttributes(float wait) {
+        HashMap<String,String> map = super.getSVGAttributes(wait);
+        map.put("type","rotate");
+        map.put("attributeName","transform");
+        map.put("from",""+0);
+        map.put("to",""+attr.get(ANGULARVELOCITY).getFloatValue()*getDur());
         return map;
     }
 
     @Override
     public void changeAttribute (String nomAttr, Data newAttribute) {
-        if (nomAttr.equals(ANGULARVELOCITY)) {
+       /* if (nomAttr.equals(ANGULARVELOCITY)) {
             init = 0;
-            Data duration = newAttribute;
-            if (duration.getType() != Data.Type.FLOAT && duration.getType() != Data.Type.INTEGER) throw new RuntimeException("Angular Velocity("+ANGULARVELOCITY+" must be a number.");
-            end = duration.getFloatValue();
+            Data w = newAttribute;
+            if (w.getType() != Data.Type.FLOAT && w.getType() != Data.Type.INTEGER) throw new RuntimeException("Angular Velocity("+ANGULARVELOCITY+" must be a number.");
+            end = w.getFloatValue();
             return;
-        }
+        }*/
         super.changeAttribute(nomAttr,newAttribute);
 
     }

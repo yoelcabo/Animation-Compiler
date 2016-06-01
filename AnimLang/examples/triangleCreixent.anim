@@ -1,0 +1,7 @@
+ 
+def main ()
+    triangle = Triangle [centerX=50, centerY=50, colorFill="0:255:0", colorLine ="0:0:255", radius=50.0];
+    escalat1 = Scale [factor=20, dur=10];
+    objEnMov = escalat1->triangle;
+    run 2000,2000,objEnMov;
+endfunc

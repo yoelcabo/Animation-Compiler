@@ -31,6 +31,8 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
         this.moves = new ArrayList<SVGSerializableParallelizable>(movColl.moves);
     }
 
+
+
     public void serialize(SVGMovingCollection mc) {
       for (SVGSerializableParallelizable move : mc.getMoves()) {
             SVGSerializableParallelizable newMove = move.copy();

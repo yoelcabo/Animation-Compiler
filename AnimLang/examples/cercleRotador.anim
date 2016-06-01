@@ -1,0 +1,6 @@
+ 
+def main ()
+    triangle = Triangle [centerX=50, centerY=50, colorFill="0:255:0", colorLine ="0:0:255", radius=50.0];
+    rotacio1 = Rotate [w=3, dur=10];
+    objEnMov = rotacio1->triangle;
+endfunc

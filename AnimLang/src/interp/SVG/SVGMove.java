@@ -111,12 +111,6 @@ public class SVGMove extends SVGSerializableParallelizable {
         return "defaultMove";
     }
 
-
-    //TODO
-    public boolean comprovacioAtributs() throws RuntimeException {
-        return  false;
-    }
-
     @Override
     public SVGMove copy() {
         return new SVGMove(this);
@@ -127,6 +121,7 @@ public class SVGMove extends SVGSerializableParallelizable {
         HashMap<String,String> map = new HashMap<>();
         map.put("begin",""+(getInit() + wait));
         map.put("dur",""+getDur());
+        map.put("fill","freeze");
         return map;
     }
 
@@ -156,14 +151,5 @@ public class SVGMove extends SVGSerializableParallelizable {
         }
         attr.put(nomAttr,newAttribute);
     }
-
-
-    protected HashMap<String,String> getSVGAttributes() {
-        HashMap<String,String> map = new HashMap<>();
-        map.put("begin",init+"s");
-        map.put("dur",""+getDur()+"s");
-        return map;
-    }
-
 
 }

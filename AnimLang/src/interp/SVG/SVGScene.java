@@ -18,6 +18,10 @@ public class SVGScene extends SVGMovingCollection {
         super(move);
     }
 
+    public SVGScene(SVGObject c, SVGMove r) {
+        super(new SVGMovingObject(c,r));
+    }
+
     public String getSVGCode() {
         String svg = "";
         svg += getCabecera() + "\n";

@@ -51,10 +51,13 @@ INTERP_SRC =	$(INTERP)/Interp.java \
 
 SVG_SRC = 		$(SVG)/SVGMove.java \
 				$(SVG)/SVGMoves.java \
+				$(SVG)/SVGScale.java \
+				$(SVG)/SVGRotate.java \
 				$(SVG)/SVGMovingCollection.java \
 				$(SVG)/SVGMovingObject.java \
 				$(SVG)/SVGObject.java \
 				$(SVG)/SVGCircle.java \
+				$(SVG)/SVGTriangle.java \
 				$(SVG)/SVGScene.java \
 				$(SVG)/SVGSerializableParallelizable.java
 

@@ -19,6 +19,10 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
         this.moves = new SVGMoves(movObj.moves);
     }
 
+    public SVGMovingObject(SVGObject c, SVGMove r) {
+        this(c,new SVGMoves(r));
+    }
+
 
     public String getSVGCode() {
         String svgcode = "";

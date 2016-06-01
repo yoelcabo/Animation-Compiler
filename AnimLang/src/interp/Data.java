@@ -170,14 +170,13 @@ public class Data {
      */
     public float getFloatValue() {
         switch (type) {
-            case Type.FLOAT:
+            case FLOAT:
                 return fvalue;
-                break;
-            case Type.INTEGER:
+            case INTEGER:
                 return Float.valueOf(value);
-                break;
             default: assert false;
         }
+        return -1;
     }
 
     /**

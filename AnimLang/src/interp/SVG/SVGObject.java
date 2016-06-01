@@ -10,14 +10,18 @@ import java.util.StringJoiner;
 public class SVGObject {
 
 
+    private static final String LINECOLOR = "colorLine";
+    private static final String FILLCOLOR = "colorFill";
+    private static final String LINEWIDTH = "lineWidth";
+    private static final String OPACITY = "opacity";
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     protected Type type;
     protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
-        put("colorLine", new Data("0:0:0"));
-        put("colorFill", new Data("256:0:0"));
-        put("lineWidth", new Data(5));
-        put("opacity", new Data(1.0f));
+        put(LINECOLOR, new Data("0:0:0"));
+        put(FILLCOLOR, new Data("256:0:0"));
+        put(LINEWIDTH, new Data(5));
+        put(OPACITY, new Data(1.0f));
         //put("xPos", new Data(0));
         //put("yPos", new Data(0));
     }};
@@ -148,10 +152,10 @@ public class SVGObject {
 
     protected HashMap<String,String> getSVGAttributes() {
         HashMap<String,String> map = new HashMap<>();
-        map.put("stroke",attrToSVGColor("colorLine"));
-        map.put("fill",attrToSVGColor("colorFill"));
-        map.put("stroke-width",""+attr.get("lineWidth"));
-        map.put("opacity",""+attr.get("opacity"));
+        map.put("stroke",attrToSVGColor(LINECOLOR));
+        map.put("fill",attrToSVGColor(FILLCOLOR));
+        map.put("stroke-width",""+attr.get(LINEWIDTH));
+        map.put("opacity",""+attr.get(OPACITY));
         return map;
     }
 
@@ -163,11 +167,12 @@ public class SVGObject {
             r = Integer.parseInt(st[0]);
             g = Integer.parseInt(st[1]);
             b = Integer.parseInt(st[2]);
-            if (r > 225 || g > 255 || b > 255 || r < 0 || g < 0 || b < 0) throw new Exception();
         }
         catch (Exception e) {
-            throw new RuntimeException("Color parameters must be integers between 0 and 255.");
+            throw new RuntimeException("Color parameters must be integers.");
         }
+        if (r > 225 || g > 255 || b > 255 || r < 0 || g < 0 || b < 0) new RuntimeException("Color parameters must be integers between 0 and 255.");
+
 
         return "rgb("+r+","+g+","+b+")";
     }
