@@ -4,10 +4,12 @@ import interp.Data;
 
 import java.util.HashMap;
 
+import java.io.*;
+
 /**
  * Created by yoel on 6/1/16.
  */
-public class SVGTriangle extends SVGObject{
+public class SVGTriangle extends SVGObject {
 
     private static final String RADIUS = "radius";
     private static final String CENTERX = "centerX";
@@ -61,7 +63,20 @@ public class SVGTriangle extends SVGObject{
     }
 
     @Override
-    public SVGObject copy() {
-        return new SVGCircle(new HashMap<>(attr));
+    public SVGObject copy() {//throws IOException {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(bos);
+            oos.writeObject(this);
+            oos.flush();
+            oos.close();
+            bos.close();
+            byte[] byteData = bos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(byteData);
+            return (SVGTriangle) new ObjectInputStream(bais).readObject();
+        } catch (Exception e) {
+            return null;
+        }
+        //return new SVGCircle(new HashMap<>(attr));
     }
 }
