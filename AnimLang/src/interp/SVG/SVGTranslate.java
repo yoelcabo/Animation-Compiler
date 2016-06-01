@@ -11,7 +11,7 @@ public class SVGTranslate extends SVGMove {
     private static final String SCALEFACTOR = "factor";
 
 
-    public SVGScale(HashMap<String, Data> attributes) {
+    public SVGTranslate(HashMap<String, Data> attributes) {
         super();
         type = SVGMove.Type.ROTATE;
         attr.put(SCALEFACTOR, new Data(1f));
@@ -26,7 +26,7 @@ public class SVGTranslate extends SVGMove {
     @Override
     public HashMap<String,String> getSVGAttributes(float wait) {
         HashMap<String,String> map = super.getSVGAttributes(wait);
-        map.put("type","scale");
+        map.put("type","translate");
         map.put("attributeName","transform");
         map.put("from",""+1);
         float sf = attr.get(SCALEFACTOR).getFloatValue();
