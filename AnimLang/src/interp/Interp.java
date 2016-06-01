@@ -320,6 +320,11 @@ public class Interp {
                 executeFunction(t.getChild(0).getText(), t.getChild(1));
                 return null;
 
+            case AnimLangLexer.PRINT:
+                Data printData = evaluateExpression(t.getChild(0));
+                System.out.println("" + printData);
+                break;
+
             // Run animation
             case AnimLangLexer.RUN:
                 evaluateRun(t.getChild(0), t.getChild(1), t.getChild(2));
