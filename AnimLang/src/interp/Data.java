@@ -169,8 +169,15 @@ public class Data {
      * the data is a float.
      */
     public float getFloatValue() {
-        assert type == Type.FLOAT;
-        return fvalue;
+        switch (type) {
+            case Type.FLOAT:
+                return fvalue;
+                break;
+            case Type.INTEGER:
+                return Float.valueOf(value);
+                break;
+            default: assert false;
+        }
     }
 
     /**
@@ -380,10 +387,7 @@ public class Data {
                         Data movPar = new Data(this);
                         movPar.movesValue.parallelize(d.movesValue);
                         return movPar;
-                    } else if (d.type == Type.INTEGER) {
-                        Data movPar = new Data(this);
-                        movPar.movesValue.parallelize(new SVGMoves(new SVGMove(Float.valueOf(d.getIntegerValue()))));
-                    } else if (d.type == Type.FLOAT) {
+                    } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
                         Data movPar = new Data(this);
                         movPar.movesValue.parallelize(new SVGMoves(new SVGMove(d.getFloatValue())));
                     } else assert false;
@@ -394,10 +398,7 @@ public class Data {
                         Data movSeq = new Data(this);
                         movSeq.movesValue.serialize(d.movesValue);
                         return movSeq;
-                    } else if (d.type == Type.INTEGER) {
-                        Data movSeq = new Data(this);
-                        movSeq.movesValue.serialize(new SVGMoves(new SVGMove(Float.valueOf(d.getIntegerValue()))));
-                    } else if (d.type == Type.FLOAT) {
+                    } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
                         Data movSeq = new Data(this);
                         movSeq.movesValue.serialize(new SVGMoves(new SVGMove(d.getFloatValue())));
                     } else assert false;
