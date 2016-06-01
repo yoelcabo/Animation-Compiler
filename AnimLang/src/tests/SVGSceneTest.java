@@ -42,6 +42,8 @@ public class SVGSceneTest {
         attributes.put("colorLine",new Data("0:100:0"));
         SVGTriangle c = new SVGTriangle(attributes);
         SVGScene scn = new SVGScene(c,r);
+        SVGScene scn2 = new SVGScene(c,r);
+        scn.serialize(scn2);
         System.out.print(scn.getSVGCode());
 
     }

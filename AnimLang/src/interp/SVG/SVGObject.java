@@ -34,14 +34,15 @@ public class SVGObject {
     }
 
     public SVGObject(HashMap<String, Data> attr) {
+        this();
         changeAllAttributes(attr);
     }
 
 
     public SVGObject(SVGObject svgObject) {
         type = svgObject.type;
-        attr = new HashMap<>(attr);
-        content = new ArrayList<>(content);
+        attr = new HashMap<>(svgObject.attr);
+        content = new ArrayList<>(svgObject.content);
     }
     public SVGObject(interp.SVG.SVGObject.Type type, HashMap<String, Data> attr) {
         this(attr);
@@ -50,8 +51,8 @@ public class SVGObject {
     }
 
     public SVGObject(interp.SVG.SVGObject.Type type) {
+        this();
         this.type = type;
-        content = new ArrayList<>();
     }
 
     public SVGObject(ArrayList<SVGObject> content) {
