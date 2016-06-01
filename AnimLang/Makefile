@@ -53,6 +53,7 @@ SVG_SRC = 		$(SVG)/SVGMove.java \
 				$(SVG)/SVGMoves.java \
 				$(SVG)/SVGScale.java \
 				$(SVG)/SVGRotate.java \
+				$(SVG)/SVGTranslate.java \
 				$(SVG)/SVGMovingCollection.java \
 				$(SVG)/SVGMovingObject.java \
 				$(SVG)/SVGObject.java \

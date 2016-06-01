@@ -7,7 +7,7 @@ import java.util.HashMap;
 /**
  * Created by yoel on 6/1/16.
  */
-public class SVGScale extends SVGMove{
+public class SVGTranslate extends SVGMove {
     private static final String SCALEFACTOR = "factor";
 
 
