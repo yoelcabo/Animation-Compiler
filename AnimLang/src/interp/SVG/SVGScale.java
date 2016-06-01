@@ -18,6 +18,10 @@ public class SVGScale extends SVGMove{
         super.changeAllAttributes(attributes);
     }
 
+    public SVGScale(SVGScale sc) {
+        super(sc);
+    }
+
     @Override
     public String getObjDescriptor() {
         return "animateTransform";
