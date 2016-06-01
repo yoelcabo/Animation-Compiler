@@ -94,13 +94,13 @@ public class Data {
                 break;
             case OBJECT:
             case OBJ_PACK:
-                objValue = new SVGObject(d.objValue);
+                objValue = d.objValue.copy();//new SVGObject(d.objValue);
                 break;
             case MOVES:
-                movesValue = new SVGMoves(d.movesValue);
+                movesValue = d.movesValue;//new SVGMoves(d.movesValue);
                 break;
             case MOVINGOBJECT:
-                objMoveValue = new SVGScene(d.objMoveValue);
+                objMoveValue = d.objMoveValue;//new SVGScene(d.objMoveValue);
                 break;
         }
     }
@@ -380,7 +380,7 @@ public class Data {
                     if (d.type == Type.OBJECT) {
                         // canvi a copia
                         return new Data(new SVGScene(
-                            new SVGMovingObject(new SVGObject(d.objValue), new SVGMoves(movesValue))));
+                            new SVGMovingObject(d.objValue, movesValue)));
                     } else assert false;
                     break;
                 case AnimLangLexer.PAR:
