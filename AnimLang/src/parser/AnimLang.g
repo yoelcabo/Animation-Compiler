@@ -88,7 +88,7 @@ attr: '[' listAttr? ']' -> ^(ATTR listAttr);
 
 listAttr: one_attr  (','! one_attr)* ;
 
-one_attr: ID ASSIGN^ (ID | STRING | INT | FLOAT);
+one_attr: ID ASSIGN^ expr;
 
 // per a un moviment, si no es defineixen les coordenades inicials, tot es fa relatiu a les
 // coordenades de l'objecte al qual se li aplica
