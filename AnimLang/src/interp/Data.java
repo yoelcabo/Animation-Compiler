@@ -378,7 +378,9 @@ public class Data {
             switch (op) {
                 case AnimLangLexer.ASSOC:
                     if (d.type == Type.OBJECT) {
-                        return new Data(new SVGScene(new SVGMovingObject(d.objValue, movesValue)));
+                        // canvi a copia
+                        return new Data(new SVGScene(
+                            new SVGMovingObject(new SVGObject(d.objValue), new SVGMoves(movesValue))));
                     } else assert false;
                     break;
                 case AnimLangLexer.PAR:
@@ -389,6 +391,7 @@ public class Data {
                     } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
                         Data movPar = new Data(this);
                         movPar.movesValue.parallelize(new SVGMoves(new SVGMove(d.getFloatValue())));
+                        return movPar;
                     } else assert false;
                     // cast implicit de int o float a moviment
                     break;
@@ -400,6 +403,7 @@ public class Data {
                     } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
                         Data movSeq = new Data(this);
                         movSeq.movesValue.serialize(new SVGMoves(new SVGMove(d.getFloatValue())));
+                        return movSeq;
                     } else assert false;
                     // cast implicit de int o float a moviment
                     break;

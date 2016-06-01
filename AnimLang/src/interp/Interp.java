@@ -232,7 +232,7 @@ public class Interp {
 
     private void printTrace(AnimLangTree t) {
         System.out.println("Line: " + linenumber);
-        System.out.println("Instr: " + t.getText());
+        System.out.println("Instr: " + t.getText() + "; Type: " + t.getType());
         System.out.println("");
     }
 
@@ -323,7 +323,7 @@ public class Interp {
             case AnimLangLexer.PRINT:
                 Data printData = evaluateExpression(t.getChild(0));
                 System.out.println("" + printData);
-                break;
+                return null;
 
             // Run animation
             case AnimLangLexer.RUN:

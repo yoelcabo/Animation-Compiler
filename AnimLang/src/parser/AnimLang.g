@@ -97,7 +97,7 @@ mov: typeMov attr -> ^(MOV typeMov attr);
 
 typeMov: (TRANSLATE | ROTATE | SCALE | FOLLOWPATH);
 
-print_stmt: PRINT^ expr;
+print_stmt: PRINT^ expr SEPARATOR!;
 
 
 // FUNCTIONS (basicament, copy paste de ASL)
