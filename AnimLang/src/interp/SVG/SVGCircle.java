@@ -15,6 +15,9 @@ public class SVGCircle extends SVGObject {
     private static final String CENTERX = "centerX";
     private static final String CENTERY = "centerY";
 
+    public SVGCircle(SVGCircle svgCircle) {
+        this(svgCircle.attr);
+    }
     public SVGCircle(HashMap<String, Data> attributes) {
         super();
         type = Type.CIRCLE;

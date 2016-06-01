@@ -14,6 +14,9 @@ public class SVGTriangle extends SVGObject{
     private static final String CENTERY = "centerY";
     private static final int costats = 3;
 
+    public SVGTriangle(SVGTriangle svgCircle) {
+        this(svgCircle.attr);
+    }
     public SVGTriangle(HashMap<String, Data> attributes) {
         super();
         type = Type.TRIANGLE;
