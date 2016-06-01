@@ -138,11 +138,11 @@ public class SVGObject {
             r = Integer.parseInt(st[0]);
             g = Integer.parseInt(st[1]);
             b = Integer.parseInt(st[2]);
+            if (r > 225 || g > 255 || b > 255 || r < 0 || g < 0 || b < 0) throw new Exception();
         }
         catch (Exception e) {
-            throw new RuntimeException("Color parametres must be integers between 0 and 256.");
+            throw new RuntimeException("Color parameters must be integers between 0 and 255.");
         }
-
 
         return "rgb("+r+","+g+","+b+")";
     }

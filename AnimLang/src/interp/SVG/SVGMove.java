@@ -12,7 +12,11 @@ public class SVGMove extends SVGSerializableParallelizable {
 
     public enum Type {WAIT, TRANSLATE, ROTATE, SCALE, FOLLOWPATH}; //etc
     public Type type;
-    HashMap<String,Data> attr;
+    protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
+
+        //put("xPos", new Data(0)); TODO poner atributos
+        //put("yPos", new Data(0));
+    }};
 
     // CONSTRUCTORS //
 
@@ -89,11 +93,9 @@ public class SVGMove extends SVGSerializableParallelizable {
 
     public String getSVGCode(float wait) {
         String svgcode = "<"+getObjDescriptor();
-        for (Map.Entry<String,Data> attribute : attr.entrySet()) {
+        for (Map.Entry<String,String> attribute : getSVGAttributes(wait).entrySet()) {
             svgcode += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
         }
-        svgcode += " begin=\""+ (getInit() + wait)+ "\"";
-        svgcode += " dur=\""+ getDur() + "\"";
         svgcode += " />";
         return svgcode;
     }
@@ -113,4 +115,13 @@ public class SVGMove extends SVGSerializableParallelizable {
     public SVGMove copy() {
         return new SVGMove(this);
     }
+
+    //TODO
+    protected HashMap<String,String> getSVGAttributes(float wait) {
+        HashMap<String,String> map = new HashMap<>();
+        map.put("begin",""+(getInit() + wait));
+        map.put("dur",""+getDur());
+        return map;
+    }
+
 }
