@@ -56,4 +56,9 @@ public class SVGTriangle extends SVGObject{
         }
         return points;
     }
+
+    @Override
+    public SVGObject copy() {
+        return new SVGCircle(new HashMap<>(attr));
+    }
 }

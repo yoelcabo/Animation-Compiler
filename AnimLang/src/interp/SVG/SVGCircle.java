@@ -37,4 +37,10 @@ public class SVGCircle extends SVGObject {
         map.put("cy",""+attr.get(CENTERY).getIntegerValue());
         return map;
     }
+
+    @Override
+    public SVGObject copy() {
+        return new SVGCircle(new HashMap<>(attr));
+    }
 }
+

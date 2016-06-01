@@ -15,6 +15,7 @@ public class SVGObject {
     private static final String LINEWIDTH = "lineWidth";
     private static final String OPACITY = "opacity";
 
+
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     protected Type type;
     protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
@@ -178,4 +179,7 @@ public class SVGObject {
         return "rgb("+r+","+g+","+b+")";
     }
 
+    public SVGObject copy() {
+        return new SVGObject(this);
+    }
 }
