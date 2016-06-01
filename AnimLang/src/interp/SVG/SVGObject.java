@@ -33,11 +33,6 @@ public class SVGObject {
         changeAllAttributes(attr);
     }
 
-    protected void changeAllAttributes(HashMap<String, Data> attr) {
-        for (Map.Entry<String,Data> at : attr.entrySet()) {
-            changeAttribute(at.getKey(),at.getValue());
-        }
-    }
 
     public SVGObject(SVGObject svgObject) {
         type = svgObject.type;
@@ -95,16 +90,6 @@ public class SVGObject {
 
 
 
-    public void changeAttribute (String nomAttr, Data newAttribute) {
-        if (!attr.containsKey(nomAttr)) {
-            throw new RuntimeException(nomAttr+" is not a valid attribute for "+type);
-        }
-        if (attr.get(nomAttr).getType() != newAttribute.getType()) {
-            throw new RuntimeException("Wrong type for "+type+"."+nomAttr+": expected "+attr.get(nomAttr).getType()+" but got "+newAttribute.getType()); //TODO Podria haver casts implícits
-        }
-        attr.put(nomAttr,newAttribute);
-    }
-
     //Mètode ganxo
     public String getObjDescriptor() {
         return "default";
@@ -119,6 +104,46 @@ public class SVGObject {
         }
         header += ">";
         return header;
+    }
+
+
+    public String getSubObjects() {
+        String svgcode = "";
+        if (type == Type.OBJ_PACK) {
+            for (SVGObject subobject : content) {
+                svgcode += subobject.getSVGHeader();
+                svgcode += subobject.getSVGEnd() + "\n";
+            }
+        }
+        return svgcode;
+    }
+
+    public String getSVGEnd() {
+        return "</"+getObjDescriptor()+">";
+    }
+
+    public String toString() {
+        return type + ": " + attr;
+    }
+
+    // This method is exactly the same as the one in SVGMove, it's here because java's impotence with multi inheritance
+    protected void changeAllAttributes(HashMap<String, Data> attr) {
+        for (Map.Entry<String,Data> at : attr.entrySet()) {
+            changeAttribute(at.getKey(),at.getValue());
+        }
+    }
+
+    // This method is exactly the same as the one in SVGMove, it's here because java's impotence with multi inheritance
+    public void changeAttribute (String nomAttr, Data newAttribute) {
+        if (!attr.containsKey(nomAttr)) {
+            throw new RuntimeException(nomAttr+" is not a valid attribute for "+type);
+        }
+        if (attr.get(nomAttr).getType() != newAttribute.getType()) {
+            if ((attr.get(nomAttr).getType() != Data.Type.FLOAT || newAttribute.getType() != Data.Type.INTEGER)
+                    && (newAttribute.getType() != Data.Type.FLOAT && attr.get(nomAttr).getType() != Data.Type.INTEGER ) )
+                throw new RuntimeException("Wrong type for "+type+"."+nomAttr+": expected "+attr.get(nomAttr).getType()+" but got "+newAttribute.getType()); //TODO Podria haver casts implícits
+        }
+        attr.put(nomAttr,newAttribute);
     }
 
     protected HashMap<String,String> getSVGAttributes() {
@@ -147,23 +172,4 @@ public class SVGObject {
         return "rgb("+r+","+g+","+b+")";
     }
 
-
-    public String getSubObjects() {
-        String svgcode = "";
-        if (type == Type.OBJ_PACK) {
-            for (SVGObject subobject : content) {
-                svgcode += subobject.getSVGHeader();
-                svgcode += subobject.getSVGEnd() + "\n";
-            }
-        }
-        return svgcode;
-    }
-
-    public String getSVGEnd() {
-        return "</"+getObjDescriptor()+">";
-    }
-
-    public String toString() {
-        return type + ": " + attr;
-    }
 }

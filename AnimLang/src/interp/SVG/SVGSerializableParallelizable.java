@@ -4,12 +4,17 @@ public abstract class SVGSerializableParallelizable {
     protected float init;
     protected float end;
 
+    public SVGSerializableParallelizable() {
+        init = 0;
+        end = 20;
+    }
     public SVGSerializableParallelizable(float init, float end) {
         this.init = init;
         this.end = end;
     }
 
     public SVGSerializableParallelizable(float dur) {
+        this();
         this.end = dur;
     }
 
