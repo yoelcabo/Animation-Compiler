@@ -43,6 +43,7 @@ inst:  if_stmt
     |  funcall
     |  ret
     |  run
+    |  print_stmt
     // modificació d'atributs
     ;
 
@@ -95,6 +96,8 @@ one_attr: ID ASSIGN^ (ID | STRING | INT | FLOAT);
 mov: typeMov attr -> ^(MOV typeMov attr);
 
 typeMov: (TRANSLATE | ROTATE | SCALE | FOLLOWPATH);
+
+print_stmt: PRINT^ expr;
 
 
 // FUNCTIONS (basicament, copy paste de ASL)
@@ -149,8 +152,10 @@ ELIF      : 'elif';
 ENDIF     : 'endif';
 
 DEF       : 'def'; // notacio Python funcions
-ENDFUNC	  :'endfunc';
+ENDFUNC	  : 'endfunc';
 RETURN    : 'return';
+
+PRINT     : 'print';
 
 RUN       :  'run';
 
