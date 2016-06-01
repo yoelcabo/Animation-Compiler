@@ -1,5 +1,6 @@
  
 def main ()
+	x = -4;
     triangle = Triangle [centerX=50, centerY=50, colorFill="0:255:0", colorLine ="0:0:255", radius=50.0];
     escalat1 = Scale [factor=5, dur=2];
     escalat2 = Scale [factor=-5, dur=2];

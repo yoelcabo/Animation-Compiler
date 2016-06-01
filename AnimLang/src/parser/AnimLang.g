@@ -68,7 +68,7 @@ expr_par  : expr_seq (PAR^ expr_seq)*;
 expr_seq  : expr_num (SEQ^ expr_num)*;
 expr_num  : expr_mult ( (PLUS^ | MINUS^) expr_mult )*;
 expr_mult : expr_neg ( (PROD^ | DIV^ | MOD^) expr_neg )*;
-expr_neg  : atom | MINUS expr_neg;
+expr_neg  : atom | MINUS^ expr_neg;
 atom      : num | mov | ID | STRING | BOOLEAN | obj | obj_pack | funcall | '('! expr ')'!;
 // ID hauria de ser var, per poder fer cercle1.color = cercle2.color
 
