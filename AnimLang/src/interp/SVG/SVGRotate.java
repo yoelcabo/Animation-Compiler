@@ -18,6 +18,10 @@ public class SVGRotate extends SVGMove {
         super.changeAllAttributes(attributes);
     }
 
+    public SVGRotate(float init, float end, HashMap<String, Data> stringDataHashMap) {
+        super(Type.ROTATE,stringDataHashMap,init,end);
+    }
+
     @Override
     public String getObjDescriptor() {
         return "animateTransform";
@@ -45,5 +49,10 @@ public class SVGRotate extends SVGMove {
         super.changeAttribute(nomAttr,newAttribute);
 
     }
- }
+
+    @Override
+    public SVGMove copy() {
+        return new SVGRotate(init,end,new HashMap<>(attr));
+    }
+}
 

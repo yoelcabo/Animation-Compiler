@@ -1,0 +1,9 @@
+ 
+def main ()
+    triangle = Triangle [centerX=50, centerY=50, colorFill="0:255:0", colorLine ="0:0:255", radius=50.0];
+    escalat = Scale [factor=2, dur=1];
+    rotacio = Rotate [w=30, dur=2];
+    mov = escalat & rotacio;
+    objEnMov = mov->triangle;
+    run 2000,2000,objEnMov;
+endfunc

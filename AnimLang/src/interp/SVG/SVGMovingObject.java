@@ -26,10 +26,12 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
 
     public String getSVGCode() {
         String svgcode = "";
+        svgcode += moves.getSVGHeader();
+        svgcode += "\n";
         svgcode += object.getSVGHeader() + "\n";
         svgcode += object.getSubObjects();
-        svgcode += moves.getSVGCode(init);
-        svgcode += object.getSVGEnd() + "\n";
+        svgcode += moves.getSVGEnd(init,object.getSVGEnd());
+
         return svgcode;
     }
 

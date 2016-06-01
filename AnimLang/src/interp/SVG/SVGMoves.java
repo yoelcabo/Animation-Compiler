@@ -34,4 +34,24 @@ public class SVGMoves extends SVGMovingCollection {
         }
         return svgcode;
     }
+
+    public String getSVGHeader() {
+        String head = "";
+        for (int i = 1; i < moves.size(); ++i) {
+            head+="<g>";
+        }
+        return head;
+    }
+
+    public String getSVGEnd(float wait, String objEnd) {
+        String svgCode = "";
+        svgCode += ((SVGMove) moves.get(0)).getSVGCode(wait) + "\n";
+        svgCode += objEnd + "\n";
+        for (int i = 1; i < moves.size(); ++i) {
+            svgCode += ((SVGMove) moves.get(i)).getSVGCode(wait) + "\n";
+            svgCode+="</g>\n";
+        }
+        svgCode += "\n";
+        return svgCode;
+    }
 }
