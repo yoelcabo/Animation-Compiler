@@ -29,11 +29,11 @@ public class SVGCircle extends SVGObject {
     }
 
     @Override
-    protected HashMap<String,String> getSVGAttributes() {
+    public HashMap<String,String> getSVGAttributes() {
         HashMap<String,String> map = super.getSVGAttributes();
-        map.put("r",attrToSVGColor("radius"));
-        map.put("cx",attrToSVGColor("centerX"));
-        map.put("cy",""+attr.get("centerY"));
+        map.put("r",""+attr.get("radius").getFloatValue());
+        map.put("cx",""+attr.get("centerX").getIntegerValue());
+        map.put("cy",""+attr.get("centerY").getIntegerValue());
         return map;
     }
 }
