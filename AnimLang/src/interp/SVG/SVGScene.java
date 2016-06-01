@@ -22,6 +22,12 @@ public class SVGScene extends SVGMovingCollection {
         super(new SVGMovingObject(c,r));
     }
 
+    public SVGScene(SVGScene newScene) {
+        super(newScene);
+        width = newScene.width;
+        height = newScene.height;
+    }
+
     public String getSVGCode() {
         String svg = "";
         svg += getCabecera() + "\n";

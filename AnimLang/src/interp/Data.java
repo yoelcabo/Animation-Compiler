@@ -90,17 +90,17 @@ public class Data {
                 fvalue = d.fvalue;
                 break;
             case STRING:
-                strvalue = d.strvalue;
+                strvalue = new String(d.strvalue);
                 break;
             case OBJECT:
             case OBJ_PACK:
-                objValue = d.objValue;
+                objValue = new SVGObject(d.objValue);
                 break;
             case MOVES:
-                movesValue = d.movesValue;
+                movesValue = new SVGMoves(d.movesValue);
                 break;
             case MOVINGOBJECT:
-                objMoveValue = d.objMoveValue;
+                objMoveValue = new SVGScene(d.objMoveValue);
                 break;
         }
     }
