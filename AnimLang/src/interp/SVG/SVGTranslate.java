@@ -8,13 +8,15 @@ import java.util.HashMap;
  * Created by yoel on 6/1/16.
  */
 public class SVGTranslate extends SVGMove {
-    private static final String SCALEFACTOR = "factor";
+    private static final String X = "x";
+    private static final String Y = "y";
 
 
     public SVGTranslate(HashMap<String, Data> attributes) {
         super();
         type = SVGMove.Type.ROTATE;
-        attr.put(SCALEFACTOR, new Data(1f));
+        attr.put(X, new Data(0));
+        attr.put(Y, new Data(0));
         super.changeAllAttributes(attributes);
     }
 
@@ -29,8 +31,9 @@ public class SVGTranslate extends SVGMove {
         map.put("type","translate");
         map.put("attributeName","transform");
         map.put("from",""+1);
-        float sf = attr.get(SCALEFACTOR).getFloatValue();
-        map.put("to",sf + " " + sf);
+        float x = attr.get(X).getFloatValue();
+        float y = attr.get(Y).getFloatValue();
+        map.put("to",x + " " + y);
         return map;
     }
 

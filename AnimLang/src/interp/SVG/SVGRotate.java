@@ -32,7 +32,7 @@ public class SVGRotate extends SVGMove {
         HashMap<String,String> map = super.getSVGAttributes(wait);
         map.put("type","rotate");
         map.put("attributeName","transform");
-        map.put("from",""+0);
+  //      map.put("from",""+0);
         map.put("to",""+attr.get(ANGULARVELOCITY).getFloatValue()*getDur());
         return map;
     }

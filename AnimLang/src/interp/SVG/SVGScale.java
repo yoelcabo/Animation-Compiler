@@ -28,7 +28,7 @@ public class SVGScale extends SVGMove{
         HashMap<String,String> map = super.getSVGAttributes(wait);
         map.put("type","scale");
         map.put("attributeName","transform");
-        map.put("from",""+1);
+  //      map.put("from",""+1);
         float sf = attr.get(SCALEFACTOR).getFloatValue();
         map.put("to",sf + " " + sf);
         return map;

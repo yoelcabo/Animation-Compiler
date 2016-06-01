@@ -582,7 +582,7 @@ public class Interp {
         // (TRANSLATE | ROTATE | SCALE | FOLLOWPATH)
         switch (typeMov.getType()) {
             case AnimLangLexer.TRANSLATE:
-                newMove = new SVGMove(SVGMove.Type.TRANSLATE, llAttr);
+                newMove = new SVGTranslate(llAttr);
                 break;
             case AnimLangLexer.ROTATE:
                 newMove = new SVGRotate(llAttr);
