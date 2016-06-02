@@ -79,8 +79,8 @@ public class Data {
     public Data() {type = Type.VOID; }
 
     /** Copy constructor */
-    public Data (Data d) { 
-        type = d.type; 
+    public Data (Data d) {
+        type = d.type;
         switch (type) {
             case BOOLEAN:
             case INTEGER:
@@ -250,7 +250,32 @@ public class Data {
 
 
     /** Copies the value from another data */
-    public void setData(Data d) { type = d.type; value = d.value; }
+    public void setData(Data d) {
+        type = d.type;
+        switch (type) {
+            case BOOLEAN:
+            case INTEGER:
+                value = d.value;
+                break;
+            case FLOAT:
+                fvalue = d.fvalue;
+                break;
+            case STRING:
+                strvalue = new String(d.strvalue);
+                break;
+            case OBJECT:
+            case OBJ_PACK:
+                objValue = d.objValue.copy();
+                break;
+            case MOVES:
+                movesValue = d.movesValue.copy();
+                break;
+            case MOVINGOBJECT:
+                objMoveValue = d.objMoveValue.copy();
+                break;
+        }
+
+    }
 
 
     // TOSTRING // 
