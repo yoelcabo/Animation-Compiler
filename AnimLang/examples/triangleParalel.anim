@@ -7,10 +7,11 @@ def main ()
     mov = (escalat | rotacio) & escalat & rotacio & translacio & escalat;
     objEnMov = mov->triangle;
     circle = Circle [centerX=100 + 500, centerY=800, radius=50.0];
-    objEnMov = objEnMov & (escalat->circle);
+    objEnMov = objEnMov & (mov->circle);
     for i in [2] do
     	circle = Circle [centerX=i*70 + 500, centerY=500, radius=50.0];
     	objEnMov = objEnMov & (escalat->circle);
     endfor
+    print objEnMov;
     run 2000,2000,objEnMov;
 endfunc
