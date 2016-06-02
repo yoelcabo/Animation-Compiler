@@ -46,7 +46,7 @@ public class SVGRotate extends SVGMove {
         map.put("attributeName","transform");
   //      map.put("from",""+0);
         attr.get(ANGULARVELOCITY).getFloatValue();
-        map.put("to",""+attr.get(ANGULARVELOCITY).getFloatValue()*getDur());
+        map.put("by",""+attr.get(ANGULARVELOCITY).getFloatValue()*getDur());
         return map;
     }
 

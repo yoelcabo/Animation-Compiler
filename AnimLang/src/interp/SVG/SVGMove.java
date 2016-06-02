@@ -125,7 +125,7 @@ public class SVGMove extends SVGSerializableParallelizable {
         map.put("begin",""+(getInit() + wait));
         map.put("dur",""+getDur());
         map.put("fill","freeze");
-        map.put("calcMode","spline");
+     //   map.put("calcMode","spline");
         return map;
     }
 

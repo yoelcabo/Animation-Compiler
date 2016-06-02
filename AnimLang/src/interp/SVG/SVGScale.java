@@ -34,7 +34,7 @@ public class SVGScale extends SVGMove{
         map.put("attributeName","transform");
   //      map.put("from",""+1);
         float sf = attr.get(SCALEFACTOR).getFloatValue();
-        map.put("to",sf + " " + sf);
+        map.put("by",sf + " " + sf);
         return map;
     }
 

@@ -30,10 +30,9 @@ public class SVGTranslate extends SVGMove {
         HashMap<String,String> map = super.getSVGAttributes(wait);
         map.put("type","translate");
         map.put("attributeName","transform");
-        map.put("from",""+1);
         float x = attr.get(X).getFloatValue();
         float y = attr.get(Y).getFloatValue();
-        map.put("to",x + " " + y);
+        map.put("by",x + " " + y);
         return map;
     }
 
