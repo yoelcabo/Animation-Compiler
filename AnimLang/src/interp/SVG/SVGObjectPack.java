@@ -13,11 +13,31 @@ public class SVGObjectPack extends SVGObject {
 
     public SVGObjectPack(SVGObjectPack svgObjectPack) {
         super(svgObjectPack);
+        content = new ArrayList<>();
+        type = Type.OBJ_PACK;
+        float cx = 0;
+        float cy = 0;
+        for (SVGObject object : svgObjectPack.content) {
+            content.add(object);
+            cx += object.getAttr().get(CENTERX).getFloatValue();
+            cy += object.getAttr().get(CENTERY).getFloatValue();
+        }
+        cx /= svgObjectPack.content.size();
+        cy /= svgObjectPack.content.size();
+        changeAttribute(CENTERX,new Data);
+
     }
+
     public SVGObjectPack(HashMap<String, Data> attributes) {
+        throw new RuntimeException("ObjectPack has no attributes");
+    }
+
+    public SVGObjectPack(ArrayList<SVGObject> svgObjects) {
         super();
         type = Type.OBJ_PACK;
-        changeAllAttributes(attributes);
+        for (SVGObject object : svgObjects) {
+            content.add(object);
+        }
     }
 
     @Override
@@ -30,6 +50,7 @@ public class SVGObjectPack extends SVGObject {
         return new SVGObjectPack(this);
     }
 
+    @Override
     public ArrayList<SVGObject> getContent() {
         return content;
     }

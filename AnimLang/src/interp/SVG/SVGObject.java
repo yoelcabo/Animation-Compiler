@@ -180,4 +180,10 @@ public class SVGObject {
     public SVGObject copy() {
         return new SVGObject(this);
     }
+
+
+    public ArrayList<SVGObject> getContent() {
+        return null;
+    }
+
 }

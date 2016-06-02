@@ -57,6 +57,7 @@ SVG_SRC = 		$(SVG)/SVGMove.java \
 				$(SVG)/SVGMovingCollection.java \
 				$(SVG)/SVGMovingObject.java \
 				$(SVG)/SVGObject.java \
+				$(SVG)/SVGObjectPack.java \
 				$(SVG)/SVGCircle.java \
 				$(SVG)/SVGTriangle.java \
 				$(SVG)/SVGScene.java \

@@ -599,7 +599,7 @@ public class Interp {
     }
 
     private Data construeixPack (AnimLangTree t) {
-        SVGObject newPack = new SVGObject(new ArrayList<SVGObject>());
+        SVGObjectPack newPack = new SVGObjectPack(new ArrayList<SVGObject>());
         for (int i = 0; i < t.getChildCount(); ++i) {
             switch (t.getChild(i).getType()) {
                 case AnimLangLexer.ID:
@@ -616,12 +616,12 @@ public class Interp {
                 case AnimLangLexer.OBJ:
                     // executa les instruccions per generar l'objecte
                     Data auxObj = generateObject(t.getChild(i).getChild(0), t.getChild(i).getChild(1));
-                    newPack.getContent().add(auxObj.getObjectValue());
+                    newPack.getContent().add(auxObj.getObjectValue().copy());
                     break;
                 case AnimLangLexer.OBJ_PACK:
                     // executa les instruccions per generar l'obj_pack
                     Data auxObjPack = construeixPack(t.getChild(i));
-                    newPack.getContent().add(auxObjPack.getObjectPackValue());
+                    newPack.getContent().add(auxObjPack.getObjectPackValue().copy());
                     break;
                 default:
                     // excepcio de tipus
