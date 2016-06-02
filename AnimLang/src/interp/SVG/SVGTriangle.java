@@ -16,8 +16,8 @@ public class SVGTriangle extends SVGObject {
     private static final String CENTERY = "centerY";
     private static final int costats = 3;
 
-    public SVGTriangle(SVGTriangle SVGTriangle) {
-        super(SVGTriangle);
+    public SVGTriangle(SVGTriangle svgTriangle) {
+        super(svgTriangle);
     }
     public SVGTriangle(HashMap<String, Data> attributes) {
         super();
@@ -63,20 +63,7 @@ public class SVGTriangle extends SVGObject {
     }
 
     @Override
-    public SVGObject copy() {//throws IOException {
-        try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            ObjectOutputStream oos = new ObjectOutputStream(bos);
-            oos.writeObject(this);
-            oos.flush();
-            oos.close();
-            bos.close();
-            byte[] byteData = bos.toByteArray();
-            ByteArrayInputStream bais = new ByteArrayInputStream(byteData);
-            return (SVGTriangle) new ObjectInputStream(bais).readObject();
-        } catch (Exception e) {
-            return null;
-        }
-        //return new SVGCircle(new HashMap<>(attr));
+    public SVGTriangle copy() {//throws IOException {
+        return new SVGTriangle(this);
     }
 }

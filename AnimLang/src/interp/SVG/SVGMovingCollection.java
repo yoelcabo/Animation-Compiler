@@ -16,7 +16,6 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
         super(0, 0);
         this.moves = new ArrayList<>(moves);
         for (SVGSerializableParallelizable move : moves) {
-            // s'ha de fer el cast per poder utilitzar el metode getEnd()
             if (move.getEnd() > end) end = move.getEnd();
         }
     }
@@ -28,7 +27,10 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
 
     public SVGMovingCollection (SVGMovingCollection movColl) {
         super(movColl);
-        this.moves = new ArrayList<SVGSerializableParallelizable>(movColl.moves);
+        moves = new ArrayList<>();
+        for (SVGSerializableParallelizable sps : movColl.moves) {
+            moves.add(sps.copy());
+        }
     }
 
 
@@ -95,6 +97,6 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
 
     @Override
     public SVGMovingCollection copy() {
-        return new SVGMovingCollection(new ArrayList<>(moves));
+        return new SVGMovingCollection(this);
     }
 }

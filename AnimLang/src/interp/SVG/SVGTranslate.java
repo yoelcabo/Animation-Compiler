@@ -45,6 +45,6 @@ public class SVGTranslate extends SVGMove {
 
     @Override
     public SVGMove copy() {
-        return new SVGRotate(init,end,new HashMap<>(attr));
+        return new SVGRotate(this);
     }
 }

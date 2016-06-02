@@ -10,7 +10,6 @@ import java.util.HashMap;
 public class SVGRotate extends SVGMove {
     private static final String ANGULARVELOCITY = "w";
 
-
     public SVGRotate(HashMap<String, Data> attributes) {
         super();
         type = Type.ROTATE;
@@ -20,6 +19,19 @@ public class SVGRotate extends SVGMove {
 
     public SVGRotate(float init, float end, HashMap<String, Data> stringDataHashMap) {
         super(Type.ROTATE,stringDataHashMap,init,end);
+    }
+
+    public SVGRotate(SVGRotate svgRotate) {
+        super(svgRotate);
+        type = Type.ROTATE;
+    }
+
+    public SVGRotate(SVGScale svgScale) {
+        super(svgScale);
+    }
+
+    public SVGRotate(SVGTranslate svgTranslate) {
+        super(svgTranslate);
     }
 
     @Override
@@ -33,6 +45,7 @@ public class SVGRotate extends SVGMove {
         map.put("type","rotate");
         map.put("attributeName","transform");
   //      map.put("from",""+0);
+        attr.get(ANGULARVELOCITY).getFloatValue();
         map.put("to",""+attr.get(ANGULARVELOCITY).getFloatValue()*getDur());
         return map;
     }
@@ -51,8 +64,8 @@ public class SVGRotate extends SVGMove {
     }
 
     @Override
-    public SVGMove copy() {
-        return new SVGRotate(init,end,new HashMap<>(attr));
+    public SVGRotate copy() {
+        return new SVGRotate(this);
     }
 }
 

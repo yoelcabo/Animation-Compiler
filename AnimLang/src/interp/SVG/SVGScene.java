@@ -73,7 +73,6 @@ public class SVGScene extends SVGMovingCollection {
     }
 
     public SVGScene copy() {
-        SVGScene ret = new SVGScene(width,height,moves);
-        return ret;
+        return new SVGScene(this);
     }
 }

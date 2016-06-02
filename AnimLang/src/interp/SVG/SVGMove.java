@@ -66,7 +66,10 @@ public class SVGMove extends SVGSerializableParallelizable {
     public SVGMove(SVGMove svgMove) {
         super(svgMove);
         this.type = svgMove.type;
-        this.attr = new HashMap<>(svgMove.attr);
+        this.attr = new HashMap<>();
+        for (Map.Entry<String,Data> entry : svgMove.attr.entrySet()) {
+            attr.put(entry.getKey(),new Data(entry.getValue()));
+        }
     }
 
     // GETTERS I SETTERS // 

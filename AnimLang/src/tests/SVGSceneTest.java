@@ -48,5 +48,38 @@ public class SVGSceneTest {
 
     }
 
+    @org.junit.Test
+    public void supertest() {
+
+        HashMap<String, Data> attrTriangle = new HashMap<>();
+        attrTriangle.put("centerX",new Data(100));
+        attrTriangle.put("centerY",new Data(50));
+        attrTriangle.put("colorFill",new Data("0:255:0"));
+        attrTriangle.put("colorLine",new Data("0:0:255"));
+        attrTriangle.put("radius",new Data(50.0f));
+        SVGTriangle triangle = new SVGTriangle(attrTriangle);
+        HashMap<String, Data> attrEscalat = new HashMap<>();
+        attrEscalat.put("factor",new Data(2));
+        attrEscalat.put("dur", new Data(1));
+        SVGScale escalat = new SVGScale(attrEscalat);
+        HashMap<String, Data> attrRotacio = new HashMap<>();
+        attrRotacio.put("w",new Data(2));
+        attrRotacio.put("dur",new Data(1));
+        SVGRotate rotacio = new SVGRotate(attrRotacio);
+        SVGMoves mov = (SVGMoves) SVGMoves.parallel(new SVGMoves(escalat),new SVGMoves(rotacio));
+        SVGScene objEnMov = new SVGScene(new SVGMovingObject(triangle,mov));
+        for (int i = 1; i <= 2; ++i) {
+            HashMap<String, Data> attrCircle = new HashMap<>();
+            attrCircle.put("centerX", new Data(i*70 + 500));
+            attrCircle.put("centerY",new Data(800));
+            attrCircle.put("radius",new Data(50.0f));
+            SVGCircle circle = new SVGCircle(attrCircle);
+            objEnMov = (SVGScene) SVGScene.serial(objEnMov, new SVGScene(new SVGMovingObject(circle,escalat)));
+        }
+        objEnMov.setWidth(2000);
+        objEnMov.setHeight(2000);
+        System.out.println(objEnMov.getSVGCode());
+    }
+
 
 }

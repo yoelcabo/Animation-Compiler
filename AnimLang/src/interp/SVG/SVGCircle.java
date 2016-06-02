@@ -16,7 +16,8 @@ public class SVGCircle extends SVGObject {
     private static final String CENTERY = "centerY";
 
     public SVGCircle(SVGCircle svgCircle) {
-        this(svgCircle.attr);
+        super(svgCircle);
+        type = Type.CIRCLE;
     }
     public SVGCircle(HashMap<String, Data> attributes) {
         super();
@@ -42,8 +43,8 @@ public class SVGCircle extends SVGObject {
     }
 
     @Override
-    public SVGObject copy() {
-        return new SVGCircle(new HashMap<>(attr));
+    public SVGCircle copy() {
+        return new SVGCircle(this);
     }
 }
 

@@ -56,8 +56,7 @@ public class SVGMoves extends SVGMovingCollection {
 
     @Override
     public SVGMoves copy() {
-        SVGMoves ret = new SVGMoves(moves);
-        return ret;
+        return new SVGMoves(this);
     }
 
 }

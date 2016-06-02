@@ -16,7 +16,7 @@ public class SVGMovingObject extends SVGSerializableParallelizable {
     public SVGMovingObject(SVGMovingObject movObj) {
         super(movObj);
         this.object = movObj.object.copy();
-        this.moves = new SVGMoves(movObj.moves);
+        this.moves = movObj.moves.copy();
     }
 
     public SVGMovingObject(SVGObject c, SVGMove r) {
