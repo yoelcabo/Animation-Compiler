@@ -24,7 +24,8 @@ public class SVGObjectPack extends SVGObject {
         }
         cx /= svgObjectPack.content.size();
         cy /= svgObjectPack.content.size();
-        changeAttribute(CENTERX,new Data);
+        changeAttribute(CENTERX,new Data(cx));
+        changeAttribute(CENTERY,new Data(cy));
 
     }
 
