@@ -275,7 +275,7 @@ public class Interp {
                 return null;
 
             // If-then-else
-            case AnimLangLexer.IF:
+            case AnimLangLexer.COND:
                 value = evaluateExpression(t.getChild(0));
                 checkBoolean(value);
                 if (value.getBooleanValue()) return executeListInstructions(t.getChild(1));

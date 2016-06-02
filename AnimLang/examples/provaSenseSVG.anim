@@ -1,0 +1,24 @@
+def factorial (x)
+    res = 1;
+    while x > 1 do
+        res = res * x;
+        x = x - 1;
+    endwhile
+    return res;
+endfunc
+
+def factorial_rec (x)
+    if x > 1 then
+        return x * factorial_rec(x-1);
+    else
+        return 1;
+    endif
+endfunc
+
+def main ()
+    print "factorial_iteratiu";
+    print factorial(5);
+    print "factorial_recursiu";
+    print factorial_rec(5);
+
+endfunc

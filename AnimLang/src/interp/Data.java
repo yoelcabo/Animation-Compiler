@@ -102,6 +102,7 @@ public class Data {
             case MOVINGOBJECT:
                 objMoveValue = d.objMoveValue.copy();
                 break;
+            default: assert false;
         }
     }
 
@@ -439,6 +440,8 @@ public class Data {
                 case AnimLangLexer.SEQ:
                     if (d.type == Type.MOVINGOBJECT) {
                         Data collSeq = new Data((SVGScene) SVGScene.serial(this.objMoveValue,d.objMoveValue));
+                        //System.out.println("" +  collSeq.getMovingObjectValue());
+                        //System.out.println("size" + collSeq.getMovingObjectValue().getMoves().size());
                         return collSeq;
                     } else assert false;
                     break;

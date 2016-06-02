@@ -48,6 +48,7 @@ inst:  if_stmt
     ;
 
 //Fer bé
+// un if sol peta quan es crea l'arbre. Si l'acompanyes d'un else ja funciona
 if_stmt: IF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainingIfStmt);
 remainingIfStmt: ELIF expr THEN list_inst remainingIfStmt -> ^(COND expr list_inst remainingIfStmt) | (ELSE! list_inst)? ENDIF!;
 

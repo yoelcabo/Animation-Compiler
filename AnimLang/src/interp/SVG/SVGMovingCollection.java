@@ -36,12 +36,14 @@ public class SVGMovingCollection extends SVGSerializableParallelizable {
 
 
     public void serialize(SVGMovingCollection mc) {
+        //System.out.println("size ini -> " + moves.size());
       for (SVGSerializableParallelizable move : mc.getMoves()) {
             SVGSerializableParallelizable newMove = move.copy();
             newMove.inc(end);
             moves.add(newMove);
       }
       end += mc.end;
+      //System.out.println("size ini -> " + moves.size());
     }
 
     public void parallelize(SVGMovingCollection mc) {
