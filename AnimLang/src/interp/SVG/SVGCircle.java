@@ -12,8 +12,6 @@ public class SVGCircle extends SVGObject {
 
 
     private static final String RADIUS = "radius";
-    private static final String CENTERX = "centerX";
-    private static final String CENTERY = "centerY";
 
     public SVGCircle(SVGCircle svgCircle) {
         super(svgCircle);
@@ -23,8 +21,7 @@ public class SVGCircle extends SVGObject {
         super();
         type = Type.CIRCLE;
         attr.put(RADIUS,new Data(1.0f));
-        attr.put(CENTERX,new Data((0)));
-        attr.put(CENTERY,new Data((0)));
+
         changeAllAttributes(attributes);
     }
 
@@ -37,8 +34,6 @@ public class SVGCircle extends SVGObject {
     public HashMap<String,String> getSVGAttributes() {
         HashMap<String,String> map = super.getSVGAttributes();
         map.put("r",""+attr.get(RADIUS).getFloatValue());
-        map.put("cx",""+attr.get(CENTERX).getIntegerValue());
-        map.put("cy",""+attr.get(CENTERY).getIntegerValue());
         return map;
     }
 

@@ -12,8 +12,6 @@ import java.io.*;
 public class SVGTriangle extends SVGObject {
 
     private static final String RADIUS = "radius";
-    private static final String CENTERX = "centerX";
-    private static final String CENTERY = "centerY";
     private static final int costats = 3;
 
     public SVGTriangle(SVGTriangle svgTriangle) {
@@ -23,8 +21,6 @@ public class SVGTriangle extends SVGObject {
         super();
         type = Type.TRIANGLE;
         attr.put(RADIUS,new Data(1.0f));
-        attr.put(CENTERX,new Data((0)));
-        attr.put(CENTERY,new Data((0)));
         changeAllAttributes(attributes);
     }
 
@@ -42,21 +38,19 @@ public class SVGTriangle extends SVGObject {
 
     public String getPoints() {
         String points = "";
-        int cx = attr.get(CENTERX).getIntegerValue();
-        int cy = attr.get(CENTERY).getIntegerValue();
         float r = attr.get(RADIUS).getFloatValue();
 
         double angle = 2*Math.PI/costats;
         float alpha = 0;
-        points += cx + r*Math.sin(alpha);
+        points += r*Math.sin(alpha);
         points += ",";
-        points += cy + r*Math.cos(alpha);
+        points += r*Math.cos(alpha);
         for (int i = 1; i < costats; ++i) {
             alpha += angle;
             points += " ";
-            points += cx + r*Math.sin(alpha);
+            points += r*Math.sin(alpha);
             points += ",";
-            points += cy + r*Math.cos(alpha);
+            points += r*Math.cos(alpha);
 
         }
         return points;

@@ -10,10 +10,12 @@ import java.util.StringJoiner;
 public class SVGObject {
 
 
-    private static final String LINECOLOR = "colorLine";
-    private static final String FILLCOLOR = "colorFill";
-    private static final String LINEWIDTH = "lineWidth";
-    private static final String OPACITY = "opacity";
+    public static final String LINECOLOR = "colorLine";
+    public static final String FILLCOLOR = "colorFill";
+    public static final String LINEWIDTH = "lineWidth";
+    public static final String OPACITY = "opacity";
+    public static final String CENTERX = "centerX";
+    public static final String CENTERY = "centerY";
 
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
@@ -23,6 +25,8 @@ public class SVGObject {
         put(FILLCOLOR, new Data("256:0:0"));
         put(LINEWIDTH, new Data(5));
         put(OPACITY, new Data(1.0f));
+        put(CENTERX,new Data((0)));
+        put(CENTERY,new Data((0)));
         //put("xPos", new Data(0));
         //put("yPos", new Data(0));
     }};
@@ -102,10 +106,20 @@ public class SVGObject {
     }
 
 
-    //TODO traducciones a SVG real
     public String getSVGHeader() {
         String header = "<"+getObjDescriptor();
         for (Map.Entry<String,String> attribute : getSVGAttributes().entrySet()) {
+            header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
+        }
+        header += ">";
+        return header;
+    }
+
+    public String getSVGSingleCode() {
+        String header = "<"+getObjDescriptor();
+        HashMap<String,String> map = new HashMap<>(getSVGAttributes());
+        map.put("transform",getSVGIniTransform());
+        for (Map.Entry<String,String> attribute : map.entrySet()) {
             header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
         }
         header += ">";
@@ -159,6 +173,12 @@ public class SVGObject {
         map.put("stroke-width",""+attr.get(LINEWIDTH));
         map.put("opacity",""+attr.get(OPACITY));
         return map;
+    }
+
+
+
+    protected String getSVGIniTransform(){
+        return "translate("+attr.get(CENTERX).getIntegerValue()+","+attr.get(CENTERY).getIntegerValue()+")";
     }
 
     protected String attrToSVGColor(String attribute) {

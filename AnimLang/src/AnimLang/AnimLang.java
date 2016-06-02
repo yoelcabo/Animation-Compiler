@@ -130,6 +130,7 @@ public class AnimLang{
                 else System.err.print (" (" + infile + ", line " + linenumber + "): ");
                 System.err.println (e.getMessage() + ".");
                 System.err.format (I.getStackTrace());
+                e.printStackTrace();
             } catch (StackOverflowError e) {
                 if (I != null) linenumber = I.lineNumber();
                 System.err.print("Stack overflow error");
