@@ -6,6 +6,8 @@ def main ()
     translacio = Translate [dur=2, x=-300, y=-300];
     mov = (escalat | rotacio) & escalat & rotacio & translacio & escalat;
     objEnMov = mov->triangle;
+    circle = Circle [centerX=100 + 500, centerY=800, radius=50.0];
+    objEnMov = objEnMov & (escalat->circle);
     for i in [2] do
     	circle = Circle [centerX=i*70 + 500, centerY=500, radius=50.0];
     	objEnMov = objEnMov & (escalat->circle);
