@@ -14,10 +14,15 @@ public class SVGTranslate extends SVGMove {
 
     public SVGTranslate(HashMap<String, Data> attributes) {
         super();
-        type = SVGMove.Type.ROTATE;
+        type = Type.TRANSLATE;
         attr.put(X, new Data(0));
         attr.put(Y, new Data(0));
         super.changeAllAttributes(attributes);
+    }
+
+    public SVGTranslate(SVGTranslate sc) {
+        super(sc);
+        type  = Type.TRANSLATE;
     }
 
     @Override
@@ -44,6 +49,6 @@ public class SVGTranslate extends SVGMove {
 
     @Override
     public SVGMove copy() {
-        return new SVGRotate(this);
+        return new SVGTranslate(this);
     }
 }

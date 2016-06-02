@@ -43,6 +43,7 @@ public class SVGMoves extends SVGMovingCollection {
     }
 
     public String getSVGEnd(float wait, String objEnd) {
+        ArrayList<SVGMove> moves = sortedArray();
         String svgCode = "";
         svgCode += ((SVGMove) moves.get(0)).getSVGCode(wait) + "\n";
         svgCode += objEnd + "\n";
@@ -54,6 +55,19 @@ public class SVGMoves extends SVGMovingCollection {
 
         svgCode += "\n";
         return svgCode;
+    }
+
+    private ArrayList<SVGMove> sortedArray() {
+        ArrayList<SVGMove> ret = new ArrayList<>();
+        for (SVGSerializableParallelizable mvx : moves) {
+            SVGMove move = (SVGMove) mvx;
+            if (move.getType() != SVGMove.Type.TRANSLATE) ret.add(move);
+        }
+        for (SVGSerializableParallelizable mvx : moves) {
+            SVGMove move = (SVGMove) mvx;
+            if (move.getType() == SVGMove.Type.TRANSLATE) ret.add(move);
+        }
+         return ret;
     }
 
     @Override

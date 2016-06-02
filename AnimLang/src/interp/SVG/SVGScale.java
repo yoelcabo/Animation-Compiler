@@ -20,6 +20,7 @@ public class SVGScale extends SVGMove{
 
     public SVGScale(SVGScale sc) {
         super(sc);
+        type  = Type.SCALE;
     }
 
     @Override
