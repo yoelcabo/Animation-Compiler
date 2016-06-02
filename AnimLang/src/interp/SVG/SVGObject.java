@@ -30,12 +30,11 @@ public class SVGObject {
         //put("xPos", new Data(0));
         //put("yPos", new Data(0));
     }};
-    private ArrayList<SVGObject> content; //Només per OBJ_PACK
 
     // CONSTRUCTORS //
 
     public SVGObject() {
-        content = new ArrayList<>();
+
     }
 
     public SVGObject(HashMap<String, Data> attr) {
@@ -47,12 +46,10 @@ public class SVGObject {
     public SVGObject(SVGObject svgObject) {
         type = svgObject.type;
         attr = new HashMap<>(svgObject.attr);
-        content = new ArrayList<>(svgObject.content);
     }
     public SVGObject(interp.SVG.SVGObject.Type type, HashMap<String, Data> attr) {
         this(attr);
         this.type = type;
-        content = new ArrayList<>();
     }
 
     public SVGObject(interp.SVG.SVGObject.Type type) {
@@ -62,13 +59,11 @@ public class SVGObject {
 
     public SVGObject(ArrayList<SVGObject> content) {
         this.type = Type.OBJ_PACK;
-        this.content = content;
     }
 
     public SVGObject(HashMap<String, Data> attr, ArrayList<SVGObject> content) {
         this(attr);
         this.type = Type.OBJ_PACK;
-        this.content = content;
     }
 
 
@@ -89,16 +84,6 @@ public class SVGObject {
     public void setAttr(HashMap<String, Data> attr) {
         this.attr = attr;
     }
-
-    public ArrayList<SVGObject> getContent() {
-        return content;
-    }
-
-    public void setContent(ArrayList<SVGObject> content) {
-        this.content = content;
-    }
-
-
 
     //Mètode ganxo
     public String getObjDescriptor() {
@@ -128,14 +113,7 @@ public class SVGObject {
 
 
     public String getSubObjects() {
-        String svgcode = "";
-        if (type == Type.OBJ_PACK) {
-            for (SVGObject subobject : content) {
-                svgcode += subobject.getSVGHeader();
-                svgcode += subobject.getSVGEnd() + "\n";
-            }
-        }
-        return svgcode;
+        return "";
     }
 
     public String getSVGEnd() {
