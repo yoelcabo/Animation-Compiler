@@ -405,7 +405,12 @@ public class Data {
                 case AnimLangLexer.ASSOC:
                     if (d.type == Type.OBJECT) {
                         return new Data(new SVGScene(new SVGMovingObject(d.objValue.copy(), movesValue.copy())));
-                    } else assert false;
+                    }
+                    else if (d.type == Type.OBJ_PACK) {
+                        return new Data(new SVGScene(new SVGMovingObject(d.getObjectPackValue().copy(), movesValue.copy())));
+
+                    }
+                    else assert false;
                     break;
                 case AnimLangLexer.PAR:
                     if (d.type == Type.MOVES) {

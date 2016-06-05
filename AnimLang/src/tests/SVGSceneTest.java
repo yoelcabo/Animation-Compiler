@@ -3,6 +3,7 @@ package tests;
 import interp.Data;
 import interp.SVG.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import static org.junit.Assert.*;
@@ -203,4 +204,66 @@ public class SVGSceneTest {
         objEnMov.getMovingObjectValue().setHeight(2000);
         System.out.println(objEnMov.getMovingObjectValue().getSVGCode());
     }
+
+    @org.junit.Test
+    public void objPackTest() {
+
+        HashMap<String, Data> attrTriangle = new HashMap<>();
+        attrTriangle.put("centerX",new Data(100));
+        attrTriangle.put("centerY",new Data(100));
+        attrTriangle.put("colorFill",new Data("0:255:0"));
+        attrTriangle.put("colorLine",new Data("0:0:255"));
+        attrTriangle.put("radius",new Data(50.0f));
+        Data triangle1 = new Data(new SVGTriangle(attrTriangle));
+        attrTriangle.put("centerX",new Data(200));
+        attrTriangle.put("centerY",new Data(200));
+        Data triangle2 = new Data(new SVGTriangle(attrTriangle));
+        attrTriangle.put("centerX",new Data(300));
+        attrTriangle.put("centerY",new Data(300));
+        Data triangle3 = new Data(new SVGTriangle(attrTriangle));
+        attrTriangle.put("centerX",new Data(400));
+        attrTriangle.put("centerY",new Data(400));
+        Data triangle4 = new Data(new SVGTriangle(attrTriangle));
+        ArrayList<SVGObject> triangles = new ArrayList<>();
+        triangles.add(triangle1.getObjectValue());
+        triangles.add(triangle2.getObjectValue());
+        triangles.add(triangle3.getObjectValue());
+        triangles.add(triangle4.getObjectValue());
+        Data triangle = new Data(new SVGObjectPack(triangles));
+        HashMap<String, Data> attrEscalat = new HashMap<>();
+        attrEscalat.put("factor",new Data(2));
+        attrEscalat.put("dur", new Data(1));
+        Data escalat = new Data(new SVGMoves(new SVGScale(attrEscalat)));
+        HashMap<String, Data> attrRotacio = new HashMap<>();
+        attrRotacio.put("w",new Data(2));
+        attrRotacio.put("dur",new Data(1));
+        Data rotacio = new Data(new SVGMoves(new SVGRotate(attrRotacio)));
+        HashMap<String, Data> attrTranslacio = new HashMap<>();
+        attrTranslacio.put("x",new Data(-300));
+        attrTranslacio.put("y",new Data(-300));
+        Data translacio = new Data(new SVGMoves(new SVGTranslate(attrTranslacio)));
+
+
+        Data mov = new Data((SVGMoves) SVGMoves.parallel(escalat.getMoveValue(),rotacio.getMoveValue()));
+        mov = new Data((SVGMoves) SVGMoves.serial(mov.getMoveValue(),escalat.getMoveValue()));
+        mov = new Data((SVGMoves) SVGMoves.serial(mov.getMoveValue(),rotacio.getMoveValue()));
+        mov = new Data((SVGMoves) SVGMoves.serial(mov.getMoveValue(),escalat.getMoveValue()));
+        mov = new Data((SVGMoves) SVGMoves.serial(mov.getMoveValue(),translacio.getMoveValue()));
+        mov = new Data((SVGMoves) SVGMoves.serial(mov.getMoveValue(),escalat.getMoveValue()));
+
+        Data objEnMov = new Data(new SVGScene(new SVGMovingObject(triangle.getObjectPackValue(),mov.getMoveValue())));
+        for (int i = 1; i <= 2; ++i) {
+            HashMap<String, Data> attrCircle = new HashMap<>();
+            attrCircle.put("centerX", new Data(i*70 + 500));
+            attrCircle.put("centerY",new Data(800));
+            attrCircle.put("radius",new Data(50.0f));
+            Data circle = new Data(new SVGCircle(attrCircle));
+            objEnMov = new Data((SVGScene) SVGScene.serial(objEnMov.getMovingObjectValue(), new SVGScene(new SVGMovingObject(circle.getObjectValue(),escalat.getMoveValue()))));
+        }
+        objEnMov.getMovingObjectValue().setWidth(2000);
+        objEnMov.getMovingObjectValue().setHeight(2000);
+        System.out.println(objEnMov.getMovingObjectValue().getSVGCode());
+
+    }
 }
+

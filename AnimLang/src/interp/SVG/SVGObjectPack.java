@@ -24,8 +24,15 @@ public class SVGObjectPack extends SVGObject {
         }
         cx /= svgObjectPack.content.size();
         cy /= svgObjectPack.content.size();
-        changeAttribute(CENTERX,new Data(cx));
-        changeAttribute(CENTERY,new Data(cy));
+        int centerx = Math.round(cx);
+        int centery = Math.round(cy);
+        changeAttribute(CENTERX,new Data(centerx));
+        changeAttribute(CENTERY,new Data(centery));
+
+        for (SVGObject object : this.content) {
+            object.changeAttribute(CENTERX,new Data(object.getAttr().get(CENTERX).getIntegerValue() - centerx));
+            object.changeAttribute(CENTERY,new Data(object.getAttr().get(CENTERY).getIntegerValue() - centery));
+        }
 
     }
 
@@ -36,6 +43,7 @@ public class SVGObjectPack extends SVGObject {
     public SVGObjectPack(ArrayList<SVGObject> svgObjects) {
         super();
         type = Type.OBJ_PACK;
+        content = new ArrayList<>();
         for (SVGObject object : svgObjects) {
             content.add(object);
         }

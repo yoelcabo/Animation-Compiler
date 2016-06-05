@@ -25,8 +25,8 @@ public class SVGObject {
         put(FILLCOLOR, new Data("256:0:0"));
         put(LINEWIDTH, new Data(5));
         put(OPACITY, new Data(1.0f));
-        put(CENTERX,new Data((0)));
-        put(CENTERY,new Data((0)));
+        put(CENTERX,new Data(0));
+        put(CENTERY,new Data(0));
         //put("xPos", new Data(0));
         //put("yPos", new Data(0));
     }};
@@ -107,7 +107,7 @@ public class SVGObject {
         for (Map.Entry<String,String> attribute : map.entrySet()) {
             header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
         }
-        header += ">";
+        header += "/>";
         return header;
     }
 
