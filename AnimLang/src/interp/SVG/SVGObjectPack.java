@@ -45,8 +45,7 @@ public class SVGObjectPack extends SVGObject {
         changeAttribute(CENTERY,new Data(centery));
 
         for (SVGObject object : this.content) {
-            object.changeAttribute(CENTERX,new Data(object.getAttr().get(CENTERX).getIntegerValue() - centerx));
-            object.changeAttribute(CENTERY,new Data(object.getAttr().get(CENTERY).getIntegerValue() - centery));
+            object.moveCenter(-centerx,-centery);
         }
     }
 
@@ -79,4 +78,12 @@ public class SVGObjectPack extends SVGObject {
         }
         return svgcode;
     }
-}
+
+    public void moveCenter(int centerx, int centery) {
+        super.moveCenter(centerx,centery);
+        for (SVGObject object : this.content) {
+            object.moveCenter(centerx,centery);
+        }
+    }
+
+    }

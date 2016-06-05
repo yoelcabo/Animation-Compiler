@@ -17,6 +17,11 @@ public class SVGObject {
     public static final String CENTERX = "centerX";
     public static final String CENTERY = "centerY";
 
+    public void moveCenter(int centerx, int centery) {
+        changeAttribute(CENTERX,new Data(attr.get(CENTERX).getIntegerValue() + centerx));
+        changeAttribute(CENTERY,new Data(attr.get(CENTERY).getIntegerValue() + centery));
+    }
+
 
     public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     protected Type type;
