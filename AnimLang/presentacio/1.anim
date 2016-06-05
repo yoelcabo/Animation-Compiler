@@ -1,0 +1,38 @@
+
+def wait(time) 
+  return Scale [factor=1, dur=time]-> Circle [centerX=-100]; 
+endfunc
+
+def salt(amunt,time)
+  up = Translate [x = 0, y = -amunt, dur=time];
+  down = Translate [x = 0, y = amunt, dur=time];
+  up = up | Rotate [w=-100, dur=time];
+  down = down | Rotate [w=200, dur=time];
+  shrink = Scale[factor=0.5, dur=time];
+  return up & shrink & down;
+endfunc 
+
+def main ()
+  AnimTriangles = wait(0);
+  for i in [20] do
+    triangle = Triangle [centerX=i*i*4, centerY=400, lineWidth=i, colorFill="0:255:0", colorLine ="0:0:255", radius=i*4];
+    AnimTriangles = AnimTriangles & (salt(40*5-i*5,0.1) -> triangle);
+  endfor
+
+  AnimCercles = wait(0);
+  for i in [20] do
+    cercle = Circle [centerX=i*i*4, centerY=600, lineWidth=i, colorFill="255:255:0", colorLine ="255:0:255", radius=i*4];
+    AnimCercles = AnimCercles | (salt(40*5-i*5,2) -> cercle);
+  endfor
+  
+  AnimTriangles2 = wait(0);
+  for i in [20] do
+    triangle = Triangle [centerX=i*i*4, centerY=200, lineWidth=i, colorFill="50:50:50", colorLine ="0:0:0", radius=i*4];
+    AnimTriangles2 = AnimTriangles2 | (salt(40*5-i*5,2) -> triangle);
+  endfor
+
+  
+  
+
+  run 2000,2000, (AnimTriangles | AnimTriangles2) & AnimCercles ;
+endfunc
