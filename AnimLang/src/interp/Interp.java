@@ -567,6 +567,15 @@ public class Interp {
             case AnimLangLexer.TRIANGLE:
                 newObject = new SVGTriangle(llAttr);
                 break;
+            case AnimLangLexer.RECTANGLE:
+                newObject = new SVGRectangle(llAttr);
+                break;
+            case AnimLangLexer.REGULARPOLYGON:
+                newObject = new SVGRectangle(llAttr);
+                break;
+            case AnimLangLexer.TEXTOBJECT:
+                newObject = new SVGText(llAttr);
+                break;
             case AnimLangLexer.PATH:
                 newObject = new SVGObject(SVGObject.Type.PATH, llAttr);
                 break;

@@ -63,6 +63,7 @@ SVG_SRC = 		$(SVG)/SVGMove.java \
 				$(SVG)/SVGRegularPolygon.java \
 				$(SVG)/SVGRectangle.java \
 				$(SVG)/SVGTriangle.java \
+				$(SVG)/SVGText.java \
 				$(SVG)/SVGScene.java \
 				$(SVG)/SVGSerializableParallelizable.java
 

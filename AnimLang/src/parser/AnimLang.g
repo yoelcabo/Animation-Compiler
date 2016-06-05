@@ -83,7 +83,7 @@ list_obj_pack: '{'! (obj | obj_pack | ID) (','! (obj | obj_pack | ID))* '}'!;
 // tambe afegir OBJ com a token arrel
 obj: typeObj attr -> ^(OBJ typeObj attr);
 
-typeObj: (CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH);
+typeObj: (CIRCLE | POLYGON | POLYLINE | TRIANGLE | PATH | RECTANGLE | REGULARPOLYGON | TEXTOBJECT);
 
 attr: '[' listAttr? ']' -> ^(ATTR listAttr);
 
@@ -170,6 +170,9 @@ POLYGON   : 'Polygon';
 POLYLINE  : 'Polyline';
 PATH      : 'Path';
 TRIANGLE  : 'Triangle';
+RECTANGLE  : 'Rectangle';
+REGULARPOLYGON   : 'RPolygon';
+TEXTOBJECT   : 'Text';
 
 FOLLOWPATH: 'FollowPath'; 
 
