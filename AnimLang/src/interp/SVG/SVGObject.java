@@ -23,7 +23,7 @@ public class SVGObject {
     }
 
 
-    public enum Type {CIRCLE, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
+    public enum Type {CIRCLE, RECTANGLE, REGULARPOLYGON, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
     protected Type type;
     protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
         put(LINECOLOR, new Data("0:0:0"));
