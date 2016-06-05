@@ -127,7 +127,7 @@ public class SVGObject {
     // This method is exactly the same as the one in SVGMove, it's here because java's impotence with multi inheritance
     protected void changeAllAttributes(HashMap<String, Data> attr) {
         for (Map.Entry<String,Data> at : attr.entrySet()) {
-            changeAttribute(at.getKey(),at.getValue());
+            changeAttribute(at.getKey(),new Data(at.getValue()));
         }
     }
 

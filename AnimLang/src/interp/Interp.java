@@ -599,16 +599,16 @@ public class Interp {
     }
 
     private Data construeixPack (AnimLangTree t) {
-        SVGObjectPack newPack = new SVGObjectPack(new ArrayList<SVGObject>());
+        ArrayList<SVGObject> newPack = new ArrayList<>();
         for (int i = 0; i < t.getChildCount(); ++i) {
             switch (t.getChild(i).getType()) {
                 case AnimLangLexer.ID:
                     // comprova que l'ID es refereix a un element de tipus obj o obj_pack
                     Data valueID = new Data(Stack.getVariable(t.getChild(i).getText()));
                     if (valueID.isObject()) {
-                        newPack.getContent().add(valueID.getObjectValue());
+                        newPack.add(valueID.getObjectValue());
                     } else if (valueID.isObjectPack()) {
-                        newPack.getContent().add(valueID.getObjectPackValue());
+                        newPack.add(valueID.getObjectPackValue());
                     } else {
                         throw new RuntimeException("Required Object or ObjectPack, found " + valueID.getType());
                     }
@@ -616,19 +616,20 @@ public class Interp {
                 case AnimLangLexer.OBJ:
                     // executa les instruccions per generar l'objecte
                     Data auxObj = generateObject(t.getChild(i).getChild(0), t.getChild(i).getChild(1));
-                    newPack.getContent().add(auxObj.getObjectValue().copy());
+                    newPack.add(auxObj.getObjectValue().copy());
                     break;
                 case AnimLangLexer.OBJ_PACK:
                     // executa les instruccions per generar l'obj_pack
                     Data auxObjPack = construeixPack(t.getChild(i));
-                    newPack.getContent().add(auxObjPack.getObjectPackValue().copy());
+                    newPack.add(auxObjPack.getObjectPackValue().copy());
                     break;
                 default:
                     // excepcio de tipus
                     throw new RuntimeException("Required Object or ObjectPack, found " + t.getChild(i).getType());
             }
         }
-        return new Data(newPack); 
+
+        return new Data(new SVGObjectPack(newPack));
     }
 
     /** Checks that the data is Boolean and raises an exception if it is not. */
