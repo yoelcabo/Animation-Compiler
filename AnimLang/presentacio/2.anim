@@ -1,0 +1,31 @@
+def dance()
+  time=0.5;
+  tr1 = Translate [x = 30, y = -30, dur=time];
+  tr2 = Translate [x = -30, y = 30, dur=time];
+  up = Translate [x = 0, y = -50, dur=time];
+  down = Translate [x = 0, y = 50, dur=time];
+  rot1 = Rotate [w=-100, dur=time];
+  rot2 = Rotate [w=100, dur=time];
+  shrink = Scale[factor=0.5, dur=time];
+  grow = Scale[factor=2, dur=time];
+  right = Translate [x = 50, y = 0, dur=time];
+  return grow & up & shrink & down & tr1 & rot1 & tr2 & rot2 & right;
+endfunc 
+
+def main ()
+  movSeparate = dance();
+  movSeparate = movSeparate & movSeparate  & movSeparate  & movSeparate  & movSeparate  & movSeparate;  
+  movPack = Translate[x=0,y=400] & movSeparate;
+  
+  triangle = Triangle [centerX=1400, centerY=200, lineWidth=3, colorFill="100:100:0", colorLine ="0:0:0", radius=50];
+  cercle = Circle [centerX=400, centerY=200, lineWidth=3, colorFill="100:0:100", colorLine ="0:0:0", radius=50];
+  pentagon = RPolygon [n=5,centerX=600, centerY=200, lineWidth=3, colorFill="80:80:80", colorLine ="0:0:0", radius=50];
+  octagon = RPolygon [n=8,centerX=800, centerY=200, lineWidth=3, colorFill="0:100:100", colorLine ="0:0:0", radius=50];
+  rectangle = Rectangle [centerX=1000, centerY=200, lineWidth=3, colorFill="100:0:0", colorLine ="0:0:0", width=50, height=100];
+  text = Text [content="Hello World", size=20, centerX=1200, centerY=200, lineWidth=3, colorFill="0:100:0", colorLine ="0:0:0"];
+  pack = {triangle, cercle, pentagon, octagon, rectangle, text};
+  
+  
+  run 2000,2000, (movSeparate -> triangle)  | (movSeparate -> rectangle) | (movSeparate -> cercle) | (movSeparate -> pentagon) 
+                                            | (movSeparate -> octagon) | (movSeparate -> text) | (movPack -> pack);
+endfunc

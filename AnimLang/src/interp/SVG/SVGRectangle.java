@@ -20,7 +20,7 @@ public class SVGRectangle extends SVGAbstractPolygon {
     }
     public SVGRectangle(HashMap<String, Data> attributes) {
         super();
-        type = Type.CIRCLE;
+        type = Type.RECTANGLE;
         attr.put(HEIGHT,new Data(0));
         attr.put(WIDTH,new Data(0));
         changeAllAttributes(attributes);

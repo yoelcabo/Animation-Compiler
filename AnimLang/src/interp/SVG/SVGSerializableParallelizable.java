@@ -6,7 +6,7 @@ public abstract class SVGSerializableParallelizable {
 
     public SVGSerializableParallelizable() {
         init = 0;
-        end = 20;
+        end = 0.01f;
     }
     public SVGSerializableParallelizable(float init, float end) {
         this.init = init;

@@ -571,7 +571,7 @@ public class Interp {
                 newObject = new SVGRectangle(llAttr);
                 break;
             case AnimLangLexer.REGULARPOLYGON:
-                newObject = new SVGRectangle(llAttr);
+                newObject = new SVGRegularPolygon(llAttr);
                 break;
             case AnimLangLexer.TEXTOBJECT:
                 newObject = new SVGText(llAttr);

@@ -23,7 +23,7 @@ public class SVGObject {
     }
 
 
-    public enum Type {CIRCLE, RECTANGLE, REGULARPOLYGON, PATH, POLYGON, POLYLINE, TRIANGLE, OBJ_PACK};
+    public enum Type {CIRCLE, RECTANGLE, REGULARPOLYGON, PATH, POLYGON, POLYLINE, TRIANGLE, TEXT, OBJ_PACK};
     protected Type type;
     protected HashMap<String, Data> attr = new HashMap<String, Data>(){{
         put(LINECOLOR, new Data("0:0:0"));
@@ -112,7 +112,13 @@ public class SVGObject {
         for (Map.Entry<String,String> attribute : map.entrySet()) {
             header += " "+attribute.getKey()+"=\""+attribute.getValue()+"\"";
         }
-        header += "/>";
+        if (!getSVGContent().equals("")) {
+            header += ">";
+            header += getSVGContent();
+            header += "</"+getObjDescriptor()+">";
+        }
+        else
+            header += "/>";
         return header;
     }
 
@@ -122,7 +128,8 @@ public class SVGObject {
     }
 
     public String getSVGEnd() {
-        return "</"+getObjDescriptor()+">";
+
+        return getSVGContent()+"</"+getObjDescriptor()+">";
     }
 
     public String toString() {
@@ -190,5 +197,10 @@ public class SVGObject {
     public ArrayList<SVGObject> getContent() {
         return null;
     }
+
+    public String getSVGContent() {
+        return "";
+    }
+
 
 }

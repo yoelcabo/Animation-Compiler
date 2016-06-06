@@ -36,7 +36,7 @@ public class SVGMoves extends SVGMovingCollection {
 
     public String getSVGHeader() {
         String head = "";
-        for (int i = 1; i < moves.size(); ++i) {
+        for (int i = 0; i < moves.size(); ++i) {
             head+="<g>";
         }
         return head;
@@ -45,9 +45,8 @@ public class SVGMoves extends SVGMovingCollection {
     public String getSVGEnd(float wait, String objEnd) {
         ArrayList<SVGMove> moves = sortedArray();
         String svgCode = "";
-        svgCode += ((SVGMove) moves.get(0)).getSVGCode(wait) + "\n";
         svgCode += objEnd + "\n";
-        for (int i = 1; i < moves.size(); ++i) {
+        for (int i = 0; i < moves.size(); ++i) {
             svgCode += ((SVGMove) moves.get(i)).getSVGCode(wait) + "\n";
             svgCode+="</g>\n";
         }

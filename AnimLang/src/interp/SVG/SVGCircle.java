@@ -17,6 +17,7 @@ public class SVGCircle extends SVGObject {
         super(svgCircle);
         type = Type.CIRCLE;
     }
+
     public SVGCircle(HashMap<String, Data> attributes) {
         super();
         type = Type.CIRCLE;

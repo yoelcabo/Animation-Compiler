@@ -212,7 +212,7 @@ ID      :  ('a'..'z'|'A'..'Z'|'_') ('a'..'z'|'A'..'Z'|'0'..'9'|'_')* ;
 // He hagut de posar les cometes amb la barra (\) al davant perque si no em donava
 // error l'interpret de l'antlrWorks. Tambe he canviat l'expressio d'abans perque impedia
 // que es construis be l'arbre de sintaxi
-STRING  :  '\"' ('a'..'z'|'A'..'Z'|'0'..'9'|'_' | ':')* '\"'
+STRING  :  '\"' ('a'..'z'|'A'..'Z'|'0'..'9'|'_' | ':' | ' ' )* '\"'
         ;
 
 fragment

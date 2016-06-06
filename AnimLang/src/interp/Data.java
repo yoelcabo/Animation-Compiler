@@ -209,13 +209,28 @@ public class Data {
     }
 
     public SVGMoves getMoveValue() {
-        assert type == Type.MOVES;
+        switch (type) {
+            case MOVES:
+                return movesValue;
+            case FLOAT:
+                return new SVGMoves(new SVGMove(fvalue));
+            case INTEGER:
+                return new SVGMoves(new SVGMove(value));
+            default: assert false;
+        }
         return movesValue;
     }
 
     public SVGScene getMovingObjectValue() {
-        assert type == Type.MOVINGOBJECT;
-        return objMoveValue;
+        switch (type) {
+            case MOVINGOBJECT:
+                return objMoveValue;
+            case FLOAT:
+                return new SVGScene(new SVGMovingObject(new SVGObject(),new SVGMoves(new SVGMove(fvalue))));
+            case INTEGER:
+                return new SVGScene(new SVGMovingObject(new SVGObject(),new SVGMoves(new SVGMove(value))));
+            default: assert false;
+        }        return objMoveValue;
     }
 
 
@@ -404,30 +419,30 @@ public class Data {
             switch (op) {
                 case AnimLangLexer.ASSOC:
                     if (d.type == Type.OBJECT) {
-                        return new Data(new SVGScene(new SVGMovingObject(d.objValue.copy(), movesValue.copy())));
+                        return new Data(new SVGScene(new SVGMovingObject(d.getObjectValue().copy(), getMoveValue().copy())));
                     }
                     else if (d.type == Type.OBJ_PACK) {
-                        return new Data(new SVGScene(new SVGMovingObject(d.getObjectPackValue().copy(), movesValue.copy())));
+                        return new Data(new SVGScene(new SVGMovingObject(d.getObjectPackValue().copy(), getMoveValue().copy())));
 
                     }
                     else assert false;
                     break;
                 case AnimLangLexer.PAR:
                     if (d.type == Type.MOVES) {
-                        Data movPar = new Data((SVGMoves) SVGMoves.parallel(this.movesValue,d.movesValue));
+                        Data movPar = new Data((SVGMoves) SVGMoves.parallel(this.getMoveValue(),d.getMoveValue()));
                         return movPar;
                     } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
-                        Data movPar = new Data((SVGMoves) SVGMoves.parallel(this.movesValue,new SVGMoves(new SVGMove(d.getFloatValue()))));
+                        Data movPar = new Data((SVGMoves) SVGMoves.parallel(this.getMoveValue(),new SVGMoves(new SVGMove(d.getFloatValue()))));
                         return movPar;
                     } else assert false;
                     // cast implicit de int o float a moviment
                     break;
                 case AnimLangLexer.SEQ:
                     if (d.type == Type.MOVES) {
-                        Data movSeq = new Data((SVGMoves) SVGMoves.serial(this.movesValue,d.movesValue));
+                        Data movSeq = new Data((SVGMoves) SVGMoves.serial(this.getMoveValue(),d.getMoveValue()));
                         return movSeq;
                     } else if (d.type == Type.INTEGER || d.type == Type.FLOAT) {
-                        Data movSeq = new Data((SVGMoves) SVGMoves.serial(this.movesValue,new SVGMoves(new SVGMove(d.getFloatValue()))));
+                        Data movSeq = new Data((SVGMoves) SVGMoves.serial(this.getMoveValue(),new SVGMoves(new SVGMove(d.getFloatValue()))));
                         return  movSeq;
                     } else assert false;
                     // cast implicit de int o float a moviment
@@ -438,13 +453,13 @@ public class Data {
             switch (op) {
                 case AnimLangLexer.PAR:
                     if (d.type == Type.MOVINGOBJECT) {
-                        Data collPar = new Data((SVGScene) SVGScene.parallel(this.objMoveValue,d.objMoveValue));
+                        Data collPar = new Data((SVGScene) SVGScene.parallel(this.getMovingObjectValue(),d.getMovingObjectValue()));
                         return collPar;
                     } else assert false;
                     break;
                 case AnimLangLexer.SEQ:
                     if (d.type == Type.MOVINGOBJECT) {
-                        Data collSeq = new Data((SVGScene) SVGScene.serial(this.objMoveValue,d.objMoveValue));
+                        Data collSeq = new Data((SVGScene) SVGScene.serial(this.getMovingObjectValue(),d.getMovingObjectValue()));
                         //System.out.println("" +  collSeq.getMovingObjectValue());
                         //System.out.println("size" + collSeq.getMovingObjectValue().getMoves().size());
                         return collSeq;
