@@ -237,7 +237,7 @@ public class Interp {
     }
 
     private void print(String s) {
-        System.err.println(s);
+        //System.err.println(s);
     }
     
     /**
