@@ -60,7 +60,11 @@ public class SVGMoves extends SVGMovingCollection {
         ArrayList<SVGMove> ret = new ArrayList<>();
         for (SVGSerializableParallelizable mvx : moves) {
             SVGMove move = (SVGMove) mvx;
-            if (move.getType() != SVGMove.Type.TRANSLATE) ret.add(move);
+            if (move.getType() != SVGMove.Type.ROTATE && move.getType() != SVGMove.Type.TRANSLATE) ret.add(move);
+        }
+        for (SVGSerializableParallelizable mvx : moves) {
+            SVGMove move = (SVGMove) mvx;
+            if (move.getType() == SVGMove.Type.ROTATE) ret.add(move);
         }
         for (SVGSerializableParallelizable mvx : moves) {
             SVGMove move = (SVGMove) mvx;

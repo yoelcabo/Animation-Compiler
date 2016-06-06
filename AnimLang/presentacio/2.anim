@@ -9,7 +9,7 @@ def dance()
   shrink = Scale[factor=0.5, dur=time];
   grow = Scale[factor=2, dur=time];
   right = Translate [x = 50, y = 0, dur=time];
-  return grow & up & shrink & down & tr1 & rot1 & tr2 & rot2 & right;
+  return grow & up & shrink & down & tr1 & rot1 & shrink & tr2 & rot2 & grow & right;
 endfunc 
 
 def main ()
