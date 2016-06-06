@@ -252,7 +252,7 @@ public class Interp {
         assert t != null;
         
         setLineNumber(t);
-        printTrace(t);
+        //printTrace(t);
         Data value; // The returned value
 
         // A big switch for all type of instructions
