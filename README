@@ -25,7 +25,7 @@ Execution:
 * Set your path too look into the bin directory
 * Run "AnimLang" (you can run "AnimLang -help" too see the available options)
 
-Licesing:
+Licesning:
 =========
 
 This distribution contains the libraries antlr3.jar and commons-cli.jar
